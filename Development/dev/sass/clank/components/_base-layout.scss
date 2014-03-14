@@ -220,4 +220,28 @@
 
 .cl-bar-title .cl-title, .cl-modal .cl-modal-bar-title .cl-title, .cl-modal .cl-modal-bar-title .cl-modal-title{
   line-height: 80px;
+  font-family: "source_sans_proregular";
+  text-transform: uppercase;
+  font-size: 16px;
+}
+
+
+#searchBar{
+  padding: 1px 5px;
+  height: auto;
+  background: #b04646 !important;
+}
+#searchForm input[type=search]{
+  color: #fff;
+  border: 0;
+  width: 100%;
+  border-radius: 0;
+  padding: .8em .6em .8em .6em;
+  font-size: 1em;
+  border: 0;
+  display: block;
+  height: 2.5em;
+  background: #b04646;
+  padding-left: 28px;
+  background:url('assets/search-icon@x2.png') no-repeat 10px 12px / 12px 12px;
 }

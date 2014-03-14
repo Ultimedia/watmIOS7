@@ -1257,6 +1257,25 @@ appData.views.CreateUserView = Backbone.View.extend({
 	setValidator: function(){
         $("#createUserForm",appData.settings.currentPageHTML).validate({
 
+            rules: {
+                password: {
+                    minlength:4
+                }
+            },
+
+            messages: {
+                genderradios: "Kies een optie"
+            },
+
+            errorPlacement: function(error, element) {
+
+                if(element.attr("name") == "genderradios" ){
+                    error.insertAfter("#genderSelect");
+                }else{
+                    error.insertAfter(element);
+                }
+            },
+
     		submitHandler: function(form) {
     			// CreateUser form logic
 				var name = $('#nameInput', appData.settings.currentPageHTML).val();
@@ -2765,10 +2784,13 @@ appData.routers.AppRouter = Backbone.Router.extend({
 
     settings: function (id) {
         appData.slider.slidePage(new appData.views.SettingsView().render().$el);
+        $('body').empty().append(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
     },
 
     sportselector: function (id) {
-        appData.slider.slidePage(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
+        //       $('body').empty().append(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
+        $('body').empty().append(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
+
     },
 
     checkLoggedIn: function(){

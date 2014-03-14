@@ -54,9 +54,19 @@ appData.views.CreateUserView = Backbone.View.extend({
 	setValidator: function(){
         $("#createUserForm",appData.settings.currentPageHTML).validate({
 
+            rules: {
+                password: {
+                    minlength:4
+                }
+            },
+
+            messages: {
+                genderradios: "Kies een optie"
+            },
+
             errorPlacement: function(error, element) {
 
-                if(element.attr("name") == "gender-radios" ){
+                if(element.attr("name") == "genderradios" ){
                     error.insertAfter("#genderSelect");
                 }else{
                     error.insertAfter(element);

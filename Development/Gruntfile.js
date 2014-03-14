@@ -72,10 +72,6 @@ module.exports = function(grunt) {
       vendor: {
         src: vendorpaths,
         dest: '../WeAppToMove/www/public/js/vendor.js'
-      },
-      html:{
-        src: htmlpaths,
-        dest: '../WeAppToMove/www/index.html'
       }
     },
 
