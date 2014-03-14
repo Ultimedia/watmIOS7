@@ -1,0 +1,22 @@
+<div class="cl-page">
+  <div class="cl-bar-title">
+    <a href="javascript:;" class="cl-btn" data-transition="slide-out" id="backButton">
+      <i class="entypo-icon">&#59237;</i>
+    </a>
+    <div class="cl-title"><%= name %></div>
+  </div>
+  <div class="cl-content" >
+  	<img src="<%= avatar %>" alt=""/>
+  	<h1>Avatar</h1>
+  	<p>Kracht: <%= strength_score %></p>
+  	<p>Uithuiding: <%= stamina_score %></p>
+  	<p>Outfit: <%= equipment_score %></p>
+
+
+    <% if (myFriend == false) { %>
+        <a href="javascript:;" id="addFriendButton" class="cl-btn">Voeg toe als vriend</a>
+    <% } %>
+
+  </div>
+</div>
+
