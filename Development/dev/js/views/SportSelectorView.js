@@ -14,7 +14,7 @@ appData.views.SportSelectorView = Backbone.View.extend({
 
         appData.views.SportSelectorView.favouriteSportsViewList = [];
 
-        appData.collections.favouriteSports.each(function(sport){
+        appData.collections.sports.each(function(sport){
             appData.views.SportSelectorView.favouriteSportsViewList.push(new appData.views.FavouriteSportListView({
                 model : sport
             }));

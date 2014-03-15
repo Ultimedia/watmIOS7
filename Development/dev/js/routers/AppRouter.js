@@ -18,7 +18,7 @@ appData.routers.AppRouter = Backbone.Router.extend({
 
 
     initialize: function () {
-        appData.slider = new PageSlider($('body'));
+        appData.slider = new PageSlider($('#container'));
 
         this.routesHit = 0;
         
@@ -136,12 +136,12 @@ appData.routers.AppRouter = Backbone.Router.extend({
 
     settings: function (id) {
         appData.slider.slidePage(new appData.views.SettingsView().render().$el);
-        $('body').empty().append(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
+        $('.page').empty().append(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
     },
 
     sportselector: function (id) {
         //       $('body').empty().append(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
-        $('body').empty().append(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
+        appData.slider.slidePage(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
 
     },
 

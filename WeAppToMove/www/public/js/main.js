@@ -138,7 +138,7 @@ $(document).on("ready", function () {
 
       if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
 
-        appData.settings.rootPath = "http://172.30.39.12/";
+        appData.settings.rootPath = "http://192.168.0.205/";
         appData.settings.servicePath =  appData.settings.rootPath + "services/";
         appData.settings.imagePath = appData.settings.rootPath + "common/uploads/";
         appData.settings.badgesPath = appData.settings.rootPath + "common/badges/";
@@ -2586,7 +2586,7 @@ appData.views.SportSelectorView = Backbone.View.extend({
 
         appData.views.SportSelectorView.favouriteSportsViewList = [];
 
-        appData.collections.favouriteSports.each(function(sport){
+        appData.collections.sports.each(function(sport){
             appData.views.SportSelectorView.favouriteSportsViewList.push(new appData.views.FavouriteSportListView({
                 model : sport
             }));
@@ -2666,7 +2666,7 @@ appData.routers.AppRouter = Backbone.Router.extend({
 
 
     initialize: function () {
-        appData.slider = new PageSlider($('body'));
+        appData.slider = new PageSlider($('#container'));
 
         this.routesHit = 0;
         
@@ -2784,12 +2784,12 @@ appData.routers.AppRouter = Backbone.Router.extend({
 
     settings: function (id) {
         appData.slider.slidePage(new appData.views.SettingsView().render().$el);
-        $('body').empty().append(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
+        $('.page').empty().append(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
     },
 
     sportselector: function (id) {
         //       $('body').empty().append(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
-        $('body').empty().append(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
+        appData.slider.slidePage(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
 
     },
 

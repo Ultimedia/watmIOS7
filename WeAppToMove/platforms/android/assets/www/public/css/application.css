@@ -749,23 +749,24 @@ input.error {
 /* line 651, ../../../../Development/dev/sass/application.scss */
 #createUser .cl-content {
   height: calc(100% - 146px);
+  overflow: scroll;
 }
-/* line 655, ../../../../Development/dev/sass/application.scss */
+/* line 656, ../../../../Development/dev/sass/application.scss */
 #createUser .cl-message {
   padding: 10px;
   background-color: #fef5e4;
   line-height: 1.6em;
 }
-/* line 661, ../../../../Development/dev/sass/application.scss */
+/* line 662, ../../../../Development/dev/sass/application.scss */
 #createUser .cl-form {
   position: relative;
 }
-/* line 664, ../../../../Development/dev/sass/application.scss */
+/* line 665, ../../../../Development/dev/sass/application.scss */
 #createUser .cl-form .radio-list {
   padding-left: 34px;
   background: url("assets/name-icon@x2.png") no-repeat 10px 12px/15px 15px;
 }
-/* line 669, ../../../../Development/dev/sass/application.scss */
+/* line 670, ../../../../Development/dev/sass/application.scss */
 #createUser .cl-form .radio-list label {
   background: none;
   border: none;
@@ -774,17 +775,17 @@ input.error {
   cursor: pointer;
   border-radius: 3px;
 }
-/* line 678, ../../../../Development/dev/sass/application.scss */
+/* line 679, ../../../../Development/dev/sass/application.scss */
 #createUser .cl-form .radio-list label.checked {
   border: none;
   color: #fff;
   font-weight: bold;
 }
-/* line 684, ../../../../Development/dev/sass/application.scss */
+/* line 685, ../../../../Development/dev/sass/application.scss */
 #createUser .cl-form .radio-list label:first-child.checked {
   background: #23cddd;
 }
-/* line 688, ../../../../Development/dev/sass/application.scss */
+/* line 689, ../../../../Development/dev/sass/application.scss */
 #createUser .cl-form .radio-list label:last-child.checked {
   background: #ff7f66;
 }
@@ -792,7 +793,7 @@ input.error {
 /**
 * Loading
 */
-/* line 698, ../../../../Development/dev/sass/application.scss */
+/* line 699, ../../../../Development/dev/sass/application.scss */
 #loading {
   background: #303d4d url("../../common/img/loading_background.png") center center;
   -webkit-background-size: cover;
@@ -801,7 +802,7 @@ input.error {
   background-size: cover;
   height: 100%;
 }
-/* line 706, ../../../../Development/dev/sass/application.scss */
+/* line 707, ../../../../Development/dev/sass/application.scss */
 #loading h2 {
   display: block;
   width: 100%;
@@ -814,7 +815,7 @@ input.error {
   bottom: 20px;
   display: inline-block;
 }
-/* line 717, ../../../../Development/dev/sass/application.scss */
+/* line 718, ../../../../Development/dev/sass/application.scss */
 #loading h2 small {
   font-size: 14px;
   margin-top: 10px;
@@ -824,26 +825,21 @@ input.error {
 /**
 * Select sports
 */
-/* line 731, ../../../../Development/dev/sass/application.scss */
+/* line 732, ../../../../Development/dev/sass/application.scss */
 #favouriteSportsSelector .cl-content {
   background: #fef5e4;
-  height: calc(100% - 126px);
-  width: 100%;
+  height: calc(100% - 180px);
 }
 /* line 736, ../../../../Development/dev/sass/application.scss */
 #favouriteSportsSelector .cl-content #favouriteSportList {
-  display: table;
-  overflow: hidden;
   width: 100%;
-  height: 100%;
 }
-/* line 742, ../../../../Development/dev/sass/application.scss */
+/* line 739, ../../../../Development/dev/sass/application.scss */
 #favouriteSportsSelector .cl-content #favouriteSportList div {
   float: left;
-  display: table-cell;
-  vertical-align: middle;
+  display: inline-block;
 }
-/* line 747, ../../../../Development/dev/sass/application.scss */
+/* line 743, ../../../../Development/dev/sass/application.scss */
 #favouriteSportsSelector .cl-content #favouriteSportList div a {
   width: 86px;
   height: 86px;
@@ -854,13 +850,7 @@ input.error {
   text-align: center;
   font-size: 12px;
 }
-/* line 758, ../../../../Development/dev/sass/application.scss */
+/* line 754, ../../../../Development/dev/sass/application.scss */
 #favouriteSportsSelector .cl-content #favouriteSportList div a.selected {
   background: #fff;
-}
-/* line 765, ../../../../Development/dev/sass/application.scss */
-#favouriteSportsSelector .button-container {
-  position: absolute;
-  width: 100%;
-  bottom: 0;
 }
