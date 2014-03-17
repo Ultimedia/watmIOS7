@@ -1,19 +1,15 @@
 <div class="cl-table-cell">
 <a href="#activity/<%= activity_id %>">
-    <span class="label"><h3><%= title %></h3>
-        <ul class="planner-info">
-            <li>
-                <i class="entypo-icon">&#128340;</i>
-                <%= date %> <%= time %>
-            </li>
-            <li>
-                <i class="entypo-icon">&#59172;</i>
+    <span class="label"><h3><%= title %><small> <%= date %> <%= time %></small></h3></span>
+    <div class="dashboard-footer">
+        <ul>
+            <li class="table-location">
                 <%= location %>
             </li>
-            <li>
-                <%= sport_title %>
+            <li class="table-friends">
+                
             </li>
         </ul>
-    </span>
+    </div>
 </a>
 </div>

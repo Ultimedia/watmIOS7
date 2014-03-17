@@ -21,6 +21,10 @@ appData.settings.rootPath = "http://localhost/";
 appData.settings.servicePath =  appData.settings.rootPath + "services/";
 appData.settings.imagePath = appData.settings.rootPath + "common/uploads/";
 appData.settings.badgesPath = appData.settings.rootPath + "common/badges/";
+appData.settings.iconPath = appData.settings.rootPath + "public/css/assets/";
+appData.settings.sportsPath = appData.settings.rootPath + "common/sports/";
+
+
 appData.settings.getUserService = "getUser.php";
 appData.settings.getUsersService = "getUsers.php";
 appData.settings.addUserService = "addUser.php";
@@ -136,10 +140,13 @@ $(document).on("ready", function () {
 
       if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
 
-        appData.settings.rootPath = "http://192.168.0.205/";
+        appData.settings.rootPath = "http://172.30.39.11/";
         appData.settings.servicePath =  appData.settings.rootPath + "services/";
         appData.settings.imagePath = appData.settings.rootPath + "common/uploads/";
         appData.settings.badgesPath = appData.settings.rootPath + "common/badges/";
+        appData.settings.iconPath = appData.settings.rootPath + "public/css/assets/";
+        appData.settings.sportsPath = appData.settings.rootPath + "common/sports/";
+  
 
         appData.settings.native = true;
         appData.settings.pictureSource = navigator.camera.PictureSourceType;

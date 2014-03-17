@@ -14,5 +14,6 @@
     </feature>
     <feature name="org.apache.cordova.facebook.Connect">
     <param name="android-package" value="org.apache.cordova.facebook.ConnectPlugin" />
+    <preference name="DisallowOverscroll" value="true" />
 </feature>
 </widget>

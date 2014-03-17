@@ -23,6 +23,10 @@ appData.settings.rootPath = "http://localhost/";
 appData.settings.servicePath =  appData.settings.rootPath + "services/";
 appData.settings.imagePath = appData.settings.rootPath + "common/uploads/";
 appData.settings.badgesPath = appData.settings.rootPath + "common/badges/";
+appData.settings.iconPath = appData.settings.rootPath + "public/css/assets/";
+appData.settings.sportsPath = appData.settings.rootPath + "common/sports/";
+
+
 appData.settings.getUserService = "getUser.php";
 appData.settings.getUsersService = "getUsers.php";
 appData.settings.addUserService = "addUser.php";
@@ -138,10 +142,13 @@ $(document).on("ready", function () {
 
       if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
 
-        appData.settings.rootPath = "http://192.168.0.205/";
+        appData.settings.rootPath = "http://172.30.39.11/";
         appData.settings.servicePath =  appData.settings.rootPath + "services/";
         appData.settings.imagePath = appData.settings.rootPath + "common/uploads/";
         appData.settings.badgesPath = appData.settings.rootPath + "common/badges/";
+        appData.settings.iconPath = appData.settings.rootPath + "public/css/assets/";
+        appData.settings.sportsPath = appData.settings.rootPath + "common/sports/";
+  
 
         appData.settings.native = true;
         appData.settings.pictureSource = navigator.camera.PictureSourceType;
@@ -1527,7 +1534,8 @@ appData.views.DashboardView = Backbone.View.extend({
             var marker = new google.maps.Marker({
               position: new google.maps.LatLng(coordinates[0], coordinates[1]),
               map:  appData.views.DashboardView.map,
-              title: ""
+              title: "",
+              icon: appData.settings.iconPath + "map-icon@x2.png"
             });
 
             marker.activityModel = model;
@@ -1557,8 +1565,18 @@ appData.views.FavouriteSportListView = Backbone.View.extend({
     }, 
 
     render: function() { 
+
+    	this.model.attributes.path = appData.settings.sportsPath;
+
+
+
     	// model to template
     	this.$el.html(this.template(this.model.toJSON()));
+
+    	$('a',this.$el).css({
+    		'background-image': 'url(' + appData.settings.sportsPath + this.model.attributes.icon + ')',
+    		"background-repeat": 'no-repeat'
+    	});
         return this; 
     }
 

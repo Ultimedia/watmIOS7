@@ -186,7 +186,8 @@ appData.views.DashboardView = Backbone.View.extend({
             var marker = new google.maps.Marker({
               position: new google.maps.LatLng(coordinates[0], coordinates[1]),
               map:  appData.views.DashboardView.map,
-              title: ""
+              title: "",
+              icon: appData.settings.iconPath + "map-icon@x2.png"
             });
 
             marker.activityModel = model;
