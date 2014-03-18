@@ -179,10 +179,10 @@
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/sports/s8.png \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/sports/s9.png \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/cdv_photo_001.jpg \
+/Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/cdv_photo_003.jpg \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/cdv_photo_042.jpg \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/cdv_photo_043.jpg \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/cdv_photo_044.jpg \
-/Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/cdv_photo_045.jpg \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/cdv_photo_046.jpg \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/cdv_photo_047.jpg \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/cdv_photo_048.jpg \
@@ -311,7 +311,6 @@
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/ActivityMessageView.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/ActivityUserView.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/BadgeListView.html \
-/Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/ChallengeListView kopie.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/ChallengeListView.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/CreateActivityInfoView.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/CreateActivityLocationView.html \
@@ -323,20 +322,16 @@
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/DashboardView.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/FavouriteSportListView.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/FriendInvitieView.html \
-/Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/FriendsListView kopie.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/FriendsListView.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/FriendView.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/GoogleMapView.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/HelperView.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/HomeView.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/LoadingView.html \
-/Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/NavigationBusView kopie.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/NavigationBusView.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/NavigationMapView.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/NavigationView.html \
-/Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/PlannerInvitedActivitiesView kopie.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/PlannerInvitedActivitiesView.html \
-/Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/PlannerMyActivitiesView kopie.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/PlannerMyActivitiesView.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/PlannerView.html \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/templates/ProfileAvatarView.html \
