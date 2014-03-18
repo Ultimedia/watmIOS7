@@ -15,6 +15,16 @@ appData.views.CreateActivityInfoView = Backbone.View.extend({
       return this; 
     },
 
+    events: {
+      "click #submitButton": "subHandler"
+    },
+
+    subHandler: function(){
+      alert('dddd');
+
+      $("#watForm",appData.settings.currentModuleHTML).submit();
+    },
+
     addedSportHandler: function(data){
       Backbone.off("addedSportHandler");
       appData.views.ActivityDetailView.model.attributes.sport_id = data.sport_id;

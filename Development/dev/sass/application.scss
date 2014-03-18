@@ -107,7 +107,8 @@ form .cl-btn{
 
 #activityDetail .cl-btn-toolbar .cl-btn.active, #navigationTabs .cl-btn-toolbar .cl-btn.active{
 	background: #fff !important;
-	color: #000000;
+	color: #d55353;
+
 }
 
 #activityDetail .cl-btn-toolbar.flex{
@@ -138,7 +139,7 @@ form .cl-btn{
 }
 
 #createActivityTabs .active, #profileTabs .active, #navigationTabs .active{
-	background: #eeeeee;
+	background: #fff;
 	color: #000000;
 }
 
@@ -417,7 +418,7 @@ input.error{
 /**
 * HOME and CREATEUSER page
 */
-#home, #createUser{
+#home, #createUser, #createActivity{
   background: #303d4d url('../../common/img/home_background.png') top left;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -468,7 +469,7 @@ input.error{
       margin-top: 40px;
     }
 
-    input[type=email], input[type=password], input[type=text]{
+    input[type=email], input[type=password], input[type=text], input[type=date], input[type=time], textarea{
       background: none;
       border: none;
       color: #fff;
@@ -500,7 +501,7 @@ input.error{
 /**
 * CreateUser
 */
-#createUser{
+#createUser, #createActivity{
   background: #2f404b;
 
   .cl-content{
@@ -799,7 +800,6 @@ input.error{
   
   background: #31424f;
 
-
   .user_avatar{
     display: inline-block;
     border-radius: 42px;
@@ -835,7 +835,9 @@ input.error{
 
     #navigateButton{
       padding: 10px;
-      margin-top: 2px;
+      margin-top: 4px;
+      font-size: 12px;
+      color: #252d34;
     }
   }
 
@@ -857,11 +859,20 @@ input.error{
     overflow-y: auto;
     height: calc(100% - 272px);
 
+    #navigateButton{
+
+    }
 
     #activityContent{
       padding: 10px 10px 0 10px;
       background: #fff;
+      position: relative;
+      overflow: auto;
       height: 100%;
+    }
+
+    #praktischContent{
+      padding-bottom: 20px;
     }
 
     #aanwezigContent{
@@ -968,7 +979,6 @@ input.error{
   }
 }
 
-
 #searchBar{
   padding: 1px 5px;
   height: auto;
@@ -990,3 +1000,106 @@ input.error{
   }
 }
 
+
+
+/** 
+* Create Activity
+*/
+#createActivity{
+  .cl-content{
+    height: calc(100% - 192px);
+  }
+
+  #createActivityTabs{
+    .active{
+      background: #2e3e4b;
+      color: #fff;
+    }
+  }
+}
+
+
+
+/**
+*  Planner
+*/
+#planner{
+  .cl-content{
+    height: calc(100% - 108px);
+    background: #e4e4e4;
+  
+
+    .cl-bar{
+      background: #fef5e4;
+      .cl-bar-text{
+        color: #2f404c;
+      }
+    }
+
+    .cl-table-cell{
+      margin-bottom: 2px;
+
+      span{
+        margin: 5px 10px;
+      }
+
+      a{
+        padding: 0;
+      }
+
+      h3{
+        margin: 5px 0;
+        font-size: 1.2em;
+        text-transform: uppercase;
+        font-weight: bold;
+        color: #2d3d4a;
+
+        small{
+          font-size: 16px;
+          font-weight: normal;
+        }
+      }
+    }
+  }
+}
+
+
+/**
+*  Profile
+*/
+#profile{
+  
+  #profileTabs{
+    .active{
+      background: #fff;
+      color: #d55353;
+    }
+  }
+
+  .cl-content{
+    height: calc(100% - 156px);
+    background: #fff;
+
+    .cl-bar{
+      background: #fef5e4;
+      .cl-bar-text{
+        color: #2f404c;
+      }
+    }
+  }
+}
+
+
+
+
+/**
+* Navigation
+*/
+#navigationView{
+    
+    .cl-content{
+        height: calc(100% - 54px);
+
+    }
+
+}

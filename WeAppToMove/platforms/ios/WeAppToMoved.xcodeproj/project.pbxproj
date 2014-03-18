@@ -60,7 +60,6 @@
 		A369317C83B042C48FF9A96D /* CDVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = ED477F07C46B48A89F274B1D /* CDVConnection.m */; };
 		AAC1EC00C4024D6C82B432B4 /* CDVFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ADDBD59A12014D3FAAC7827B /* CDVFileTransfer.m */; };
 		C6E0C91595D749158337F128 /* CDVCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E39264BA43446C5ACCCB620 /* CDVCapture.m */; };
-		D00EA71858A64174B471B386 /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 330705E2101E4C529F44D70F /* CDVLogger.m */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		DD395C4AB0704FC487F0820F /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 740083A964554A17B6E7C580 /* CDVDevice.m */; };
 /* End PBXBuildFile section */
@@ -657,7 +656,6 @@
 				AAC1EC00C4024D6C82B432B4 /* CDVFileTransfer.m in Sources */,
 				35CDEC6A66AB488E93559C48 /* CDVGlobalization.m in Sources */,
 				1B588353AF9749BD8F2F9831 /* CDVInAppBrowser.m in Sources */,
-				D00EA71858A64174B471B386 /* CDVLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

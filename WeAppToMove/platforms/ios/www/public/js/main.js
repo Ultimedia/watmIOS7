@@ -140,6 +140,9 @@ $(document).on("ready", function () {
       // Create a new instance of the helperclass
       appData.helpers.phonegapHelper = new appData.views.HelperView();
 
+
+      console.log('launch');
+
       if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
 
         appData.settings.rootPath = "http://172.30.39.149/";
@@ -867,6 +870,16 @@ appData.views.CreateActivityInfoView = Backbone.View.extend({
       return this; 
     },
 
+    events: {
+      "click #submitButton": "subHandler"
+    },
+
+    subHandler: function(){
+      alert('dddd');
+
+      $("#watForm",appData.settings.currentModuleHTML).submit();
+    },
+
     addedSportHandler: function(data){
       Backbone.off("addedSportHandler");
       appData.views.ActivityDetailView.model.attributes.sport_id = data.sport_id;
@@ -1112,6 +1125,15 @@ appData.views.CreateActivityView = Backbone.View.extend({
 
         return this; 
     }, 
+
+    events: {
+      "click #submitButton": "subHandler"
+    },
+
+    subHandler: function(){
+        $('form',appData.settings.currentPageHTML).submit();
+    },
+
 
     formStageCompleteEvent: function(data){
 
@@ -2802,7 +2824,6 @@ appData.routers.AppRouter = Backbone.Router.extend({
 
     settings: function (id) {
         appData.slider.slidePage(new appData.views.SettingsView().render().$el);
-        $('.page').empty().append(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
     },
 
     sportselector: function (id) {

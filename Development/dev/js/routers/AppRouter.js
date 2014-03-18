@@ -136,7 +136,6 @@ appData.routers.AppRouter = Backbone.Router.extend({
 
     settings: function (id) {
         appData.slider.slidePage(new appData.views.SettingsView().render().$el);
-        $('.page').empty().append(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
     },
 
     sportselector: function (id) {

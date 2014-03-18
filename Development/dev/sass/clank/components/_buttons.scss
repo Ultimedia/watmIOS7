@@ -282,6 +282,10 @@
 .button-container{
   padding: 10px;
   background: #23272d;
+
+  input[type=submit]{
+    width: 100%;
+  }
 }
 
 

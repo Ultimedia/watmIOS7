@@ -138,6 +138,9 @@ $(document).on("ready", function () {
       // Create a new instance of the helperclass
       appData.helpers.phonegapHelper = new appData.views.HelperView();
 
+
+      console.log('launch');
+
       if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
 
         appData.settings.rootPath = "http://172.30.39.149/";

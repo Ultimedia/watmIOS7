@@ -17,6 +17,15 @@ appData.views.CreateActivityView = Backbone.View.extend({
         return this; 
     }, 
 
+    events: {
+      "click #submitButton": "subHandler"
+    },
+
+    subHandler: function(){
+        $('form',appData.settings.currentPageHTML).submit();
+    },
+
+
     formStageCompleteEvent: function(data){
 
         var location = data.location;
