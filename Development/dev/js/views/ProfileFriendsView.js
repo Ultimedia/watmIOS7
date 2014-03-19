@@ -1,14 +1,19 @@
 appData.views.ProfileFriendsView = Backbone.View.extend({
     initialize: function () {
     	appData.views.friendsListView = [];
-        $(appData.models.userModel.attributes.myFriends.models).each(function(index, userModel) {
-       	appData.views.friendsListView.push(new appData.views.FriendsListView({
-            model:userModel
-          }));
-        });
-
-
         appData.views.ProfileFriendsView.friendRemovedHandler = this.friendRemovedHandler;
+        appData.views.ProfileFriendsView.generateFriendsList = this.generateFriendsList;
+
+        // get friends
+        appData.services.phpService.getFriends();
+        Backbone.on('getFriendsHandler', this.getMyFriendsHandler);
+    },
+
+    getMyFriendsHandler: function(){
+        console.log('updated friends');
+
+        Backbone.off('getFriendsHandler');
+        appData.views.ProfileFriendsView.generateFriendsList();
     },
     
     events:{
@@ -29,13 +34,28 @@ appData.views.ProfileFriendsView = Backbone.View.extend({
 
     },
 
+    generateFriendsList: function(){
+
+        appData.views.friendsListView = [];
+        $(appData.models.userModel.attributes.myFriends.models).each(function(index, userModel) {
+        appData.views.friendsListView.push(new appData.views.FriendsListView({
+            model:userModel
+          }));
+        });
+
+
+        $('#profileFriendsListView', appData.settings.currentModuleHTML).empty();
+        _(appData.views.friendsListView).each(function(listView) {
+            $('#profileFriendsListView', appData.settings.currentModuleHTML).append(listView.render().$el);
+        });
+
+    },
+
     render: function() { 
     	this.$el.html(this.template());
         appData.settings.currentModuleHTML = this.$el;
 
-        _(appData.views.friendsListView).each(function(listView) {
-            $('#profileFriendsListView', appData.settings.currentModuleHTML).append(listView.render().$el);
-        });
+        this.generateFriendsList();
 
         return this; 
     },

@@ -7,7 +7,7 @@ appData.views.FriendInvitieView = Backbone.View.extend({
     },
 
     render: function() { 
-      this.$el.html(this.template(this.model.toJSON()));
+      this.$el.html(this.template({friend: this.model.toJSON(), imagePath: appData.settings.imagePath}));
       appData.settings.currentPageHTML = this.$el;
       return this; 
     }, 

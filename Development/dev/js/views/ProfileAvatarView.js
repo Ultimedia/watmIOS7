@@ -5,7 +5,6 @@ appData.views.ProfileAvatarView = Backbone.View.extend({
     },
     
     render: function() { 
-        console.log(appData.models.userModel);
 
     	this.$el.html(this.template(appData.models.userModel.toJSON()));
         appData.settings.currentModuleHTML = this.$el;

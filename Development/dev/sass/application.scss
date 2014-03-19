@@ -699,13 +699,13 @@ input.error{
 
         h3{
           margin: 5px 0;
-          font-size: 1.2em;
+          font-size: 1.4em;
           text-transform: uppercase;
           font-weight: bold;
           color: #fff;
 
           small{
-            font-size: 16px;
+            font-size: 14px;
             font-weight: normal;
           }
         }
@@ -936,9 +936,6 @@ input.error{
       display: block;
     }
     #messagesContent{
-
-
-
       ul{
         .cl-message{
           padding: 20px 10px;
@@ -1093,6 +1090,32 @@ input.error{
       color: #fff;
     }
   }
+
+  #wieContent{
+    .friend-box{
+      margin: 15px;
+      width: 100px;
+      display-inline: block;
+      float: left;
+
+      h3{
+        color: #fff;
+      }
+
+      .cl-btn{
+      clear: both;
+      }
+
+      .friend-avatar{
+        border-radius: 56px;
+        -webkit-border-radius: 56px;
+        -moz-border-radius: 56px;
+        width: 100px;
+        height: 100px;
+        float: left;
+      }
+    }
+  }
 }
 
 
@@ -1156,6 +1179,37 @@ input.error{
   .cl-content{
     height: calc(100% - 156px);
     background: #fff;
+
+    .friend-box{
+      margin: 10px;
+      width: 100px;
+      display-inline: block;
+      float: left;
+
+      h3{
+        color: #31414f;
+        text-align: center;
+        font-size: 1.4em;
+        font-family: "source_sans_prosemibold";
+      }
+
+      .friend-avatar{
+        border-radius: 56px;
+        -webkit-border-radius: 56px;
+        -moz-border-radius: 56px;
+        width: 100px;
+        height: 100px;
+        float: left;
+      }
+
+      .removeFriend{
+        float: left;
+        clear: both;
+        width: 100px;
+        text-align: center;
+        margin-top:10px;
+      } 
+    }
 
     .cl-bar{
       background: #fef5e4;

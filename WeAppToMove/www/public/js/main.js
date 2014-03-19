@@ -780,7 +780,6 @@ appData.views.ActivityMediaView = Backbone.View.extend({
       this.$el.html(this.template(this.model.attributes));
       appData.settings.currentModuleHTML = this.$el;
 
-
       // Hide the upload button if we're not on a native device
       if(appData.settings.native){
 
@@ -1713,7 +1712,7 @@ appData.views.FriendInvitieView = Backbone.View.extend({
     },
 
     render: function() { 
-      this.$el.html(this.template(this.model.toJSON()));
+      this.$el.html(this.template({friend: this.model.toJSON(), imagePath: appData.settings.imagePath}));
       appData.settings.currentPageHTML = this.$el;
       return this; 
     }, 
@@ -1792,7 +1791,7 @@ appData.views.FriendsListView = Backbone.View.extend({
     render: function () {
     	// model to template
     	console.log(this.model.attributes);
-    	this.$el.html(this.template(this.model.attributes));
+    	this.$el.html(this.template({user: this.model.toJSON(), imagePath: appData.settings.imagePath}));
         return this; 
     }
 });
@@ -2434,7 +2433,6 @@ appData.views.ProfileAvatarView = Backbone.View.extend({
     },
     
     render: function() { 
-        console.log(appData.models.userModel);
 
     	this.$el.html(this.template(appData.models.userModel.toJSON()));
         appData.settings.currentModuleHTML = this.$el;
@@ -2550,14 +2548,19 @@ appData.views.ProfileChallengeView = Backbone.View.extend({
 appData.views.ProfileFriendsView = Backbone.View.extend({
     initialize: function () {
     	appData.views.friendsListView = [];
-        $(appData.models.userModel.attributes.myFriends.models).each(function(index, userModel) {
-       	appData.views.friendsListView.push(new appData.views.FriendsListView({
-            model:userModel
-          }));
-        });
-
-
         appData.views.ProfileFriendsView.friendRemovedHandler = this.friendRemovedHandler;
+        appData.views.ProfileFriendsView.generateFriendsList = this.generateFriendsList;
+
+        // get friends
+        appData.services.phpService.getFriends();
+        Backbone.on('getFriendsHandler', this.getMyFriendsHandler);
+    },
+
+    getMyFriendsHandler: function(){
+        console.log('updated friends');
+
+        Backbone.off('getFriendsHandler');
+        appData.views.ProfileFriendsView.generateFriendsList();
     },
     
     events:{
@@ -2578,13 +2581,28 @@ appData.views.ProfileFriendsView = Backbone.View.extend({
 
     },
 
+    generateFriendsList: function(){
+
+        appData.views.friendsListView = [];
+        $(appData.models.userModel.attributes.myFriends.models).each(function(index, userModel) {
+        appData.views.friendsListView.push(new appData.views.FriendsListView({
+            model:userModel
+          }));
+        });
+
+
+        $('#profileFriendsListView', appData.settings.currentModuleHTML).empty();
+        _(appData.views.friendsListView).each(function(listView) {
+            $('#profileFriendsListView', appData.settings.currentModuleHTML).append(listView.render().$el);
+        });
+
+    },
+
     render: function() { 
     	this.$el.html(this.template());
         appData.settings.currentModuleHTML = this.$el;
 
-        _(appData.views.friendsListView).each(function(listView) {
-            $('#profileFriendsListView', appData.settings.currentModuleHTML).append(listView.render().$el);
-        });
+        this.generateFriendsList();
 
         return this; 
     },
