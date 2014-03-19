@@ -280,60 +280,6 @@ ul.autocomplete li a {
 
 
 
-#challengeView{
-  
-  .badge_img{
-    float: left;
-    display: inline-block;
-    margin-right: 5px;
-  }
-
-  .cl-table-cell{
-    padding: 10px 5px;
-
-    a{
-      min-height: 20px;
-      vertical-align: center;
-    }
-  }
-
-  .cl-btn{
-    display: inline-block;
-    width: auto;
-    float:right;
-    position: absolute;
-    right: 5px;
-    top: 5px;
-  }
-
-  h3{
-    display: inline-block;
-    font-size: 1.3em;
-    margin-bottom: 5px;
-  }
-
-  #progressContainer{
-    width: 100%;
-    display: block;
-    padding:10px 0;
-
-    progress{
-      width: 100%;
-    }
-  }
-
-  #badgesOverview{
-    .cl-table-cell{
-      width: auto;
-      float: left;
-
-      .badge_img{
-        float: left;
-        display: inline-block;
-      }
-    }
-  }
-}
 
 
 #friendsListView{
@@ -1220,7 +1166,75 @@ input.error{
   }
 }
 
+  #challengeView{
+    background: #e4e4e4;
 
+
+
+    .badge_img{
+      float: left;
+      display: inline-block;
+      margin-right: 5px;
+    }
+
+    .challenge-item{
+      padding: 10px 5px;
+      margin-bottom: 2px;
+      a{
+        min-height: 20px;
+        vertical-align: center;
+      }
+
+      p{
+        padding-right: 90px;
+        font-size: 12px;
+        line-height: 1.4em;
+      }
+    }
+
+    #myChallengesOverviewTable{
+      p{
+        padding-right: 0;
+      }
+    }
+
+    .cl-btn{
+      display: inline-block;
+      width: auto;
+      float:right;
+      position: absolute;
+      right: 5px;
+      top: 5px;
+    }
+
+    h3{
+      display: inline-block;
+      font-size: 1.3em;
+      margin-bottom: 5px;
+    }
+
+    #progressContainer{
+      width: 100%;
+      display: block;
+      padding:10px 0;
+
+      progress{
+        width: 100%;
+      }
+    }
+
+    #badgesOverview{
+      .cl-table-cell{
+        width: auto;
+        float: left;
+
+        .badge_img{
+          float: left;
+          display: inline-block;
+        }
+      }
+    }
+  }
 
 /** 
 * Friend

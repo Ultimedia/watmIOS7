@@ -3351,90 +3351,39 @@ ul.autocomplete li a {
   float: right;
 }
 
-/* line 285, ../../../../Development/dev/sass/application.scss */
-#challengeView .badge_img {
-  float: left;
-  display: inline-block;
-  margin-right: 5px;
-}
-/* line 291, ../../../../Development/dev/sass/application.scss */
-#challengeView .cl-table-cell {
-  padding: 10px 5px;
-}
-/* line 294, ../../../../Development/dev/sass/application.scss */
-#challengeView .cl-table-cell a {
-  min-height: 20px;
-  vertical-align: center;
-}
-/* line 300, ../../../../Development/dev/sass/application.scss */
-#challengeView .cl-btn {
-  display: inline-block;
-  width: auto;
-  float: right;
-  position: absolute;
-  right: 5px;
-  top: 5px;
-}
-/* line 309, ../../../../Development/dev/sass/application.scss */
-#challengeView h3 {
-  display: inline-block;
-  font-size: 1.3em;
-  margin-bottom: 5px;
-}
-/* line 315, ../../../../Development/dev/sass/application.scss */
-#challengeView #progressContainer {
-  width: 100%;
-  display: block;
-  padding: 10px 0;
-}
-/* line 320, ../../../../Development/dev/sass/application.scss */
-#challengeView #progressContainer progress {
-  width: 100%;
-}
-/* line 326, ../../../../Development/dev/sass/application.scss */
-#challengeView #badgesOverview .cl-table-cell {
-  width: auto;
-  float: left;
-}
-/* line 330, ../../../../Development/dev/sass/application.scss */
-#challengeView #badgesOverview .cl-table-cell .badge_img {
-  float: left;
-  display: inline-block;
-}
-
-/* line 340, ../../../../Development/dev/sass/application.scss */
+/* line 286, ../../../../Development/dev/sass/application.scss */
 #friendsListView div {
   float: left;
 }
-/* line 344, ../../../../Development/dev/sass/application.scss */
+/* line 290, ../../../../Development/dev/sass/application.scss */
 #friendsListView div, #friendsListView .friendsBox {
   display: inline-block;
 }
 
 /* Page specific */
-/* line 354, ../../../../Development/dev/sass/application.scss */
+/* line 300, ../../../../Development/dev/sass/application.scss */
 #waarContent #map_canvas {
   height: 400px;
 }
 
-/* line 361, ../../../../Development/dev/sass/application.scss */
+/* line 307, ../../../../Development/dev/sass/application.scss */
 #navigationView #map_canvas {
   height: 50%;
 }
-/* line 365, ../../../../Development/dev/sass/application.scss */
+/* line 311, ../../../../Development/dev/sass/application.scss */
 #navigationView #directions {
   height: 50%;
 }
 
-/* line 374, ../../../../Development/dev/sass/application.scss */
+/* line 320, ../../../../Development/dev/sass/application.scss */
 #myInvitationsTable .cl-table-cell {
   padding: 10px 0;
 }
-/* line 378, ../../../../Development/dev/sass/application.scss */
+/* line 324, ../../../../Development/dev/sass/application.scss */
 #myInvitationsTable .cl-table-cell a {
   display: inline-block;
 }
-/* line 382, ../../../../Development/dev/sass/application.scss */
+/* line 328, ../../../../Development/dev/sass/application.scss */
 #myInvitationsTable .cl-btn-group.float {
   display: inline-block;
   float: right;
@@ -3443,12 +3392,12 @@ ul.autocomplete li a {
 /*
 * Final styling 
 */
-/* line 395, ../../../../Development/dev/sass/application.scss */
+/* line 341, ../../../../Development/dev/sass/application.scss */
 body {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
-/* line 399, ../../../../Development/dev/sass/application.scss */
+/* line 345, ../../../../Development/dev/sass/application.scss */
 input.error {
   border: 1px solid #e54c2e !important;
 }
@@ -3456,7 +3405,7 @@ input.error {
 /**
 * FORM PAGES
 */
-/* line 407, ../../../../Development/dev/sass/application.scss */
+/* line 353, ../../../../Development/dev/sass/application.scss */
 #home, #createUser, #createActivity, #settings {
   background: #303d4d url("../../common/img/home_background.png") top left;
   -webkit-background-size: cover;
@@ -3465,26 +3414,26 @@ input.error {
   background-size: cover;
   height: 100%;
 }
-/* line 415, ../../../../Development/dev/sass/application.scss */
+/* line 361, ../../../../Development/dev/sass/application.scss */
 #home .cl-btn-header, #createUser .cl-btn-header, #createActivity .cl-btn-header, #settings .cl-btn-header {
   border: 0;
   padding: 0;
 }
-/* line 420, ../../../../Development/dev/sass/application.scss */
+/* line 366, ../../../../Development/dev/sass/application.scss */
 #home .cl-content, #createUser .cl-content, #createActivity .cl-content, #settings .cl-content {
   background: none;
   height: 100%;
   width: 100%;
   overflow: auto;
 }
-/* line 426, ../../../../Development/dev/sass/application.scss */
+/* line 372, ../../../../Development/dev/sass/application.scss */
 #home .cl-content hr, #createUser .cl-content hr, #createActivity .cl-content hr, #settings .cl-content hr {
   color: #FF0000;
   border: none;
   border-top: 1px solid #67737d;
   height: 1px;
 }
-/* line 433, ../../../../Development/dev/sass/application.scss */
+/* line 379, ../../../../Development/dev/sass/application.scss */
 #home .cl-content #loginBox, #createUser .cl-content #loginBox, #createActivity .cl-content #loginBox, #settings .cl-content #loginBox {
   height: auto;
   position: absolute;
@@ -3501,20 +3450,20 @@ input.error {
   box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.07);
   /* inner glow */
 }
-/* line 445, ../../../../Development/dev/sass/application.scss */
+/* line 391, ../../../../Development/dev/sass/application.scss */
 #home .cl-content h4, #createUser .cl-content h4, #createActivity .cl-content h4, #settings .cl-content h4 {
   color: #fff;
   font-family: "bitteritalic";
   padding: 10px 0;
 }
-/* line 451, ../../../../Development/dev/sass/application.scss */
+/* line 397, ../../../../Development/dev/sass/application.scss */
 #home .cl-content #home_logo, #createUser .cl-content #home_logo, #createActivity .cl-content #home_logo, #settings .cl-content #home_logo {
   margin-left: auto;
   margin-right: auto;
   display: block;
   margin-top: 40px;
 }
-/* line 458, ../../../../Development/dev/sass/application.scss */
+/* line 404, ../../../../Development/dev/sass/application.scss */
 #home .cl-content input[type=email], #home .cl-content input[type=password], #home .cl-content input[type=text], #home .cl-content input[type=date], #home .cl-content input[type=time], #home .cl-content textarea, #createUser .cl-content input[type=email], #createUser .cl-content input[type=password], #createUser .cl-content input[type=text], #createUser .cl-content input[type=date], #createUser .cl-content input[type=time], #createUser .cl-content textarea, #createActivity .cl-content input[type=email], #createActivity .cl-content input[type=password], #createActivity .cl-content input[type=text], #createActivity .cl-content input[type=date], #createActivity .cl-content input[type=time], #createActivity .cl-content textarea, #settings .cl-content input[type=email], #settings .cl-content input[type=password], #settings .cl-content input[type=text], #settings .cl-content input[type=date], #settings .cl-content input[type=time], #settings .cl-content textarea {
   background: none;
   border: none;
@@ -3525,17 +3474,17 @@ input.error {
   outline: none;
   margin: 0;
 }
-/* line 469, ../../../../Development/dev/sass/application.scss */
+/* line 415, ../../../../Development/dev/sass/application.scss */
 #home .cl-content input[type=email], #createUser .cl-content input[type=email], #createActivity .cl-content input[type=email], #settings .cl-content input[type=email] {
   padding-left: 34px;
   background: url("assets/mail-icon@x2.png") no-repeat 10px 15px/15px 12px;
 }
-/* line 474, ../../../../Development/dev/sass/application.scss */
+/* line 420, ../../../../Development/dev/sass/application.scss */
 #home .cl-content input[type=password], #createUser .cl-content input[type=password], #createActivity .cl-content input[type=password], #settings .cl-content input[type=password] {
   padding-left: 34px;
   background: url("assets/lock-icon@x2.png") no-repeat 10px 12px/12px 16px;
 }
-/* line 479, ../../../../Development/dev/sass/application.scss */
+/* line 425, ../../../../Development/dev/sass/application.scss */
 #home .cl-content #nameInput, #createUser .cl-content #nameInput, #createActivity .cl-content #nameInput, #settings .cl-content #nameInput {
   padding-left: 34px;
   background: url("assets/speech-icon@x2.png") no-repeat 10px 12px/15px 15px;
@@ -3544,30 +3493,30 @@ input.error {
 /**
 * CreateUser
 */
-/* line 490, ../../../../Development/dev/sass/application.scss */
+/* line 436, ../../../../Development/dev/sass/application.scss */
 #createUser, #createActivity, #settings {
   background: #2f404b;
 }
-/* line 493, ../../../../Development/dev/sass/application.scss */
+/* line 439, ../../../../Development/dev/sass/application.scss */
 #createUser .cl-content, #createActivity .cl-content, #settings .cl-content {
   height: calc(100% - 140px);
 }
-/* line 497, ../../../../Development/dev/sass/application.scss */
+/* line 443, ../../../../Development/dev/sass/application.scss */
 #createUser .cl-message, #createActivity .cl-message, #settings .cl-message {
   padding: 10px;
   background-color: #fef5e4;
   line-height: 1.6em;
 }
-/* line 503, ../../../../Development/dev/sass/application.scss */
+/* line 449, ../../../../Development/dev/sass/application.scss */
 #createUser .cl-form, #createActivity .cl-form, #settings .cl-form {
   position: relative;
 }
-/* line 506, ../../../../Development/dev/sass/application.scss */
+/* line 452, ../../../../Development/dev/sass/application.scss */
 #createUser .cl-form .radio-list, #createActivity .cl-form .radio-list, #settings .cl-form .radio-list {
   padding-left: 34px;
   background: url("assets/name-icon@x2.png") no-repeat 10px 12px/15px 15px;
 }
-/* line 511, ../../../../Development/dev/sass/application.scss */
+/* line 457, ../../../../Development/dev/sass/application.scss */
 #createUser .cl-form .radio-list label, #createActivity .cl-form .radio-list label, #settings .cl-form .radio-list label {
   background: none;
   border: none;
@@ -3576,17 +3525,17 @@ input.error {
   cursor: pointer;
   border-radius: 3px;
 }
-/* line 520, ../../../../Development/dev/sass/application.scss */
+/* line 466, ../../../../Development/dev/sass/application.scss */
 #createUser .cl-form .radio-list label.checked, #createActivity .cl-form .radio-list label.checked, #settings .cl-form .radio-list label.checked {
   border: none;
   color: #fff;
   font-weight: bold;
 }
-/* line 526, ../../../../Development/dev/sass/application.scss */
+/* line 472, ../../../../Development/dev/sass/application.scss */
 #createUser .cl-form .radio-list label:first-child.checked, #createActivity .cl-form .radio-list label:first-child.checked, #settings .cl-form .radio-list label:first-child.checked {
   background: #23cddd;
 }
-/* line 530, ../../../../Development/dev/sass/application.scss */
+/* line 476, ../../../../Development/dev/sass/application.scss */
 #createUser .cl-form .radio-list label:last-child.checked, #createActivity .cl-form .radio-list label:last-child.checked, #settings .cl-form .radio-list label:last-child.checked {
   background: #ff7f66;
 }
@@ -3594,7 +3543,7 @@ input.error {
 /**
 * Loading
 */
-/* line 540, ../../../../Development/dev/sass/application.scss */
+/* line 486, ../../../../Development/dev/sass/application.scss */
 #loading {
   background: #303d4d url("../../common/img/loading_background.png") center center;
   -webkit-background-size: cover;
@@ -3603,7 +3552,7 @@ input.error {
   background-size: cover;
   height: 100%;
 }
-/* line 548, ../../../../Development/dev/sass/application.scss */
+/* line 494, ../../../../Development/dev/sass/application.scss */
 #loading h2 {
   display: block;
   width: 100%;
@@ -3616,7 +3565,7 @@ input.error {
   bottom: 20px;
   display: inline-block;
 }
-/* line 559, ../../../../Development/dev/sass/application.scss */
+/* line 505, ../../../../Development/dev/sass/application.scss */
 #loading h2 small {
   font-size: 14px;
   margin-top: 10px;
@@ -3626,27 +3575,27 @@ input.error {
 /**
 * Select sports
 */
-/* line 573, ../../../../Development/dev/sass/application.scss */
+/* line 519, ../../../../Development/dev/sass/application.scss */
 #favouriteSportsSelector .cl-content {
   background: #fef5e4;
   height: calc(100% - 182px);
 }
-/* line 577, ../../../../Development/dev/sass/application.scss */
+/* line 523, ../../../../Development/dev/sass/application.scss */
 #favouriteSportsSelector .cl-content #favouriteSportList {
   width: 100%;
 }
-/* line 580, ../../../../Development/dev/sass/application.scss */
+/* line 526, ../../../../Development/dev/sass/application.scss */
 #favouriteSportsSelector .cl-content #favouriteSportList div {
   float: left;
   display: inline-block;
 }
-/* line 584, ../../../../Development/dev/sass/application.scss */
+/* line 530, ../../../../Development/dev/sass/application.scss */
 #favouriteSportsSelector .cl-content #favouriteSportList div span {
   display: block;
   text-align: center;
   font-size: 11px;
 }
-/* line 590, ../../../../Development/dev/sass/application.scss */
+/* line 536, ../../../../Development/dev/sass/application.scss */
 #favouriteSportsSelector .cl-content #favouriteSportList div a {
   width: 86px;
   height: 86px;
@@ -3665,7 +3614,7 @@ input.error {
   background-size: cover;
   position: relative;
 }
-/* line 610, ../../../../Development/dev/sass/application.scss */
+/* line 556, ../../../../Development/dev/sass/application.scss */
 #favouriteSportsSelector .cl-content #favouriteSportList div a.selected .layer {
   background-color: rgba(86, 192, 189, 0.7);
   position: absolute;
@@ -3682,7 +3631,7 @@ input.error {
 /**
 * Dashboard
 */
-/* line 635, ../../../../Development/dev/sass/application.scss */
+/* line 581, ../../../../Development/dev/sass/application.scss */
 #dashboard .cl-bar-title .add-icon, #dashboard .cl-modal .cl-modal-bar-title .add-icon, .cl-modal #dashboard .cl-modal-bar-title .add-icon {
   display: block;
   padding: 14px;
@@ -3690,7 +3639,7 @@ input.error {
   height: 20px;
   width: 20px;
 }
-/* line 643, ../../../../Development/dev/sass/application.scss */
+/* line 589, ../../../../Development/dev/sass/application.scss */
 #dashboard .cl-bar-title .search-icon, #dashboard .cl-modal .cl-modal-bar-title .search-icon, .cl-modal #dashboard .cl-modal-bar-title .search-icon {
   display: block;
   padding: 14px;
@@ -3698,24 +3647,24 @@ input.error {
   height: 18px;
   width: 18px;
 }
-/* line 652, ../../../../Development/dev/sass/application.scss */
+/* line 598, ../../../../Development/dev/sass/application.scss */
 #dashboard .cl-content {
   height: calc(100% - 262px);
   background: #1f3146;
 }
-/* line 656, ../../../../Development/dev/sass/application.scss */
+/* line 602, ../../../../Development/dev/sass/application.scss */
 #dashboard .cl-content .cl-message {
   padding: 20px 10px;
   background-color: #fef5e4;
   line-height: 1.6em;
 }
-/* line 663, ../../../../Development/dev/sass/application.scss */
+/* line 609, ../../../../Development/dev/sass/application.scss */
 #dashboard #sortBar {
   background-color: #d95555;
   /* layer fill content */
   z-index: 1000;
 }
-/* line 667, ../../../../Development/dev/sass/application.scss */
+/* line 613, ../../../../Development/dev/sass/application.scss */
 #dashboard #sortBar select {
   background: none;
   border: 0;
@@ -3727,26 +3676,26 @@ input.error {
   width: 100%;
   text-transform: uppercase;
 }
-/* line 680, ../../../../Development/dev/sass/application.scss */
+/* line 626, ../../../../Development/dev/sass/application.scss */
 #dashboard #map_canvas {
   height: 110px;
   border-left: 3px solid #d95555;
   border-right: 3px solid #d95555;
 }
-/* line 688, ../../../../Development/dev/sass/application.scss */
+/* line 634, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell {
   background: #4fbab6;
   margin-bottom: 2px;
 }
-/* line 692, ../../../../Development/dev/sass/application.scss */
+/* line 638, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell span {
   margin: 5px 10px;
 }
-/* line 696, ../../../../Development/dev/sass/application.scss */
+/* line 642, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell a {
   padding: 0;
 }
-/* line 700, ../../../../Development/dev/sass/application.scss */
+/* line 646, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell h3 {
   margin: 5px 0;
   font-size: 1.4em;
@@ -3754,21 +3703,21 @@ input.error {
   font-weight: bold;
   color: #fff;
 }
-/* line 707, ../../../../Development/dev/sass/application.scss */
+/* line 653, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell h3 small {
   font-size: 14px;
   font-weight: normal;
 }
-/* line 714, ../../../../Development/dev/sass/application.scss */
+/* line 660, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell .dashboard-footer {
   display: block;
   background: #378488;
 }
-/* line 718, ../../../../Development/dev/sass/application.scss */
+/* line 664, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell .dashboard-footer ul {
   margin: 0 10px;
 }
-/* line 721, ../../../../Development/dev/sass/application.scss */
+/* line 667, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell .dashboard-footer ul li {
   font-size: 12px;
   display: inline-block;
@@ -3776,7 +3725,7 @@ input.error {
   padding-left: 20px;
   min-height: 36px;
 }
-/* line 729, ../../../../Development/dev/sass/application.scss */
+/* line 675, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell .dashboard-footer ul .table-location {
   padding-left: 20px;
   background: url("assets/cursor-icon@x2.png") no-repeat 0 10px/11px 15px;
@@ -3784,11 +3733,11 @@ input.error {
   float: left;
   line-height: 36px;
 }
-/* line 737, ../../../../Development/dev/sass/application.scss */
+/* line 683, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell .dashboard-footer ul .table-friends {
   background: url("assets/friend-icon@x2.png") no-repeat 0 12px/13px 13px;
 }
-/* line 740, ../../../../Development/dev/sass/application.scss */
+/* line 686, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell .dashboard-footer ul .table-friends .avatar {
   display: block;
   width: 25px;
@@ -3800,12 +3749,12 @@ input.error {
   float: left;
 }
 
-/* line 760, ../../../../Development/dev/sass/application.scss */
+/* line 706, ../../../../Development/dev/sass/application.scss */
 #mainNav {
   background: #31414f;
   height: 54px;
 }
-/* line 764, ../../../../Development/dev/sass/application.scss */
+/* line 710, ../../../../Development/dev/sass/application.scss */
 #mainNav .tab-item {
   position: relative;
   text-align: center;
@@ -3818,7 +3767,7 @@ input.error {
   -moz-border-radius: 3px;
   display: block;
 }
-/* line 776, ../../../../Development/dev/sass/application.scss */
+/* line 722, ../../../../Development/dev/sass/application.scss */
 #mainNav .tab-item a .tab-label {
   color: #fff;
   font-family: "source_sans_prosemibold";
@@ -3826,7 +3775,7 @@ input.error {
   font-size: 12px;
   padding: 10px;
 }
-/* line 787, ../../../../Development/dev/sass/application.scss */
+/* line 733, ../../../../Development/dev/sass/application.scss */
 #mainNav .active .tab-label {
   border-radius: 3px;
   -moz-border-radius: 3px;
@@ -3837,7 +3786,7 @@ input.error {
 /** 
 * Settings
 */
-/* line 801, ../../../../Development/dev/sass/application.scss */
+/* line 747, ../../../../Development/dev/sass/application.scss */
 #settings #userAvatar {
   width: 100%;
   margin-top: 0;
@@ -3846,11 +3795,11 @@ input.error {
 /**
 * Activity Detail
 */
-/* line 810, ../../../../Development/dev/sass/application.scss */
+/* line 756, ../../../../Development/dev/sass/application.scss */
 #activityDetail {
   background: #31424f;
 }
-/* line 814, ../../../../Development/dev/sass/application.scss */
+/* line 760, ../../../../Development/dev/sass/application.scss */
 #activityDetail .user_avatar {
   display: inline-block;
   border-radius: 42px;
@@ -3865,27 +3814,27 @@ input.error {
   margin-bottom: 5px;
   margin-top: 5px;
 }
-/* line 829, ../../../../Development/dev/sass/application.scss */
+/* line 775, ../../../../Development/dev/sass/application.scss */
 #activityDetail #editPanel {
   display: none;
 }
-/* line 834, ../../../../Development/dev/sass/application.scss */
+/* line 780, ../../../../Development/dev/sass/application.scss */
 #activityDetail #mediaContent #addMediaButton {
   width: 100%;
   margin-bottom: 20px;
 }
-/* line 840, ../../../../Development/dev/sass/application.scss */
+/* line 786, ../../../../Development/dev/sass/application.scss */
 #activityDetail #mediaContent #mediaContenList img {
   width: 100%;
   height: auto;
 }
-/* line 845, ../../../../Development/dev/sass/application.scss */
+/* line 791, ../../../../Development/dev/sass/application.scss */
 #activityDetail #mediaContent #mediaContenList .user-box {
   background: #dadada;
   padding: 10px 5px;
   margin: 0 0 35px 0;
 }
-/* line 853, ../../../../Development/dev/sass/application.scss */
+/* line 799, ../../../../Development/dev/sass/application.scss */
 #activityDetail #activityInfo {
   height: 40px;
   width: 100%;
@@ -3895,19 +3844,19 @@ input.error {
   color: #fff;
   padding: 0 10px;
 }
-/* line 862, ../../../../Development/dev/sass/application.scss */
+/* line 808, ../../../../Development/dev/sass/application.scss */
 #activityDetail #activityInfo span {
   float: left;
   line-height: 40px;
 }
-/* line 867, ../../../../Development/dev/sass/application.scss */
+/* line 813, ../../../../Development/dev/sass/application.scss */
 #activityDetail #activityInfo #navigateButton {
   padding: 10px;
   margin-top: 4px;
   font-size: 12px;
   color: #252d34;
 }
-/* line 875, ../../../../Development/dev/sass/application.scss */
+/* line 821, ../../../../Development/dev/sass/application.scss */
 #activityDetail #activityDetailTabs {
   margin-bottom: 0;
   margin-top: 20px;
@@ -3915,47 +3864,47 @@ input.error {
   margin-right: 5px;
   text-transform: uppercase;
 }
-/* line 882, ../../../../Development/dev/sass/application.scss */
+/* line 828, ../../../../Development/dev/sass/application.scss */
 #activityDetail #activityDetailTabs .cl-btn {
   font-size: 11px;
 }
-/* line 887, ../../../../Development/dev/sass/application.scss */
+/* line 833, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content {
   padding: 0 5px 0 5px;
   background: #31424f;
   overflow-y: auto;
   height: calc(100% - 272px);
 }
-/* line 897, ../../../../Development/dev/sass/application.scss */
+/* line 843, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #activityContent {
   background: #fff;
   position: relative;
   overflow: auto;
   height: 100%;
 }
-/* line 904, ../../../../Development/dev/sass/application.scss */
+/* line 850, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #praktischContent, #activityDetail .cl-content #mediaContent, #activityDetail .cl-content #messagesContent ul {
   padding: 10px 10px 0 10px;
   padding-bottom: 20px;
 }
-/* line 909, ../../../../Development/dev/sass/application.scss */
+/* line 855, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #praktischContent span, #activityDetail .cl-content #mediaContent span, #activityDetail .cl-content #messagesContent ul span {
   float: right;
   color: #31414f;
 }
-/* line 916, ../../../../Development/dev/sass/application.scss */
+/* line 862, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #aanwezigContent div {
   float: left;
   margin-right: 5px;
 }
-/* line 922, ../../../../Development/dev/sass/application.scss */
+/* line 868, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content h4 {
   display: inline-block;
   font-family: "source_sans_prosemibold";
   text-transform: uppercase;
   font-size: 12px;
 }
-/* line 929, ../../../../Development/dev/sass/application.scss */
+/* line 875, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content hr {
   color: #FF0000;
   border: none;
@@ -3965,17 +3914,17 @@ input.error {
   clear: both;
   display: block;
 }
-/* line 939, ../../../../Development/dev/sass/application.scss */
+/* line 885, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #messagesContent ul {
   padding-bottom: 10px;
 }
-/* line 940, ../../../../Development/dev/sass/application.scss */
+/* line 886, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #messagesContent ul .cl-message {
   padding: 20px 10px;
   background-color: #fef5e4;
   line-height: 1.6em;
 }
-/* line 950, ../../../../Development/dev/sass/application.scss */
+/* line 896, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #messageBox {
   background: #e6e6e6;
   border-top: 1px solid #cacaca;
@@ -3983,12 +3932,12 @@ input.error {
   overflow: auto;
   padding: 5px 10px;
 }
-/* line 957, ../../../../Development/dev/sass/application.scss */
+/* line 903, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #messageBox #messageSubmit {
   width: 100px !important;
   float: right;
 }
-/* line 962, ../../../../Development/dev/sass/application.scss */
+/* line 908, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #messageBox #messageInput {
   border: 0;
   -webkit-appereance: none;
@@ -4001,12 +3950,12 @@ input.error {
   padding-right: 12px;
   margin: 3px 0 0 7px;
 }
-/* line 976, ../../../../Development/dev/sass/application.scss */
+/* line 922, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content .message {
   margin: 0 0 15px 0;
   clear: both;
 }
-/* line 980, ../../../../Development/dev/sass/application.scss */
+/* line 926, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content .message h3 {
   font-size: 1.1em;
   display: block;
@@ -4015,7 +3964,7 @@ input.error {
   color: #31414f;
   font-family: "source_sans_prosemibold";
 }
-/* line 989, ../../../../Development/dev/sass/application.scss */
+/* line 935, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content .message .avatar {
   width: 40px;
   height: 40px;
@@ -4026,7 +3975,7 @@ input.error {
   height: 50px;
   float: left;
 }
-/* line 1000, ../../../../Development/dev/sass/application.scss */
+/* line 946, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content .message .messageBody {
   position: relative;
   height: auto;
@@ -4039,11 +3988,11 @@ input.error {
   margin-top: 5px;
   margin-left: 58px;
 }
-/* line 1012, ../../../../Development/dev/sass/application.scss */
+/* line 958, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content .message .messageBody p {
   color: #31414f;
 }
-/* line 1017, ../../../../Development/dev/sass/application.scss */
+/* line 963, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content .message .messageBody:after {
   content: "";
   position: absolute;
@@ -4056,37 +4005,37 @@ input.error {
   width: 0;
   z-index: 1;
 }
-/* line 1031, ../../../../Development/dev/sass/application.scss */
+/* line 977, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content .message:odd {
   display: none;
 }
-/* line 1035, ../../../../Development/dev/sass/application.scss */
+/* line 981, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #goingList {
   margin-bottom: 30px;
 }
-/* line 1038, ../../../../Development/dev/sass/application.scss */
+/* line 984, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #goingList label {
   border: 1px solid #378488;
   color: #252d34;
   text-align: center;
 }
-/* line 1044, ../../../../Development/dev/sass/application.scss */
+/* line 990, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #goingList label:first-child {
   border-right: none;
 }
-/* line 1048, ../../../../Development/dev/sass/application.scss */
+/* line 994, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #goingList .checked {
   background: #4cd6d1;
   color: #252d34;
 }
 
-/* line 1056, ../../../../Development/dev/sass/application.scss */
+/* line 1002, ../../../../Development/dev/sass/application.scss */
 #searchBar {
   padding: 1px 5px;
   height: auto;
   background: #b04646 !important;
 }
-/* line 1061, ../../../../Development/dev/sass/application.scss */
+/* line 1007, ../../../../Development/dev/sass/application.scss */
 #searchBar #searchForm input[type=search] {
   color: #fff;
   border: 0;
@@ -4105,31 +4054,31 @@ input.error {
 /** 
 * Create Activity
 */
-/* line 1083, ../../../../Development/dev/sass/application.scss */
+/* line 1029, ../../../../Development/dev/sass/application.scss */
 #createActivity .cl-content {
   height: calc(100% - 192px);
 }
-/* line 1088, ../../../../Development/dev/sass/application.scss */
+/* line 1034, ../../../../Development/dev/sass/application.scss */
 #createActivity #createActivityTabs .active {
   background: #2e3e4b;
   color: #fff;
 }
-/* line 1095, ../../../../Development/dev/sass/application.scss */
+/* line 1041, ../../../../Development/dev/sass/application.scss */
 #createActivity #wieContent .friend-box {
   margin: 15px;
   width: 100px;
   display-inline: block;
   float: left;
 }
-/* line 1101, ../../../../Development/dev/sass/application.scss */
+/* line 1047, ../../../../Development/dev/sass/application.scss */
 #createActivity #wieContent .friend-box h3 {
   color: #fff;
 }
-/* line 1105, ../../../../Development/dev/sass/application.scss */
+/* line 1051, ../../../../Development/dev/sass/application.scss */
 #createActivity #wieContent .friend-box .cl-btn {
   clear: both;
 }
-/* line 1109, ../../../../Development/dev/sass/application.scss */
+/* line 1055, ../../../../Development/dev/sass/application.scss */
 #createActivity #wieContent .friend-box .friend-avatar {
   border-radius: 56px;
   -webkit-border-radius: 56px;
@@ -4142,32 +4091,32 @@ input.error {
 /**
 *  Planner
 */
-/* line 1127, ../../../../Development/dev/sass/application.scss */
+/* line 1073, ../../../../Development/dev/sass/application.scss */
 #planner .cl-content {
   height: calc(100% - 108px);
   background: #e4e4e4;
 }
-/* line 1132, ../../../../Development/dev/sass/application.scss */
+/* line 1078, ../../../../Development/dev/sass/application.scss */
 #planner .cl-content .cl-bar {
   background: #fef5e4;
 }
-/* line 1134, ../../../../Development/dev/sass/application.scss */
+/* line 1080, ../../../../Development/dev/sass/application.scss */
 #planner .cl-content .cl-bar .cl-bar-text {
   color: #2f404c;
 }
-/* line 1139, ../../../../Development/dev/sass/application.scss */
+/* line 1085, ../../../../Development/dev/sass/application.scss */
 #planner .cl-content .cl-table-cell {
   margin-bottom: 2px;
 }
-/* line 1142, ../../../../Development/dev/sass/application.scss */
+/* line 1088, ../../../../Development/dev/sass/application.scss */
 #planner .cl-content .cl-table-cell span {
   margin: 5px 10px;
 }
-/* line 1146, ../../../../Development/dev/sass/application.scss */
+/* line 1092, ../../../../Development/dev/sass/application.scss */
 #planner .cl-content .cl-table-cell a {
   padding: 0;
 }
-/* line 1150, ../../../../Development/dev/sass/application.scss */
+/* line 1096, ../../../../Development/dev/sass/application.scss */
 #planner .cl-content .cl-table-cell h3 {
   margin: 5px 0;
   font-size: 1.2em;
@@ -4175,7 +4124,7 @@ input.error {
   font-weight: bold;
   color: #2d3d4a;
 }
-/* line 1157, ../../../../Development/dev/sass/application.scss */
+/* line 1103, ../../../../Development/dev/sass/application.scss */
 #planner .cl-content .cl-table-cell h3 small {
   font-size: 16px;
   font-weight: normal;
@@ -4184,31 +4133,31 @@ input.error {
 /**
 *  Profile
 */
-/* line 1173, ../../../../Development/dev/sass/application.scss */
+/* line 1119, ../../../../Development/dev/sass/application.scss */
 #profile #profileTabs .active {
   background: #fff;
   color: #d55353;
 }
-/* line 1179, ../../../../Development/dev/sass/application.scss */
+/* line 1125, ../../../../Development/dev/sass/application.scss */
 #profile .cl-content {
   height: calc(100% - 156px);
   background: #fff;
 }
-/* line 1183, ../../../../Development/dev/sass/application.scss */
+/* line 1129, ../../../../Development/dev/sass/application.scss */
 #profile .cl-content .friend-box {
   margin: 10px;
   width: 100px;
   display-inline: block;
   float: left;
 }
-/* line 1189, ../../../../Development/dev/sass/application.scss */
+/* line 1135, ../../../../Development/dev/sass/application.scss */
 #profile .cl-content .friend-box h3 {
   color: #31414f;
   text-align: center;
   font-size: 1.4em;
   font-family: "source_sans_prosemibold";
 }
-/* line 1196, ../../../../Development/dev/sass/application.scss */
+/* line 1142, ../../../../Development/dev/sass/application.scss */
 #profile .cl-content .friend-box .friend-avatar {
   border-radius: 56px;
   -webkit-border-radius: 56px;
@@ -4217,7 +4166,7 @@ input.error {
   height: 100px;
   float: left;
 }
-/* line 1205, ../../../../Development/dev/sass/application.scss */
+/* line 1151, ../../../../Development/dev/sass/application.scss */
 #profile .cl-content .friend-box .removeFriend {
   float: left;
   clear: both;
@@ -4225,19 +4174,85 @@ input.error {
   text-align: center;
   margin-top: 10px;
 }
-/* line 1214, ../../../../Development/dev/sass/application.scss */
+/* line 1160, ../../../../Development/dev/sass/application.scss */
 #profile .cl-content .cl-bar {
   background: #fef5e4;
 }
-/* line 1216, ../../../../Development/dev/sass/application.scss */
+/* line 1162, ../../../../Development/dev/sass/application.scss */
 #profile .cl-content .cl-bar .cl-bar-text {
   color: #2f404c;
+}
+
+/* line 1169, ../../../../Development/dev/sass/application.scss */
+#challengeView {
+  background: #e4e4e4;
+}
+/* line 1174, ../../../../Development/dev/sass/application.scss */
+#challengeView .badge_img {
+  float: left;
+  display: inline-block;
+  margin-right: 5px;
+}
+/* line 1180, ../../../../Development/dev/sass/application.scss */
+#challengeView .challenge-item {
+  padding: 10px 5px;
+  margin-bottom: 2px;
+}
+/* line 1183, ../../../../Development/dev/sass/application.scss */
+#challengeView .challenge-item a {
+  min-height: 20px;
+  vertical-align: center;
+}
+/* line 1188, ../../../../Development/dev/sass/application.scss */
+#challengeView .challenge-item p {
+  padding-right: 90px;
+  font-size: 12px;
+  line-height: 1.4em;
+}
+/* line 1196, ../../../../Development/dev/sass/application.scss */
+#challengeView #myChallengesOverviewTable p {
+  padding-right: 0;
+}
+/* line 1201, ../../../../Development/dev/sass/application.scss */
+#challengeView .cl-btn {
+  display: inline-block;
+  width: auto;
+  float: right;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+/* line 1210, ../../../../Development/dev/sass/application.scss */
+#challengeView h3 {
+  display: inline-block;
+  font-size: 1.3em;
+  margin-bottom: 5px;
+}
+/* line 1216, ../../../../Development/dev/sass/application.scss */
+#challengeView #progressContainer {
+  width: 100%;
+  display: block;
+  padding: 10px 0;
+}
+/* line 1221, ../../../../Development/dev/sass/application.scss */
+#challengeView #progressContainer progress {
+  width: 100%;
+}
+/* line 1227, ../../../../Development/dev/sass/application.scss */
+#challengeView #badgesOverview .cl-table-cell {
+  width: auto;
+  float: left;
+}
+/* line 1231, ../../../../Development/dev/sass/application.scss */
+#challengeView #badgesOverview .cl-table-cell .badge_img {
+  float: left;
+  display: inline-block;
 }
 
 /** 
 * Friend
 */
-/* line 1229, ../../../../Development/dev/sass/application.scss */
+/* line 1243, ../../../../Development/dev/sass/application.scss */
 #friendView .avatar {
   display: inline-block;
   width: 100%;
@@ -4252,7 +4267,7 @@ input.error {
 /**
 * Navigation
 */
-/* line 1248, ../../../../Development/dev/sass/application.scss */
+/* line 1262, ../../../../Development/dev/sass/application.scss */
 #navigationView .cl-content {
   height: calc(100% - 54px);
 }
