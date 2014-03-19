@@ -583,5 +583,37 @@ appData.services.PhpServices = Backbone.Model.extend({
 				console.log("error");
 			}
 		});	
+    },
+
+    uploadMediaNonNative: function(files){
+		$.ajax({
+			url:appData.settings.servicePath + appData.settings.uploadMediaNonNativeService + "?files",
+			type:'POST',
+			cache: false,
+			dataType:'json',
+			data: files,
+			processData: false, // Don't process the files
+			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+		    success: function(data, textStatus, jqXHR)
+		    {
+		    	if(typeof data.error === 'undefined')
+		    	{
+		    		// Success so call function to process the form
+		    		console.log(data);
+		    		Backbone.trigger('fileUploadedEvent', data);
+		    	}
+		    	else
+		    	{
+		    		// Handle errors here
+		    		console.log('ERRORS: ' + data.error);
+		    	}
+		    },
+		    error: function(jqXHR, textStatus, errorThrown)
+		    {
+		    	// Handle errors here
+		    	console.log('ERRORS: ' + textStatus);
+		    	// STOP LOADING SPINNER
+		    }
+		});	
     }
 });

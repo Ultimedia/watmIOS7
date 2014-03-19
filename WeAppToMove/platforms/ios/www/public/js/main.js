@@ -67,6 +67,7 @@ appData.settings.inviteFriendsService = "inviteFriends.php";
 appData.settings.handleInvitationsService = "handleInvitation.php";
 appData.settings.removeFriendService = "removeFriend.php";
 appData.settings.updateUserAvatarService = "updateUserAvatar.php";
+appData.settings.uploadMediaNonNativeService = "uploadMediaNonNative.php";
 
 appData.settings.defaultLocation = [51.20935, 3.22470];
 appData.settings.dataLoaded = false;
@@ -123,7 +124,6 @@ $(document).on("ready", function () {
       appData.events.getLocationsSuccesEvent = _.extend({}, Backbone.Events);
       appData.events.getLatLonEvent = _.extend({}, Backbone.Events);
 
-
       appData.services.facebookService = new appData.services.FacebookServices();
       appData.events.facebookLoginEvent = _.extend({}, Backbone.Events);
       appData.events.facebookLoginErrorEvent = _.extend({}, Backbone.Events);
@@ -145,7 +145,7 @@ $(document).on("ready", function () {
 
       if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
 
-        appData.settings.rootPath = "http://172.30.39.149/";
+        appData.settings.rootPath = "http://192.168.0.205/";
         appData.settings.servicePath =  appData.settings.rootPath + "services/";
         appData.settings.imagePath = appData.settings.rootPath + "common/uploads/";
         appData.settings.badgesPath = appData.settings.rootPath + "common/badges/";
@@ -476,7 +476,8 @@ appData.views.ActivityDetailView = Backbone.View.extend({
           var marker = new google.maps.Marker({
             position: new google.maps.LatLng(coordinates[0], coordinates[1]),
             map:  map,
-            title: 'Huidige locatie'
+            title: 'Huidige locatie',
+            icon: appData.settings.iconPath + "map-icon@x2.png"
           });
 
           // resize and relocate map
@@ -566,6 +567,8 @@ appData.views.ActivityInfoView = Backbone.View.extend({
                 appData.services.phpService.setGoingToActivity(appData.models.activityModel.attributes.activity_id, selectedData);
         });
 
+      $('#messageBox', appData.settings.currentPageHTML).addClass('hide');
+
         return this; 
     },
 
@@ -637,7 +640,7 @@ appData.views.ActivityMessageView = Backbone.View.extend({
 
     render: function() { 
     	// model to template
-    	this.$el.html(this.template(this.model.attributes));
+    	this.$el.html(this.template({user: this.model.attributes, imagePath: appData.settings.imagePath}));
         return this; 
     }
 
@@ -657,6 +660,8 @@ appData.views.ActivityMessagesView = Backbone.View.extend({
       this.$el.html(this.template(this.model.attributes));
       appData.settings.currentModuleHTML = this.$el;
       this.setValidators();
+
+      $('#messageBox', appData.settings.currentPageHTML).removeClass('hide');
 
       return this; 
     },
@@ -710,6 +715,7 @@ appData.views.ActivityUserView = Backbone.View.extend({
     }, 
 
     render: function() { 
+    	this.model.imagePath = appData.settings.imagePath;
 
     	// model to template
     	this.$el.html(this.template(this.model));
@@ -725,17 +731,19 @@ appData.views.ActivityMediaView = Backbone.View.extend({
       appData.events.getMediaSuccesEvent.bind("mediaLoadSuccesHandler", this.getMediaLoadSuccesHandler);
       appData.services.phpService.getMedia(this.model); 
       appData.views.ActivityMediaView.model = this.model;
+      appData.views.ActivityMediaView.fileUploadedHandler = this.fileUploadedHandler;
+      appData.views.ActivityMediaView.addPhotoToDatabaseHandler = this.addPhotoToDatabaseHandler;
 
       appData.views.ActivityMediaView.win = this.win;
-      Backbone.on('addPhotoToDatabaseHandler', this.addPhotoToDatabaseHandler);
     },
 
     events: {
-      "click #addMediaButton": "capturePhotoEditHandler"
+      "click #addMediaButton": "capturePhotoEditHandler",
+      "change #nonNativeFileField":"nonNativeFileSelectedHandler",
+      "submit #mediaForm": "mediaFormSubmitHandler"
     },
 
     getMediaLoadSuccesHandler: function(media){
-      console.log(media);
 
       appData.views.ActivityDetailView.mediaListView = [];
       appData.views.ActivityDetailView.model.attributes.media = media;
@@ -752,9 +760,9 @@ appData.views.ActivityMediaView = Backbone.View.extend({
           }));
       });
 
-      $('#mediaContenListt', appData.settings.currentModuleHTML).empty();
+      $('#mediaContenList', appData.settings.currentModuleHTML).empty();
       _(appData.views.ActivityDetailView.mediaListView).each(function(dv) {
-          $('#mediaContenListt', appData.settings.currentModuleHTML).append(dv.render().$el);
+          $('#mediaContenList', appData.settings.currentModuleHTML).append(dv.render().$el);
       });
     },
 
@@ -764,13 +772,57 @@ appData.views.ActivityMediaView = Backbone.View.extend({
 
       // Hide the upload button if we're not on a native device
       if(appData.settings.native){
-        $('#addMediaButton',appData.settings.currentModuleHTML).removeClass('hide');
+
+      }else{
+        $("#addMediaButton", appData.settings.currentModuleHTML).click(function(){
+           $("#nonNativeFileField", appData.settings.currentModuleHTML).trigger('click');
+           return false;
+        });
       }
+
+      $('#messageBox', appData.settings.currentPageHTML).removeClass('hide').css('opacity', 0);
 
         return this; 
     },
 
+    mediaFormSubmitHandler: function(event){
+
+      console.log('submit');
+      event.stopPropagation(); // Stop stuff happening
+      event.preventDefault(); // Totally stop stuff happening
+
+      // Create a formdata object and add the files
+      var data = new FormData();
+      $.each(appData.views.ActivityMediaView.files, function(key, value)
+      {
+        data.append(key, value);
+      });
+
+      Backbone.on('fileUploadedEvent', appData.views.ActivityMediaView.fileUploadedHandler);
+      appData.services.phpService.uploadMediaNonNative(data);
+    },
+
+    nonNativeFileSelectedHandler: function(evt){
+        // upload script
+        // do some checks
+        var files = evt.target.files;
+        appData.views.ActivityMediaView.files = files;
+
+        $('#mediaForm', appData.settings.currentModuleHTML).submit();
+    },
+
+    fileUploadedHandler: function(data){
+      Backbone.off('fileUploadedEvent');
+      
+      var filename = data.files[0].replace(/^.*[\\\/]/, '');
+      console.log(filename);
+
+      Backbone.on('addPhotoToDatabaseHandler', appData.views.ActivityMediaView.addPhotoToDatabaseHandler);
+      appData.services.phpService.addPhotoToDatabase(filename, appData.views.ActivityMediaView.model.attributes.activity_id);
+    },
+
     capturePhotoEditHandler: function() {
+
       var page = this.$el;
 
       // Retrieve image file location from specified source
@@ -778,6 +830,8 @@ appData.views.ActivityMediaView = Backbone.View.extend({
         function(message) { 
         },{ quality: 50, targetWidth: 640, targetHeight: 480, destinationType: navigator.camera.DestinationType.FILE_URI, sourceType: navigator.camera.PictureSourceType.CAMERA }
       );
+
+        //appData.services.phpService.upploadMediaNonNative(); 
     },
 
     uploadPhoto: function(imageURI) {
@@ -798,11 +852,13 @@ appData.views.ActivityMediaView = Backbone.View.extend({
     },
 
     win: function(r) {
+      Backbone.on('addPhotoToDatabaseHandler', appData.views.ActivityMediaView.addPhotoToDatabaseHandler);
       appData.services.phpService.addPhotoToDatabase(appData.views.ActivityMediaView.uploadedPhotoUrl, appData.views.ActivityMediaView.model.attributes.activity_id);
     },
 
     addPhotoToDatabaseHandler: function(){
       // get images from database
+      Backbone.off('addPhotoToDatabaseHandler');
       appData.services.phpService.getMedia(appData.views.ActivityMediaView.model); 
     }
 });
@@ -1356,7 +1412,9 @@ appData.views.DashboardActivityView = Backbone.View.extend({
 
     render: function() { 
     	// model to template
-    	this.$el.html(this.template(this.model.attributes));
+    	console.log(this.model.attributes);
+
+    	this.$el.html(this.template({activity: this.model.toJSON(), imagePath: appData.settings.imagePath}));
         return this; 
     }
 
@@ -1659,7 +1717,7 @@ appData.views.FriendView = Backbone.View.extend({
     },
 
     render: function() { 
-      this.$el.html(this.template(this.model.toJSON()));
+      this.$el.html(this.template({imagePath: appData.settings.imagePath, user: this.model.toJSON()}));
       appData.settings.currentPageHTML = this.$el;
       return this; 
     }, 
@@ -2549,24 +2607,70 @@ appData.views.SettingsView = Backbone.View.extend({
     initialize: function () {
     	appData.views.SettingsView.avatarUploadHandler = this.avatarUploadHandler;
     	appData.views.SettingsView.avatarUpdatedHandler = this.avatarUpdatedHandler;
+      appData.views.SettingsView.fileUploadedHandler = this.fileUploadedHandler;
+
     },
 
     render: function () {
     	console.log(appData.models.userModel.attributes);
 
-      this.$el.html(this.template({user: appData.models.userModel.attributes}));
+
+      this.$el.html(this.template({imagePath: appData.settings.imagePath, user: appData.models.userModel.attributes}));
       appData.settings.currentPageHTML = this.$el;
 
       if(appData.settings.native){
-        $('#changeAvatar').removeClass('hide');
+
+      }else{
+        $("#changeAvatar", appData.settings.currentPageHTML).click(function(){
+           $("#nonNativeFileField", appData.settings.currentPageHTML).trigger('click');
+           return false;
+        });
       }
 
       return this;
     },
 
+    mediaFormSubmitHandler: function(event){
+      console.log('submit');
+      event.stopPropagation(); // Stop stuff happening
+      event.preventDefault(); // Totally stop stuff happening
+
+      // Create a formdata object and add the files
+      var data = new FormData();
+      $.each(appData.views.SettingsView.files, function(key, value)
+      {
+        data.append(key, value);
+      });
+
+      Backbone.on('fileUploadedEvent', appData.views.SettingsView.fileUploadedHandler);
+      appData.services.phpService.uploadMediaNonNative(data);
+    },
+
+    fileUploadedHandler: function(data){
+      Backbone.off('fileUploadedEvent');
+      
+      var filename = data.files[0].replace(/^.*[\\\/]/, '');
+      appData.views.SettingsView.uploadedPhotoUrl = filename;
+
+      Backbone.on('updateUserAvatar', appData.views.SettingsView.avatarUpdatedHandler);
+      appData.services.phpService.updateUserAvatar(filename);
+    },
+
+    nonNativeFileSelectedHandler: function(evt){
+
+        // upload script
+        // do some checks
+        var files = evt.target.files;
+        appData.views.SettingsView.files = files;
+
+        $('#mediaForm', appData.settings.currentPageHTML).submit();
+    },
+
     events: {
     	"click #changeAvatar": "changeAvatarHandler",
-      "click #signOutButton": "signOutHandler"
+      "click #signOutButton": "signOutHandler",
+      "change #nonNativeFileField":"nonNativeFileSelectedHandler",
+      "submit #mediaForm": "mediaFormSubmitHandler"
     },
 
     signOutHandler: function(){
@@ -2575,6 +2679,8 @@ appData.views.SettingsView = Backbone.View.extend({
 
     avatarUpdatedHandler: function(){
     	Backbone.off('updateUserAvatar');
+
+      console.log('path replacer');
     	$('#userAvatar', appData.settings.currentPageHTML).attr('src', appData.settings.imagePath + appData.views.SettingsView.uploadedPhotoUrl);
     },
 
@@ -2589,7 +2695,7 @@ appData.views.SettingsView = Backbone.View.extend({
 
     avatarUploadHandler: function(){
     	Backbone.on('updateUserAvatar', appData.views.SettingsView.avatarUpdatedHandler);
-    	appData.services.phpService.updateUserAvatar(appData.settings.imagePath + appData.views.SettingsView.uploadedPhotoUrl);
+    	appData.services.phpService.updateUserAvatar(appData.views.SettingsView.uploadedPhotoUrl);
     },
 
     uploadAvatar: function(imageURI) {
@@ -3555,6 +3661,38 @@ appData.services.PhpServices = Backbone.Model.extend({
 			}, error: function(){
 				console.log("error");
 			}
+		});	
+    },
+
+    uploadMediaNonNative: function(files){
+		$.ajax({
+			url:appData.settings.servicePath + appData.settings.uploadMediaNonNativeService + "?files",
+			type:'POST',
+			cache: false,
+			dataType:'json',
+			data: files,
+			processData: false, // Don't process the files
+			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+		    success: function(data, textStatus, jqXHR)
+		    {
+		    	if(typeof data.error === 'undefined')
+		    	{
+		    		// Success so call function to process the form
+		    		console.log(data);
+		    		Backbone.trigger('fileUploadedEvent', data);
+		    	}
+		    	else
+		    	{
+		    		// Handle errors here
+		    		console.log('ERRORS: ' + data.error);
+		    	}
+		    },
+		    error: function(jqXHR, textStatus, errorThrown)
+		    {
+		    	// Handle errors here
+		    	console.log('ERRORS: ' + textStatus);
+		    	// STOP LOADING SPINNER
+		    }
 		});	
     }
 });

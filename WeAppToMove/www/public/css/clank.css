@@ -1138,17 +1138,26 @@ a {
   width: 100%;
 }
 
-/* line 293, ../../../../Development/dev/sass/clank/components/_buttons.scss */
+/* line 292, ../../../../Development/dev/sass/clank/components/_buttons.scss */
+.cl-btn.flat-green {
+  background: #4cd6d1 !important;
+  border: 1px solid #378488;
+  color: #252d34;
+  width: auto;
+  font-size: 11px;
+}
+
+/* line 301, ../../../../Development/dev/sass/clank/components/_buttons.scss */
 .cl-bar-title a, .cl-modal .cl-modal-bar-title a {
   display: inline-block;
 }
 
-/* line 297, ../../../../Development/dev/sass/clank/components/_buttons.scss */
+/* line 305, ../../../../Development/dev/sass/clank/components/_buttons.scss */
 .cl-bar-title > .cl-title + .btn, .cl-modal .cl-modal-bar-title > .cl-title + .btn, .cl-modal .cl-modal-bar-title .cl-bar-title > .cl-modal-title + .btn, .cl-modal .cl-modal-bar-title > .cl-modal-title + .btn, .cl-modal .cl-modal-bar-title > .cl-title + .btn, .cl-modal .cl-modal-bar-title > .cl-modal-title + .btn, .cl-modal .cl-modal-bar-title .cl-bar-title > .cl-modal-title + .btn, .cl-modal .cl-modal-bar-title .cl-modal-bar-title > .cl-modal-title + .btn, .cl-modal .cl-modal-bar-title > .cl-modal-title + .btn, .cl-bar-title > .cl-btn:last-child, .cl-modal .cl-modal-bar-title > .cl-btn:last-child, .cl-modal .cl-modal-bar-title > .cl-btn:last-child, .cl-bar-footer > .cl-title + .btn, .cl-modal .cl-modal-bar-title .cl-bar-footer > .cl-modal-title + .btn, .cl-modal .cl-modal-bar-title .cl-bar-footer > .cl-modal-title + .btn, .cl-bar-footer > .cl-btn:last-child, .cl-bar > .cl-title + .btn, .cl-modal .cl-modal-bar-title .cl-bar > .cl-modal-title + .btn, .cl-modal .cl-modal-bar-title .cl-bar > .cl-modal-title + .btn, .cl-bar > .cl-btn:last-child {
   top: 20px;
 }
 
-/* line 301, ../../../../Development/dev/sass/clank/components/_buttons.scss */
+/* line 309, ../../../../Development/dev/sass/clank/components/_buttons.scss */
 .cl-bar-title > .cl-btn, .cl-modal .cl-modal-bar-title > .cl-btn, .cl-modal .cl-modal-bar-title > .cl-btn, .cl-bar-footer > .cl-btn, .cl-bar > .cl-btn {
   top: 20px;
 }
@@ -1317,13 +1326,6 @@ a {
   border-bottom-right-radius: 0px;
 }
 /* line 141, ../../../../Development/dev/sass/clank/components/_forms.scss */
-.cl-form .radio-list label:hover,
-.cl-form .checkbox-list label:hover {
-  background: #18788b;
-  border-color: #18788b;
-  color: #FFF;
-}
-/* line 146, ../../../../Development/dev/sass/clank/components/_forms.scss */
 .cl-form .radio-list label.checked,
 .cl-form .checkbox-list label.checked {
   background: #18788b;
@@ -1333,14 +1335,14 @@ a {
 
 /* Range input (slider)
    ========================================================================== */
-/* line 160, ../../../../Development/dev/sass/clank/components/_forms.scss */
+/* line 155, ../../../../Development/dev/sass/clank/components/_forms.scss */
 .cl-form input[type="range"] {
   -webkit-appearance: none;
   height: 30px;
   background: none;
   position: relative;
 }
-/* line 165, ../../../../Development/dev/sass/clank/components/_forms.scss */
+/* line 160, ../../../../Development/dev/sass/clank/components/_forms.scss */
 .cl-form input[type="range"]:after {
   content: " .";
   background-color: #888;
@@ -1353,7 +1355,7 @@ a {
   width: 100%;
   z-index: 1;
 }
-/* line 179, ../../../../Development/dev/sass/clank/components/_forms.scss */
+/* line 174, ../../../../Development/dev/sass/clank/components/_forms.scss */
 .cl-form input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 30px;
@@ -3209,17 +3211,7 @@ form .cl-btn {
   padding: 0;
 }
 
-/* line 150, ../../../../Development/dev/sass/application.scss */
-#addMediaButton {
-  width: 100%;
-}
-
-/* line 154, ../../../../Development/dev/sass/application.scss */
-#smallImage {
-  max-width: 100%;
-}
-
-/* line 158, ../../../../Development/dev/sass/application.scss */
+/* line 151, ../../../../Development/dev/sass/application.scss */
 #map_canvas, #googleMap {
   width: 100%;
   height: 100%;
@@ -3227,13 +3219,13 @@ form .cl-btn {
 }
 
 /* Create new user page */
-/* line 170, ../../../../Development/dev/sass/application.scss */
+/* line 163, ../../../../Development/dev/sass/application.scss */
 #createUserForm input.error, #loginForm input.error {
   margin-bottom: 0;
 }
 
 /* Login page */
-/* line 176, ../../../../Development/dev/sass/application.scss */
+/* line 169, ../../../../Development/dev/sass/application.scss */
 .error-box {
   background: #da5555;
   display: block;
@@ -3243,17 +3235,17 @@ form .cl-btn {
   color: #fff;
 }
 
-/* line 186, ../../../../Development/dev/sass/application.scss */
+/* line 179, ../../../../Development/dev/sass/application.scss */
 .error-box.hide {
   display: none;
 }
 
-/* line 189, ../../../../Development/dev/sass/application.scss */
+/* line 182, ../../../../Development/dev/sass/application.scss */
 .error-box.show {
   display: block;
 }
 
-/* line 194, ../../../../Development/dev/sass/application.scss */
+/* line 187, ../../../../Development/dev/sass/application.scss */
 #FBloginButton {
   margin-bottom: 10px;
 }
@@ -3261,7 +3253,7 @@ form .cl-btn {
 /**
 * Pageslider
 */
-/* line 201, ../../../../Development/dev/sass/application.scss */
+/* line 194, ../../../../Development/dev/sass/application.scss */
 #container {
   position: absolute;
   width: 100%;
@@ -3269,7 +3261,7 @@ form .cl-btn {
   overflow: hidden;
 }
 
-/* line 208, ../../../../Development/dev/sass/application.scss */
+/* line 201, ../../../../Development/dev/sass/application.scss */
 .page {
   position: absolute;
   top: 0;
@@ -3280,25 +3272,25 @@ form .cl-btn {
   transform: translate3d(0, 0, 0);
 }
 
-/* line 218, ../../../../Development/dev/sass/application.scss */
+/* line 211, ../../../../Development/dev/sass/application.scss */
 .page.page-left {
   -webkit-transform: translate3d(-100%, 0, 0);
   transform: translate3d(-100%, 0, 0);
 }
 
-/* line 223, ../../../../Development/dev/sass/application.scss */
+/* line 216, ../../../../Development/dev/sass/application.scss */
 .page.page-center {
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
 
-/* line 228, ../../../../Development/dev/sass/application.scss */
+/* line 221, ../../../../Development/dev/sass/application.scss */
 .page.page-right {
   -webkit-transform: translate3d(100%, 0, 0);
   transform: translate3d(100%, 0, 0);
 }
 
-/* line 233, ../../../../Development/dev/sass/application.scss */
+/* line 226, ../../../../Development/dev/sass/application.scss */
 .page.transition {
   -webkit-transition-duration: .25s;
   transition-duration: .25s;
@@ -3307,7 +3299,7 @@ form .cl-btn {
 /**
 * Backbone autocomplete
 */
-/* line 242, ../../../../Development/dev/sass/application.scss */
+/* line 235, ../../../../Development/dev/sass/application.scss */
 ul.autocomplete {
   display: none;
   position: absolute;
@@ -3318,63 +3310,63 @@ ul.autocomplete {
   z-index: 1000;
 }
 
-/* line 252, ../../../../Development/dev/sass/application.scss */
+/* line 245, ../../../../Development/dev/sass/application.scss */
 ul.autocomplete li {
   list-style: none;
   margin: 0;
   padding: 5px 7px;
 }
 
-/* line 258, ../../../../Development/dev/sass/application.scss */
+/* line 251, ../../../../Development/dev/sass/application.scss */
 ul.autocomplete li.active, ul.autocomplete li:hover {
   cursor: pointer;
   background-color: #d3d3d3;
 }
 
-/* line 263, ../../../../Development/dev/sass/application.scss */
+/* line 256, ../../../../Development/dev/sass/application.scss */
 ul.autocomplete li a {
   color: #3d3d3d;
   text-decoration: none;
 }
 
-/* line 269, ../../../../Development/dev/sass/application.scss */
+/* line 262, ../../../../Development/dev/sass/application.scss */
 .align-center {
   text-align: center;
 }
 
-/* line 275, ../../../../Development/dev/sass/application.scss */
+/* line 268, ../../../../Development/dev/sass/application.scss */
 .field > span {
   display: block;
   overflow: hidden;
   padding-right: 10px;
 }
 
-/* line 280, ../../../../Development/dev/sass/application.scss */
+/* line 273, ../../../../Development/dev/sass/application.scss */
 .field input[type=text] {
   width: 100%;
 }
 
-/* line 283, ../../../../Development/dev/sass/application.scss */
+/* line 276, ../../../../Development/dev/sass/application.scss */
 .field input[type=button] {
   float: right;
 }
 
-/* line 292, ../../../../Development/dev/sass/application.scss */
+/* line 285, ../../../../Development/dev/sass/application.scss */
 #challengeView .badge_img {
   float: left;
   display: inline-block;
   margin-right: 5px;
 }
-/* line 298, ../../../../Development/dev/sass/application.scss */
+/* line 291, ../../../../Development/dev/sass/application.scss */
 #challengeView .cl-table-cell {
   padding: 10px 5px;
 }
-/* line 301, ../../../../Development/dev/sass/application.scss */
+/* line 294, ../../../../Development/dev/sass/application.scss */
 #challengeView .cl-table-cell a {
   min-height: 20px;
   vertical-align: center;
 }
-/* line 307, ../../../../Development/dev/sass/application.scss */
+/* line 300, ../../../../Development/dev/sass/application.scss */
 #challengeView .cl-btn {
   display: inline-block;
   width: auto;
@@ -3383,95 +3375,89 @@ ul.autocomplete li a {
   right: 5px;
   top: 5px;
 }
-/* line 316, ../../../../Development/dev/sass/application.scss */
+/* line 309, ../../../../Development/dev/sass/application.scss */
 #challengeView h3 {
   display: inline-block;
   font-size: 1.3em;
   margin-bottom: 5px;
 }
-/* line 322, ../../../../Development/dev/sass/application.scss */
+/* line 315, ../../../../Development/dev/sass/application.scss */
 #challengeView #progressContainer {
   width: 100%;
   display: block;
   padding: 10px 0;
 }
-/* line 327, ../../../../Development/dev/sass/application.scss */
+/* line 320, ../../../../Development/dev/sass/application.scss */
 #challengeView #progressContainer progress {
   width: 100%;
 }
-/* line 333, ../../../../Development/dev/sass/application.scss */
+/* line 326, ../../../../Development/dev/sass/application.scss */
 #challengeView #badgesOverview .cl-table-cell {
   width: auto;
   float: left;
 }
-/* line 337, ../../../../Development/dev/sass/application.scss */
+/* line 330, ../../../../Development/dev/sass/application.scss */
 #challengeView #badgesOverview .cl-table-cell .badge_img {
   float: left;
   display: inline-block;
 }
 
-/* line 347, ../../../../Development/dev/sass/application.scss */
+/* line 340, ../../../../Development/dev/sass/application.scss */
 #friendsListView div {
   float: left;
 }
-/* line 351, ../../../../Development/dev/sass/application.scss */
+/* line 344, ../../../../Development/dev/sass/application.scss */
 #friendsListView div, #friendsListView .friendsBox {
   display: inline-block;
 }
 
 /* Page specific */
-/* line 361, ../../../../Development/dev/sass/application.scss */
+/* line 354, ../../../../Development/dev/sass/application.scss */
 #waarContent #map_canvas {
   height: 400px;
 }
 
-/* line 368, ../../../../Development/dev/sass/application.scss */
+/* line 361, ../../../../Development/dev/sass/application.scss */
 #navigationView #map_canvas {
   height: 50%;
 }
-/* line 372, ../../../../Development/dev/sass/application.scss */
+/* line 365, ../../../../Development/dev/sass/application.scss */
 #navigationView #directions {
   height: 50%;
 }
 
-/* line 381, ../../../../Development/dev/sass/application.scss */
+/* line 374, ../../../../Development/dev/sass/application.scss */
 #myInvitationsTable .cl-table-cell {
   padding: 10px 0;
 }
-/* line 385, ../../../../Development/dev/sass/application.scss */
+/* line 378, ../../../../Development/dev/sass/application.scss */
 #myInvitationsTable .cl-table-cell a {
   display: inline-block;
 }
-/* line 389, ../../../../Development/dev/sass/application.scss */
+/* line 382, ../../../../Development/dev/sass/application.scss */
 #myInvitationsTable .cl-btn-group.float {
   display: inline-block;
   float: right;
 }
 
-/* line 397, ../../../../Development/dev/sass/application.scss */
-#userAvatar, .friend-avatar {
-  max-width: 160px;
-  max-height: 160px;
-}
-
 /*
 * Final styling 
 */
-/* line 409, ../../../../Development/dev/sass/application.scss */
+/* line 395, ../../../../Development/dev/sass/application.scss */
 body {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
-/* line 413, ../../../../Development/dev/sass/application.scss */
+/* line 399, ../../../../Development/dev/sass/application.scss */
 input.error {
   border: 1px solid #e54c2e !important;
 }
 
 /**
-* HOME and CREATEUSER page
+* FORM PAGES
 */
-/* line 421, ../../../../Development/dev/sass/application.scss */
-#home, #createUser, #createActivity {
+/* line 407, ../../../../Development/dev/sass/application.scss */
+#home, #createUser, #createActivity, #settings {
   background: #303d4d url("../../common/img/home_background.png") top left;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -3479,27 +3465,27 @@ input.error {
   background-size: cover;
   height: 100%;
 }
-/* line 429, ../../../../Development/dev/sass/application.scss */
-#home .cl-btn-header, #createUser .cl-btn-header, #createActivity .cl-btn-header {
+/* line 415, ../../../../Development/dev/sass/application.scss */
+#home .cl-btn-header, #createUser .cl-btn-header, #createActivity .cl-btn-header, #settings .cl-btn-header {
   border: 0;
   padding: 0;
 }
-/* line 434, ../../../../Development/dev/sass/application.scss */
-#home .cl-content, #createUser .cl-content, #createActivity .cl-content {
+/* line 420, ../../../../Development/dev/sass/application.scss */
+#home .cl-content, #createUser .cl-content, #createActivity .cl-content, #settings .cl-content {
   background: none;
   height: 100%;
   width: 100%;
   overflow: auto;
 }
-/* line 440, ../../../../Development/dev/sass/application.scss */
-#home .cl-content hr, #createUser .cl-content hr, #createActivity .cl-content hr {
+/* line 426, ../../../../Development/dev/sass/application.scss */
+#home .cl-content hr, #createUser .cl-content hr, #createActivity .cl-content hr, #settings .cl-content hr {
   color: #FF0000;
   border: none;
   border-top: 1px solid #67737d;
   height: 1px;
 }
-/* line 447, ../../../../Development/dev/sass/application.scss */
-#home .cl-content #loginBox, #createUser .cl-content #loginBox, #createActivity .cl-content #loginBox {
+/* line 433, ../../../../Development/dev/sass/application.scss */
+#home .cl-content #loginBox, #createUser .cl-content #loginBox, #createActivity .cl-content #loginBox, #settings .cl-content #loginBox {
   height: auto;
   position: absolute;
   bottom: 0;
@@ -3515,21 +3501,21 @@ input.error {
   box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.07);
   /* inner glow */
 }
-/* line 459, ../../../../Development/dev/sass/application.scss */
-#home .cl-content h4, #createUser .cl-content h4, #createActivity .cl-content h4 {
+/* line 445, ../../../../Development/dev/sass/application.scss */
+#home .cl-content h4, #createUser .cl-content h4, #createActivity .cl-content h4, #settings .cl-content h4 {
   color: #fff;
   font-family: "bitteritalic";
   padding: 10px 0;
 }
-/* line 465, ../../../../Development/dev/sass/application.scss */
-#home .cl-content #home_logo, #createUser .cl-content #home_logo, #createActivity .cl-content #home_logo {
+/* line 451, ../../../../Development/dev/sass/application.scss */
+#home .cl-content #home_logo, #createUser .cl-content #home_logo, #createActivity .cl-content #home_logo, #settings .cl-content #home_logo {
   margin-left: auto;
   margin-right: auto;
   display: block;
   margin-top: 40px;
 }
-/* line 472, ../../../../Development/dev/sass/application.scss */
-#home .cl-content input[type=email], #home .cl-content input[type=password], #home .cl-content input[type=text], #home .cl-content input[type=date], #home .cl-content input[type=time], #home .cl-content textarea, #createUser .cl-content input[type=email], #createUser .cl-content input[type=password], #createUser .cl-content input[type=text], #createUser .cl-content input[type=date], #createUser .cl-content input[type=time], #createUser .cl-content textarea, #createActivity .cl-content input[type=email], #createActivity .cl-content input[type=password], #createActivity .cl-content input[type=text], #createActivity .cl-content input[type=date], #createActivity .cl-content input[type=time], #createActivity .cl-content textarea {
+/* line 458, ../../../../Development/dev/sass/application.scss */
+#home .cl-content input[type=email], #home .cl-content input[type=password], #home .cl-content input[type=text], #home .cl-content input[type=date], #home .cl-content input[type=time], #home .cl-content textarea, #createUser .cl-content input[type=email], #createUser .cl-content input[type=password], #createUser .cl-content input[type=text], #createUser .cl-content input[type=date], #createUser .cl-content input[type=time], #createUser .cl-content textarea, #createActivity .cl-content input[type=email], #createActivity .cl-content input[type=password], #createActivity .cl-content input[type=text], #createActivity .cl-content input[type=date], #createActivity .cl-content input[type=time], #createActivity .cl-content textarea, #settings .cl-content input[type=email], #settings .cl-content input[type=password], #settings .cl-content input[type=text], #settings .cl-content input[type=date], #settings .cl-content input[type=time], #settings .cl-content textarea {
   background: none;
   border: none;
   color: #fff;
@@ -3539,18 +3525,18 @@ input.error {
   outline: none;
   margin: 0;
 }
-/* line 483, ../../../../Development/dev/sass/application.scss */
-#home .cl-content input[type=email], #createUser .cl-content input[type=email], #createActivity .cl-content input[type=email] {
+/* line 469, ../../../../Development/dev/sass/application.scss */
+#home .cl-content input[type=email], #createUser .cl-content input[type=email], #createActivity .cl-content input[type=email], #settings .cl-content input[type=email] {
   padding-left: 34px;
   background: url("assets/mail-icon@x2.png") no-repeat 10px 15px/15px 12px;
 }
-/* line 488, ../../../../Development/dev/sass/application.scss */
-#home .cl-content input[type=password], #createUser .cl-content input[type=password], #createActivity .cl-content input[type=password] {
+/* line 474, ../../../../Development/dev/sass/application.scss */
+#home .cl-content input[type=password], #createUser .cl-content input[type=password], #createActivity .cl-content input[type=password], #settings .cl-content input[type=password] {
   padding-left: 34px;
   background: url("assets/lock-icon@x2.png") no-repeat 10px 12px/12px 16px;
 }
-/* line 493, ../../../../Development/dev/sass/application.scss */
-#home .cl-content #nameInput, #createUser .cl-content #nameInput, #createActivity .cl-content #nameInput {
+/* line 479, ../../../../Development/dev/sass/application.scss */
+#home .cl-content #nameInput, #createUser .cl-content #nameInput, #createActivity .cl-content #nameInput, #settings .cl-content #nameInput {
   padding-left: 34px;
   background: url("assets/speech-icon@x2.png") no-repeat 10px 12px/15px 15px;
 }
@@ -3558,31 +3544,31 @@ input.error {
 /**
 * CreateUser
 */
-/* line 504, ../../../../Development/dev/sass/application.scss */
-#createUser, #createActivity {
+/* line 490, ../../../../Development/dev/sass/application.scss */
+#createUser, #createActivity, #settings {
   background: #2f404b;
 }
-/* line 507, ../../../../Development/dev/sass/application.scss */
-#createUser .cl-content, #createActivity .cl-content {
+/* line 493, ../../../../Development/dev/sass/application.scss */
+#createUser .cl-content, #createActivity .cl-content, #settings .cl-content {
   height: calc(100% - 140px);
 }
-/* line 511, ../../../../Development/dev/sass/application.scss */
-#createUser .cl-message, #createActivity .cl-message {
+/* line 497, ../../../../Development/dev/sass/application.scss */
+#createUser .cl-message, #createActivity .cl-message, #settings .cl-message {
   padding: 10px;
   background-color: #fef5e4;
   line-height: 1.6em;
 }
-/* line 517, ../../../../Development/dev/sass/application.scss */
-#createUser .cl-form, #createActivity .cl-form {
+/* line 503, ../../../../Development/dev/sass/application.scss */
+#createUser .cl-form, #createActivity .cl-form, #settings .cl-form {
   position: relative;
 }
-/* line 520, ../../../../Development/dev/sass/application.scss */
-#createUser .cl-form .radio-list, #createActivity .cl-form .radio-list {
+/* line 506, ../../../../Development/dev/sass/application.scss */
+#createUser .cl-form .radio-list, #createActivity .cl-form .radio-list, #settings .cl-form .radio-list {
   padding-left: 34px;
   background: url("assets/name-icon@x2.png") no-repeat 10px 12px/15px 15px;
 }
-/* line 525, ../../../../Development/dev/sass/application.scss */
-#createUser .cl-form .radio-list label, #createActivity .cl-form .radio-list label {
+/* line 511, ../../../../Development/dev/sass/application.scss */
+#createUser .cl-form .radio-list label, #createActivity .cl-form .radio-list label, #settings .cl-form .radio-list label {
   background: none;
   border: none;
   color: #fff;
@@ -3590,25 +3576,25 @@ input.error {
   cursor: pointer;
   border-radius: 3px;
 }
-/* line 534, ../../../../Development/dev/sass/application.scss */
-#createUser .cl-form .radio-list label.checked, #createActivity .cl-form .radio-list label.checked {
+/* line 520, ../../../../Development/dev/sass/application.scss */
+#createUser .cl-form .radio-list label.checked, #createActivity .cl-form .radio-list label.checked, #settings .cl-form .radio-list label.checked {
   border: none;
   color: #fff;
   font-weight: bold;
 }
-/* line 540, ../../../../Development/dev/sass/application.scss */
-#createUser .cl-form .radio-list label:first-child.checked, #createActivity .cl-form .radio-list label:first-child.checked {
+/* line 526, ../../../../Development/dev/sass/application.scss */
+#createUser .cl-form .radio-list label:first-child.checked, #createActivity .cl-form .radio-list label:first-child.checked, #settings .cl-form .radio-list label:first-child.checked {
   background: #23cddd;
 }
-/* line 544, ../../../../Development/dev/sass/application.scss */
-#createUser .cl-form .radio-list label:last-child.checked, #createActivity .cl-form .radio-list label:last-child.checked {
+/* line 530, ../../../../Development/dev/sass/application.scss */
+#createUser .cl-form .radio-list label:last-child.checked, #createActivity .cl-form .radio-list label:last-child.checked, #settings .cl-form .radio-list label:last-child.checked {
   background: #ff7f66;
 }
 
 /**
 * Loading
 */
-/* line 554, ../../../../Development/dev/sass/application.scss */
+/* line 540, ../../../../Development/dev/sass/application.scss */
 #loading {
   background: #303d4d url("../../common/img/loading_background.png") center center;
   -webkit-background-size: cover;
@@ -3617,7 +3603,7 @@ input.error {
   background-size: cover;
   height: 100%;
 }
-/* line 562, ../../../../Development/dev/sass/application.scss */
+/* line 548, ../../../../Development/dev/sass/application.scss */
 #loading h2 {
   display: block;
   width: 100%;
@@ -3630,7 +3616,7 @@ input.error {
   bottom: 20px;
   display: inline-block;
 }
-/* line 573, ../../../../Development/dev/sass/application.scss */
+/* line 559, ../../../../Development/dev/sass/application.scss */
 #loading h2 small {
   font-size: 14px;
   margin-top: 10px;
@@ -3640,27 +3626,27 @@ input.error {
 /**
 * Select sports
 */
-/* line 587, ../../../../Development/dev/sass/application.scss */
+/* line 573, ../../../../Development/dev/sass/application.scss */
 #favouriteSportsSelector .cl-content {
   background: #fef5e4;
   height: calc(100% - 182px);
 }
-/* line 591, ../../../../Development/dev/sass/application.scss */
+/* line 577, ../../../../Development/dev/sass/application.scss */
 #favouriteSportsSelector .cl-content #favouriteSportList {
   width: 100%;
 }
-/* line 594, ../../../../Development/dev/sass/application.scss */
+/* line 580, ../../../../Development/dev/sass/application.scss */
 #favouriteSportsSelector .cl-content #favouriteSportList div {
   float: left;
   display: inline-block;
 }
-/* line 598, ../../../../Development/dev/sass/application.scss */
+/* line 584, ../../../../Development/dev/sass/application.scss */
 #favouriteSportsSelector .cl-content #favouriteSportList div span {
   display: block;
   text-align: center;
   font-size: 11px;
 }
-/* line 604, ../../../../Development/dev/sass/application.scss */
+/* line 590, ../../../../Development/dev/sass/application.scss */
 #favouriteSportsSelector .cl-content #favouriteSportList div a {
   width: 86px;
   height: 86px;
@@ -3679,7 +3665,7 @@ input.error {
   background-size: cover;
   position: relative;
 }
-/* line 624, ../../../../Development/dev/sass/application.scss */
+/* line 610, ../../../../Development/dev/sass/application.scss */
 #favouriteSportsSelector .cl-content #favouriteSportList div a.selected .layer {
   background-color: rgba(86, 192, 189, 0.7);
   position: absolute;
@@ -3696,7 +3682,7 @@ input.error {
 /**
 * Dashboard
 */
-/* line 649, ../../../../Development/dev/sass/application.scss */
+/* line 635, ../../../../Development/dev/sass/application.scss */
 #dashboard .cl-bar-title .add-icon, #dashboard .cl-modal .cl-modal-bar-title .add-icon, .cl-modal #dashboard .cl-modal-bar-title .add-icon {
   display: block;
   padding: 14px;
@@ -3704,7 +3690,7 @@ input.error {
   height: 20px;
   width: 20px;
 }
-/* line 657, ../../../../Development/dev/sass/application.scss */
+/* line 643, ../../../../Development/dev/sass/application.scss */
 #dashboard .cl-bar-title .search-icon, #dashboard .cl-modal .cl-modal-bar-title .search-icon, .cl-modal #dashboard .cl-modal-bar-title .search-icon {
   display: block;
   padding: 14px;
@@ -3712,12 +3698,12 @@ input.error {
   height: 18px;
   width: 18px;
 }
-/* line 666, ../../../../Development/dev/sass/application.scss */
+/* line 652, ../../../../Development/dev/sass/application.scss */
 #dashboard .cl-content {
   height: calc(100% - 262px);
   background: #1f3146;
 }
-/* line 671, ../../../../Development/dev/sass/application.scss */
+/* line 657, ../../../../Development/dev/sass/application.scss */
 #dashboard #sortBar {
   background-color: #d95555;
   /* layer fill content */
@@ -3730,7 +3716,7 @@ input.error {
   text-transform: uppercase;
   z-index: 1000;
 }
-/* line 680, ../../../../Development/dev/sass/application.scss */
+/* line 666, ../../../../Development/dev/sass/application.scss */
 #dashboard #sortBar select {
   background: none;
   border: 0;
@@ -3742,26 +3728,26 @@ input.error {
   width: 100%;
   text-transform: uppercase;
 }
-/* line 693, ../../../../Development/dev/sass/application.scss */
+/* line 679, ../../../../Development/dev/sass/application.scss */
 #dashboard #map_canvas {
   height: 110px;
   border-left: 3px solid #d95555;
   border-right: 3px solid #d95555;
 }
-/* line 701, ../../../../Development/dev/sass/application.scss */
+/* line 687, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell {
   background: #4fbab6;
   margin-bottom: 2px;
 }
-/* line 705, ../../../../Development/dev/sass/application.scss */
+/* line 691, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell span {
   margin: 5px 10px;
 }
-/* line 709, ../../../../Development/dev/sass/application.scss */
+/* line 695, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell a {
   padding: 0;
 }
-/* line 713, ../../../../Development/dev/sass/application.scss */
+/* line 699, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell h3 {
   margin: 5px 0;
   font-size: 1.2em;
@@ -3769,37 +3755,50 @@ input.error {
   font-weight: bold;
   color: #fff;
 }
-/* line 720, ../../../../Development/dev/sass/application.scss */
+/* line 706, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell h3 small {
   font-size: 16px;
   font-weight: normal;
 }
-/* line 726, ../../../../Development/dev/sass/application.scss */
+/* line 713, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell .dashboard-footer {
   display: block;
   background: #378488;
 }
-/* line 730, ../../../../Development/dev/sass/application.scss */
+/* line 717, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell .dashboard-footer ul {
   margin: 0 10px;
 }
-/* line 733, ../../../../Development/dev/sass/application.scss */
+/* line 720, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell .dashboard-footer ul li {
   font-size: 12px;
   display: inline-block;
   color: #fff;
-  line-height: 36px;
   padding-left: 20px;
+  min-height: 36px;
 }
-/* line 741, ../../../../Development/dev/sass/application.scss */
+/* line 728, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell .dashboard-footer ul .table-location {
   padding-left: 20px;
   background: url("assets/cursor-icon@x2.png") no-repeat 0 10px/11px 15px;
   margin-right: 30px;
+  float: left;
+  line-height: 36px;
 }
-/* line 747, ../../../../Development/dev/sass/application.scss */
+/* line 736, ../../../../Development/dev/sass/application.scss */
 #dashboard #activityTable .cl-table-cell .dashboard-footer ul .table-friends {
-  background: url("assets/friend-icon@x2.png") no-repeat 0 10px/13px 13px;
+  background: url("assets/friend-icon@x2.png") no-repeat 0 12px/13px 13px;
+}
+/* line 739, ../../../../Development/dev/sass/application.scss */
+#dashboard #activityTable .cl-table-cell .dashboard-footer ul .table-friends .avatar {
+  display: block;
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-rafisu: 25px;
+  margin: 6px 0;
+  float: left;
 }
 
 /* line 759, ../../../../Development/dev/sass/application.scss */
@@ -3836,14 +3835,23 @@ input.error {
   border: 1px solid #fff;
 }
 
+/** 
+* Settings
+*/
+/* line 800, ../../../../Development/dev/sass/application.scss */
+#settings #userAvatar {
+  width: 100%;
+  margin-top: 0;
+}
+
 /**
 * Activity Detail
 */
-/* line 799, ../../../../Development/dev/sass/application.scss */
+/* line 809, ../../../../Development/dev/sass/application.scss */
 #activityDetail {
   background: #31424f;
 }
-/* line 803, ../../../../Development/dev/sass/application.scss */
+/* line 813, ../../../../Development/dev/sass/application.scss */
 #activityDetail .user_avatar {
   display: inline-block;
   border-radius: 42px;
@@ -3858,11 +3866,27 @@ input.error {
   margin-bottom: 5px;
   margin-top: 5px;
 }
-/* line 818, ../../../../Development/dev/sass/application.scss */
+/* line 828, ../../../../Development/dev/sass/application.scss */
 #activityDetail #editPanel {
   display: none;
 }
-/* line 822, ../../../../Development/dev/sass/application.scss */
+/* line 833, ../../../../Development/dev/sass/application.scss */
+#activityDetail #mediaContent #addMediaButton {
+  width: 100%;
+  margin-bottom: 20px;
+}
+/* line 839, ../../../../Development/dev/sass/application.scss */
+#activityDetail #mediaContent #mediaContenList img {
+  width: 100%;
+  height: auto;
+}
+/* line 844, ../../../../Development/dev/sass/application.scss */
+#activityDetail #mediaContent #mediaContenList .user-box {
+  background: #dadada;
+  padding: 10px 5px;
+  margin: 0 0 35px 0;
+}
+/* line 852, ../../../../Development/dev/sass/application.scss */
 #activityDetail #activityInfo {
   height: 40px;
   width: 100%;
@@ -3872,19 +3896,19 @@ input.error {
   color: #fff;
   padding: 0 10px;
 }
-/* line 831, ../../../../Development/dev/sass/application.scss */
+/* line 861, ../../../../Development/dev/sass/application.scss */
 #activityDetail #activityInfo span {
   float: left;
   line-height: 40px;
 }
-/* line 836, ../../../../Development/dev/sass/application.scss */
+/* line 866, ../../../../Development/dev/sass/application.scss */
 #activityDetail #activityInfo #navigateButton {
   padding: 10px;
   margin-top: 4px;
   font-size: 12px;
   color: #252d34;
 }
-/* line 844, ../../../../Development/dev/sass/application.scss */
+/* line 874, ../../../../Development/dev/sass/application.scss */
 #activityDetail #activityDetailTabs {
   margin-bottom: 0;
   margin-top: 20px;
@@ -3892,47 +3916,47 @@ input.error {
   margin-right: 5px;
   text-transform: uppercase;
 }
-/* line 851, ../../../../Development/dev/sass/application.scss */
+/* line 881, ../../../../Development/dev/sass/application.scss */
 #activityDetail #activityDetailTabs .cl-btn {
   font-size: 11px;
 }
-/* line 856, ../../../../Development/dev/sass/application.scss */
+/* line 886, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content {
   padding: 0 5px 0 5px;
   background: #31424f;
   overflow-y: auto;
   height: calc(100% - 272px);
 }
-/* line 866, ../../../../Development/dev/sass/application.scss */
+/* line 896, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #activityContent {
-  padding: 10px 10px 0 10px;
   background: #fff;
   position: relative;
   overflow: auto;
   height: 100%;
 }
-/* line 874, ../../../../Development/dev/sass/application.scss */
-#activityDetail .cl-content #praktischContent {
+/* line 903, ../../../../Development/dev/sass/application.scss */
+#activityDetail .cl-content #praktischContent, #activityDetail .cl-content #mediaContent, #activityDetail .cl-content #messagesContent ul {
+  padding: 10px 10px 0 10px;
   padding-bottom: 20px;
 }
-/* line 879, ../../../../Development/dev/sass/application.scss */
+/* line 908, ../../../../Development/dev/sass/application.scss */
+#activityDetail .cl-content #praktischContent span, #activityDetail .cl-content #mediaContent span, #activityDetail .cl-content #messagesContent ul span {
+  float: right;
+  color: #31414f;
+}
+/* line 915, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #aanwezigContent div {
   float: left;
   margin-right: 5px;
 }
-/* line 885, ../../../../Development/dev/sass/application.scss */
+/* line 921, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content h4 {
   display: inline-block;
   font-family: "source_sans_prosemibold";
   text-transform: uppercase;
   font-size: 12px;
 }
-/* line 892, ../../../../Development/dev/sass/application.scss */
-#activityDetail .cl-content span {
-  float: right;
-  color: #31414f;
-}
-/* line 897, ../../../../Development/dev/sass/application.scss */
+/* line 928, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content hr {
   color: #FF0000;
   border: none;
@@ -3942,20 +3966,51 @@ input.error {
   clear: both;
   display: block;
 }
-/* line 907, ../../../../Development/dev/sass/application.scss */
+/* line 937, ../../../../Development/dev/sass/application.scss */
+#activityDetail .cl-content #messagesContent ul {
+  padding-bottom: 10px;
+}
+/* line 940, ../../../../Development/dev/sass/application.scss */
+#activityDetail .cl-content #messageBox {
+  background: #e6e6e6;
+  border-top: 1px solid #cacaca;
+  z-index: 20000;
+  overflow: auto;
+  padding: 5px 10px;
+}
+/* line 947, ../../../../Development/dev/sass/application.scss */
+#activityDetail .cl-content #messageBox #messageSubmit {
+  width: 100px !important;
+  float: right;
+}
+/* line 952, ../../../../Development/dev/sass/application.scss */
+#activityDetail .cl-content #messageBox #messageInput {
+  border: 0;
+  -webkit-appereance: none;
+  border-radius: 3px;
+  -wekit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  width: 100%;
+  height: 37px;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin: 3px 0 0 7px;
+}
+/* line 966, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content .message {
   margin: 0 0 15px 0;
   clear: both;
 }
-/* line 911, ../../../../Development/dev/sass/application.scss */
+/* line 970, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content .message h3 {
-  font-size: 1.2em;
+  font-size: 1.1em;
   display: block;
   float: none;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   color: #31414f;
+  font-family: "source_sans_prosemibold";
 }
-/* line 919, ../../../../Development/dev/sass/application.scss */
+/* line 979, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content .message .avatar {
   width: 40px;
   height: 40px;
@@ -3966,7 +4021,7 @@ input.error {
   height: 50px;
   float: left;
 }
-/* line 930, ../../../../Development/dev/sass/application.scss */
+/* line 990, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content .message .messageBody {
   position: relative;
   height: auto;
@@ -3979,16 +4034,16 @@ input.error {
   margin-top: 5px;
   margin-left: 58px;
 }
-/* line 942, ../../../../Development/dev/sass/application.scss */
+/* line 1002, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content .message .messageBody p {
   color: #31414f;
 }
-/* line 947, ../../../../Development/dev/sass/application.scss */
+/* line 1007, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content .message .messageBody:after {
   content: "";
   position: absolute;
-  top: 8px;
-  left: -13px;
+  top: 5px;
+  left: -5px;
   border-style: solid;
   border-width: 13px 13px 13px 0;
   border-color: transparent #dadada;
@@ -3996,33 +4051,37 @@ input.error {
   width: 0;
   z-index: 1;
 }
-/* line 961, ../../../../Development/dev/sass/application.scss */
+/* line 1021, ../../../../Development/dev/sass/application.scss */
+#activityDetail .cl-content .message:odd {
+  display: none;
+}
+/* line 1025, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #goingList {
   margin-bottom: 30px;
 }
-/* line 964, ../../../../Development/dev/sass/application.scss */
+/* line 1028, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #goingList label {
   border: 1px solid #378488;
   color: #252d34;
   text-align: center;
 }
-/* line 970, ../../../../Development/dev/sass/application.scss */
+/* line 1034, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #goingList label:first-child {
   border-right: none;
 }
-/* line 974, ../../../../Development/dev/sass/application.scss */
+/* line 1038, ../../../../Development/dev/sass/application.scss */
 #activityDetail .cl-content #goingList .checked {
   background: #4cd6d1;
   color: #252d34;
 }
 
-/* line 982, ../../../../Development/dev/sass/application.scss */
+/* line 1046, ../../../../Development/dev/sass/application.scss */
 #searchBar {
   padding: 1px 5px;
   height: auto;
   background: #b04646 !important;
 }
-/* line 987, ../../../../Development/dev/sass/application.scss */
+/* line 1051, ../../../../Development/dev/sass/application.scss */
 #searchBar #searchForm input[type=search] {
   color: #fff;
   border: 0;
@@ -4041,11 +4100,11 @@ input.error {
 /** 
 * Create Activity
 */
-/* line 1009, ../../../../Development/dev/sass/application.scss */
+/* line 1073, ../../../../Development/dev/sass/application.scss */
 #createActivity .cl-content {
   height: calc(100% - 192px);
 }
-/* line 1014, ../../../../Development/dev/sass/application.scss */
+/* line 1078, ../../../../Development/dev/sass/application.scss */
 #createActivity #createActivityTabs .active {
   background: #2e3e4b;
   color: #fff;
@@ -4054,32 +4113,32 @@ input.error {
 /**
 *  Planner
 */
-/* line 1027, ../../../../Development/dev/sass/application.scss */
+/* line 1091, ../../../../Development/dev/sass/application.scss */
 #planner .cl-content {
   height: calc(100% - 108px);
   background: #e4e4e4;
 }
-/* line 1032, ../../../../Development/dev/sass/application.scss */
+/* line 1096, ../../../../Development/dev/sass/application.scss */
 #planner .cl-content .cl-bar {
   background: #fef5e4;
 }
-/* line 1034, ../../../../Development/dev/sass/application.scss */
+/* line 1098, ../../../../Development/dev/sass/application.scss */
 #planner .cl-content .cl-bar .cl-bar-text {
   color: #2f404c;
 }
-/* line 1039, ../../../../Development/dev/sass/application.scss */
+/* line 1103, ../../../../Development/dev/sass/application.scss */
 #planner .cl-content .cl-table-cell {
   margin-bottom: 2px;
 }
-/* line 1042, ../../../../Development/dev/sass/application.scss */
+/* line 1106, ../../../../Development/dev/sass/application.scss */
 #planner .cl-content .cl-table-cell span {
   margin: 5px 10px;
 }
-/* line 1046, ../../../../Development/dev/sass/application.scss */
+/* line 1110, ../../../../Development/dev/sass/application.scss */
 #planner .cl-content .cl-table-cell a {
   padding: 0;
 }
-/* line 1050, ../../../../Development/dev/sass/application.scss */
+/* line 1114, ../../../../Development/dev/sass/application.scss */
 #planner .cl-content .cl-table-cell h3 {
   margin: 5px 0;
   font-size: 1.2em;
@@ -4087,7 +4146,7 @@ input.error {
   font-weight: bold;
   color: #2d3d4a;
 }
-/* line 1057, ../../../../Development/dev/sass/application.scss */
+/* line 1121, ../../../../Development/dev/sass/application.scss */
 #planner .cl-content .cl-table-cell h3 small {
   font-size: 16px;
   font-weight: normal;
@@ -4096,29 +4155,44 @@ input.error {
 /**
 *  Profile
 */
-/* line 1073, ../../../../Development/dev/sass/application.scss */
+/* line 1137, ../../../../Development/dev/sass/application.scss */
 #profile #profileTabs .active {
   background: #fff;
   color: #d55353;
 }
-/* line 1079, ../../../../Development/dev/sass/application.scss */
+/* line 1143, ../../../../Development/dev/sass/application.scss */
 #profile .cl-content {
   height: calc(100% - 156px);
   background: #fff;
 }
-/* line 1083, ../../../../Development/dev/sass/application.scss */
+/* line 1147, ../../../../Development/dev/sass/application.scss */
 #profile .cl-content .cl-bar {
   background: #fef5e4;
 }
-/* line 1085, ../../../../Development/dev/sass/application.scss */
+/* line 1149, ../../../../Development/dev/sass/application.scss */
 #profile .cl-content .cl-bar .cl-bar-text {
   color: #2f404c;
+}
+
+/** 
+* Friend
+*/
+/* line 1162, ../../../../Development/dev/sass/application.scss */
+#friendView .avatar {
+  display: inline-block;
+  width: 100%;
+  height: 170px;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  margin-bottom: 5px;
 }
 
 /**
 * Navigation
 */
-/* line 1100, ../../../../Development/dev/sass/application.scss */
+/* line 1181, ../../../../Development/dev/sass/application.scss */
 #navigationView .cl-content {
   height: calc(100% - 54px);
 }

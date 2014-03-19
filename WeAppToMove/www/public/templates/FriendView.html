@@ -1,19 +1,20 @@
-<div class="cl-page">
+<div class="cl-page" id="friendView">
   <div class="cl-bar-title">
     <a href="javascript:;" class="cl-btn" data-transition="slide-out" id="backButton">
       <i class="entypo-icon">&#59237;</i>
     </a>
-    <div class="cl-title"><%= name %></div>
+    <div class="cl-title"><%= user.name %></div>
   </div>
   <div class="cl-content" >
-  	<img src="<%= avatar %>" alt=""/>
+  <span class="avatar" style="background: url('<%= imagePath %><%= user.avatar %>') no-repeat;     -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; "></span>
+
   	<h1>Avatar</h1>
-  	<p>Kracht: <%= strength_score %></p>
-  	<p>Uithuiding: <%= stamina_score %></p>
-  	<p>Outfit: <%= equipment_score %></p>
+  	<p>Kracht: <%= user.strength_score %></p>
+  	<p>Uithuiding: <%= user.stamina_score %></p>
+  	<p>Outfit: <%= user.equipment_score %></p>
 
 
-    <% if (myFriend == false) { %>
+    <% if (user.myFriend == false) { %>
         <a href="javascript:;" id="addFriendButton" class="cl-btn">Voeg toe als vriend</a>
     <% } %>
 

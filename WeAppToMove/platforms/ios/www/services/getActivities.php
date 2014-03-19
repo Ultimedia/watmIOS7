@@ -15,6 +15,7 @@
 	$index = 0;
 
 	while($row = $result->fetch_assoc()){
+		// get media from this activity
 		$mediaSQL = "SELECT * FROM watm_media WHERE activity_id =" . $row["activity_id"];
 		
 		$mediaResult = $dbc->query($mediaSQL);
@@ -23,6 +24,16 @@
 		while($mediarow = $mediaResult->fetch_assoc()){
 			$media = array("url" => $mediarow["url"], );
 			$mediaCollection[] = $media;
+		}
+
+		// get users going to this activity
+		$usersSQL = "SELECT * FROM watm_activity_users LEFT JOIN watm_users ON watm_activity_users.user_id = watm_users.user_id WHERE activity_id =" . $row["activity_id"] . " AND watm_activity_users.going='1'";
+		$usersResult = $dbc->query($usersSQL);
+		$usersCollection = array();
+		
+		while($userrow = $usersResult->fetch_assoc()){
+			$pr = array("user_id" => $row["user_id"], "avatar" => $row["avatar"]);
+			$usersCollection[] = $pr;
 		}
 
 		$originalDate =  $row["date"];
@@ -40,7 +51,7 @@
 		   $tomorrow = true;
 		}
 
-		$project = array("sql_index"=> $index, "description"=>$row["activity_description"],"activity_id" => $row["activity_id"], "sport_title" => $row["sport_title"], "date" => $newDate, "title" => $row["title"], "sport_id" =>$row['sport_id'], "location_id"=>$row['location_id'], "location"=>$row['location'], "coordinates"=>$row['coordinates'], "user_id"=>$row['user_id'], "media" => $mediaCollection, "buurt"=>$row['buurt'], "buurt_id"=>$row["buurt_id"], "today"=>$today, "tomorrow"=>$tomorrow );
+		$project = array("sql_index"=> $index, "description"=>$row["activity_description"],"activity_id" => $row["activity_id"], "sport_title" => $row["sport_title"], "date" => $newDate, "title" => $row["title"], "sport_id" =>$row['sport_id'], "location_id"=>$row['location_id'], "location"=>$row['location'], "coordinates"=>$row['coordinates'], "user_id"=>$row['user_id'], "media" => $mediaCollection, "users" => $usersCollection, "buurt"=>$row['buurt'], "buurt_id"=>$row["buurt_id"], "today"=>$today, "tomorrow"=>$tomorrow );
 		$projects[] = $project;
 	    $index++;
 

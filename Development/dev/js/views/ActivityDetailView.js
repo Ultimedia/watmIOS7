@@ -48,7 +48,8 @@ appData.views.ActivityDetailView = Backbone.View.extend({
           var marker = new google.maps.Marker({
             position: new google.maps.LatLng(coordinates[0], coordinates[1]),
             map:  map,
-            title: 'Huidige locatie'
+            title: 'Huidige locatie',
+            icon: appData.settings.iconPath + "map-icon@x2.png"
           });
 
           // resize and relocate map

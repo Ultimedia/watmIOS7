@@ -7,7 +7,7 @@ appData.views.ActivityMessageView = Backbone.View.extend({
 
     render: function() { 
     	// model to template
-    	this.$el.html(this.template(this.model.attributes));
+    	this.$el.html(this.template({user: this.model.attributes, imagePath: appData.settings.imagePath}));
         return this; 
     }
 

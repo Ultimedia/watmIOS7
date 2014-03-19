@@ -12,6 +12,8 @@ appData.views.ActivityMessagesView = Backbone.View.extend({
       appData.settings.currentModuleHTML = this.$el;
       this.setValidators();
 
+      $('#messageBox', appData.settings.currentPageHTML).removeClass('hide');
+
       return this; 
     },
 

@@ -147,13 +147,6 @@ form .cl-btn{
 	padding: 0;
 }
 
-#addMediaButton{
-	width: 100%;
-}
-
-#smallImage{
-	max-width: 100%;
-}
 
 #map_canvas, #googleMap{
 	width: 100%;
@@ -394,13 +387,6 @@ ul.autocomplete li a {
 
 
 
-#userAvatar, .friend-avatar{
-  max-width: 160px;
-  max-height: 160px;
-}
-
-
-
 
 /*
 * Final styling 
@@ -416,9 +402,9 @@ input.error{
 
 
 /**
-* HOME and CREATEUSER page
+* FORM PAGES
 */
-#home, #createUser, #createActivity{
+#home, #createUser, #createActivity, #settings{
   background: #303d4d url('../../common/img/home_background.png') top left;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -501,7 +487,7 @@ input.error{
 /**
 * CreateUser
 */
-#createUser, #createActivity{
+#createUser, #createActivity, #settings{
   background: #2f404b;
 
   .cl-content{
@@ -723,6 +709,7 @@ input.error{
           }
         }
 
+
       .dashboard-footer{
         display: block;
         background: #378488;
@@ -734,18 +721,31 @@ input.error{
             font-size: 12px;
             display: inline-block;
             color: #fff;
-            line-height: 36px;
             padding-left: 20px;
+            min-height: 36px;
           }
 
           .table-location{
             padding-left: 20px;
             background:url('assets/cursor-icon@x2.png') no-repeat 0 10px / 11px 15px;
             margin-right: 30px;
+            float: left;
+            line-height: 36px;
           }
 
           .table-friends{
-            background:url('assets/friend-icon@x2.png') no-repeat 0 10px / 13px 13px;
+            background:url('assets/friend-icon@x2.png') no-repeat 0 12px / 13px 13px;
+
+            .avatar{
+              display: block;
+              width: 25px;
+              height: 25px;
+              border-radius: 25px;
+              -webkit-border-radius: 25px;
+              -moz-border-rafisu: 25px;
+              margin: 6px 0;
+              float: left;
+            }
           }
         }
       }
@@ -793,6 +793,16 @@ input.error{
 }
 
 
+/** 
+* Settings
+*/
+#settings{
+  #userAvatar{
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
 /**
 * Activity Detail
 */
@@ -817,6 +827,26 @@ input.error{
 
   #editPanel{
     display: none;
+  }
+
+  #mediaContent{
+    #addMediaButton{
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    #mediaContenList{
+      img{
+        width: 100%;
+        height: auto;
+      }
+
+      .user-box{
+        background: #dadada;
+        padding: 10px 5px;
+        margin: 0 0 35px 0;
+      }
+    }
   }
 
   #activityInfo{
@@ -864,15 +894,21 @@ input.error{
     }
 
     #activityContent{
-      padding: 10px 10px 0 10px;
       background: #fff;
       position: relative;
       overflow: auto;
       height: 100%;
     }
 
-    #praktischContent{
+    #praktischContent, #mediaContent, #messagesContent ul{
+      padding: 10px 10px 0 10px;
+
       padding-bottom: 20px;
+
+      span{
+        float: right;
+        color: #31414f;
+      }
     }
 
     #aanwezigContent{
@@ -889,11 +925,6 @@ input.error{
       font-size: 12px;
     }
 
-    span{
-      float: right;
-      color: #31414f;
-    }
-
     hr{
       color:#FF0000;
       border:none;
@@ -903,17 +934,46 @@ input.error{
       clear: both;
       display: block;
     }
+    #messagesContent ul{
+      padding-bottom: 10px;
+    }
+    #messageBox{
+      background: #e6e6e6;
+      border-top: 1px solid #cacaca;
+      z-index: 20000;
+      overflow: auto;
+      padding: 5px 10px;
+
+      #messageSubmit{
+        width: 100px !important; 
+        float: right;
+      }
+
+      #messageInput{
+        border: 0;
+        -webkit-appereance: none;
+        border-radius: 3px;
+        -wekit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        width: 100%;
+        height: 37px;
+        padding-left: 12px;
+        padding-right: 12px;
+        margin: 3px 0 0 7px;
+      }
+    }
 
     .message{
       margin: 0 0 15px 0;
       clear: both;
 
       h3{
-        font-size: 1.2em;
+        font-size: 1.1em;
         display: block;
         float: none;
-        margin-bottom: 8px;
+        margin-bottom: 4px;
         color: #31414f;
+        font-family: "source_sans_prosemibold";
       }
 
       .avatar{
@@ -947,8 +1007,8 @@ input.error{
       .messageBody:after{
         content: "";
         position: absolute;
-        top: 8px;
-        left: -13px;
+        top: 5px;
+        left: -5px;
         border-style: solid;
         border-width: 13px 13px 13px 0;
         border-color: transparent #dadada;
@@ -956,6 +1016,10 @@ input.error{
         width: 0;
         z-index: 1;
       }
+    }
+
+    .message:odd{
+      display: none;
     }
 
     #goingList{
@@ -1090,6 +1154,23 @@ input.error{
 }
 
 
+
+/** 
+* Friend
+*/
+#friendView{
+  .avatar{
+    display: inline-block;
+    width: 100%;
+    height: 170px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    margin-bottom: 5px;
+  }
+
+}
 
 
 /**

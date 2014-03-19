@@ -3,24 +3,70 @@ appData.views.SettingsView = Backbone.View.extend({
     initialize: function () {
     	appData.views.SettingsView.avatarUploadHandler = this.avatarUploadHandler;
     	appData.views.SettingsView.avatarUpdatedHandler = this.avatarUpdatedHandler;
+      appData.views.SettingsView.fileUploadedHandler = this.fileUploadedHandler;
+
     },
 
     render: function () {
     	console.log(appData.models.userModel.attributes);
 
-      this.$el.html(this.template({user: appData.models.userModel.attributes}));
+
+      this.$el.html(this.template({imagePath: appData.settings.imagePath, user: appData.models.userModel.attributes}));
       appData.settings.currentPageHTML = this.$el;
 
       if(appData.settings.native){
-        $('#changeAvatar').removeClass('hide');
+
+      }else{
+        $("#changeAvatar", appData.settings.currentPageHTML).click(function(){
+           $("#nonNativeFileField", appData.settings.currentPageHTML).trigger('click');
+           return false;
+        });
       }
 
       return this;
     },
 
+    mediaFormSubmitHandler: function(event){
+      console.log('submit');
+      event.stopPropagation(); // Stop stuff happening
+      event.preventDefault(); // Totally stop stuff happening
+
+      // Create a formdata object and add the files
+      var data = new FormData();
+      $.each(appData.views.SettingsView.files, function(key, value)
+      {
+        data.append(key, value);
+      });
+
+      Backbone.on('fileUploadedEvent', appData.views.SettingsView.fileUploadedHandler);
+      appData.services.phpService.uploadMediaNonNative(data);
+    },
+
+    fileUploadedHandler: function(data){
+      Backbone.off('fileUploadedEvent');
+      
+      var filename = data.files[0].replace(/^.*[\\\/]/, '');
+      appData.views.SettingsView.uploadedPhotoUrl = filename;
+
+      Backbone.on('updateUserAvatar', appData.views.SettingsView.avatarUpdatedHandler);
+      appData.services.phpService.updateUserAvatar(filename);
+    },
+
+    nonNativeFileSelectedHandler: function(evt){
+
+        // upload script
+        // do some checks
+        var files = evt.target.files;
+        appData.views.SettingsView.files = files;
+
+        $('#mediaForm', appData.settings.currentPageHTML).submit();
+    },
+
     events: {
     	"click #changeAvatar": "changeAvatarHandler",
-      "click #signOutButton": "signOutHandler"
+      "click #signOutButton": "signOutHandler",
+      "change #nonNativeFileField":"nonNativeFileSelectedHandler",
+      "submit #mediaForm": "mediaFormSubmitHandler"
     },
 
     signOutHandler: function(){
@@ -29,6 +75,8 @@ appData.views.SettingsView = Backbone.View.extend({
 
     avatarUpdatedHandler: function(){
     	Backbone.off('updateUserAvatar');
+
+      console.log('path replacer');
     	$('#userAvatar', appData.settings.currentPageHTML).attr('src', appData.settings.imagePath + appData.views.SettingsView.uploadedPhotoUrl);
     },
 
@@ -43,7 +91,7 @@ appData.views.SettingsView = Backbone.View.extend({
 
     avatarUploadHandler: function(){
     	Backbone.on('updateUserAvatar', appData.views.SettingsView.avatarUpdatedHandler);
-    	appData.services.phpService.updateUserAvatar(appData.settings.imagePath + appData.views.SettingsView.uploadedPhotoUrl);
+    	appData.services.phpService.updateUserAvatar(appData.views.SettingsView.uploadedPhotoUrl);
     },
 
     uploadAvatar: function(imageURI) {

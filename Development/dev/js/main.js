@@ -65,6 +65,7 @@ appData.settings.inviteFriendsService = "inviteFriends.php";
 appData.settings.handleInvitationsService = "handleInvitation.php";
 appData.settings.removeFriendService = "removeFriend.php";
 appData.settings.updateUserAvatarService = "updateUserAvatar.php";
+appData.settings.uploadMediaNonNativeService = "uploadMediaNonNative.php";
 
 appData.settings.defaultLocation = [51.20935, 3.22470];
 appData.settings.dataLoaded = false;
@@ -120,7 +121,6 @@ $(document).on("ready", function () {
       appData.events.updateActivitiesEvent = _.extend({}, Backbone.Events);
       appData.events.getLocationsSuccesEvent = _.extend({}, Backbone.Events);
       appData.events.getLatLonEvent = _.extend({}, Backbone.Events);
-
 
       appData.services.facebookService = new appData.services.FacebookServices();
       appData.events.facebookLoginEvent = _.extend({}, Backbone.Events);

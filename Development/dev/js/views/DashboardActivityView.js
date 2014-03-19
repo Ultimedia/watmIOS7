@@ -6,7 +6,9 @@ appData.views.DashboardActivityView = Backbone.View.extend({
 
     render: function() { 
     	// model to template
-    	this.$el.html(this.template(this.model.attributes));
+    	console.log(this.model.attributes);
+
+    	this.$el.html(this.template({activity: this.model.toJSON(), imagePath: appData.settings.imagePath}));
         return this; 
     }
 

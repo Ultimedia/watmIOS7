@@ -1,13 +1,15 @@
 <div class="cl-table-cell">
-<a href="#activity/<%= activity_id %>">
-    <span class="label"><h3><%= title %><small> <%= date %> <%= time %></small></h3></span>
+<a href="#activity/<%= activity.activity_id %>">
+    <span class="label"><h3><%= activity.title %><small> <%= activity.date %> <%= activity.time %></small></h3></span>
     <div class="dashboard-footer">
         <ul>
             <li class="table-location">
-                <%= location %>
+                <%= activity.location %>
             </li>
             <li class="table-friends">
-                
+                <% _.each(activity.users, function(friend) { %> 
+                <span class="avatar" style="background: url('<%= imagePath %><%= friend.avatar %>') no-repeat;     -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; "></span>
+                <% }); %>
             </li>
         </ul>
     </div>

@@ -26,6 +26,8 @@ appData.views.ActivityInfoView = Backbone.View.extend({
                 appData.services.phpService.setGoingToActivity(appData.models.activityModel.attributes.activity_id, selectedData);
         });
 
+      $('#messageBox', appData.settings.currentPageHTML).addClass('hide');
+
         return this; 
     },
 
