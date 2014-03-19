@@ -94,7 +94,7 @@ $(document).on("ready", function () {
 
       appData.models.userModel = new User();
 
-      appData.forms.sortOptions = [{"title": "Datum"},{"title": "Afstand"}];
+      appData.forms.sortOptions = [{"title": "Datum"},{"title": "Afstand"}, {"title": "Mijn Favoriete Sporten"}];
       appData.collections.sortOptions = new SortOptionsCollection(appData.forms.sortOptions);
 
       // New services class

@@ -326,8 +326,7 @@ appData.services.PhpServices = Backbone.Model.extend({
 			dataType:'json',
 			data: "user_id="+appData.models.userModel.attributes.user_id,
 			success:function(data){
-				appData.collections.myFavouriteSports = new SportsCollection(data);
-				console.log(appData.collections.myFavouriteSports);
+				appData.models.userModel.attributes.myFavouriteSports = new SportsCollection(data);
         		Backbone.trigger('getMyFavouriteSportsHandler');
 			}
 		}); 

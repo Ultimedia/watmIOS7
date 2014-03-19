@@ -32,7 +32,7 @@
 		$usersCollection = array();
 		
 		while($userrow = $usersResult->fetch_assoc()){
-			$pr = array("user_id" => $row["user_id"], "avatar" => $row["avatar"]);
+			$pr = array("user_id" => $userrow["user_id"], "avatar" => $userrow["avatar"]);
 			$usersCollection[] = $pr;
 		}
 
@@ -55,10 +55,8 @@
 		$projects[] = $project;
 	    $index++;
 
-
 	}
 	
-
 	$dbc->close();
 	print json_encode($projects);
 

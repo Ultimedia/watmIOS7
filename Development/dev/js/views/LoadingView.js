@@ -87,7 +87,7 @@ appData.views.LoadingView = Backbone.View.extend({
         appData.settings.dataLoaded = true;
 
 
-        if(appData.collections.myFavouriteSports.length > 0){
+        if(appData.models.userModel.attributes.myFavouriteSports.length > 0){
             appData.router.navigate('dashboard', true);
         }else{
             appData.router.navigate('sportselector', true);

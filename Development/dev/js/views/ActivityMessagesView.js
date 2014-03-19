@@ -22,30 +22,39 @@ appData.views.ActivityMessagesView = Backbone.View.extend({
     },
 
     postMessageSuccesHandler: function(){
+
       // update messages
       appData.services.phpService.getMessages(appData.views.ActivityDetailView.model);  
     },
 
     chatMessagesLoadSuccesHandler: function(messages){
 
-        appData.views.ActivityDetailView.messagesListView = [];
-        appData.views.ActivityDetailView.model.attributes.messages = messages;
-        appData.views.ActivityDetailView.model.attributes.messages.each(function(message) {
-          appData.views.ActivityDetailView.messagesListView.push(new appData.views.ActivityMessageView({
-            model : message
-          }));
-      });
+      appData.views.ActivityDetailView.model.attributes.messages = messages;
 
-      $('#messagesContent ul', appData.settings.currentModuleHTML).empty();
-      _(appData.views.ActivityDetailView.messagesListView).each(function(dv) {
-          $('#messagesContent ul', appData.settings.currentModuleHTML).append(dv.render().$el);
-      });
+      if(appData.views.ActivityDetailView.model.attributes.messages.length > 0){
+
+          appData.views.ActivityDetailView.messagesListView = [];
+          appData.views.ActivityDetailView.model.attributes.messages.each(function(message) {
+            appData.views.ActivityDetailView.messagesListView.push(new appData.views.ActivityMessageView({
+              model : message
+            }));
+        });
+
+        $('#messagesContent ul', appData.settings.currentModuleHTML).empty();
+        _(appData.views.ActivityDetailView.messagesListView).each(function(dv) {
+            $('#messagesContent ul', appData.settings.currentModuleHTML).append(dv.render().$el);
+        });
+      }else{
+
+      }
     },
 
     setValidators: function(){
       $("#messageForm",appData.settings.currentModuleHTML).validate({
           submitHandler: function(form) {
             var message = $('#messageInput', appData.settings.currentModuleHTML).val();
+            $('#messageInput', appData.settings.currentModuleHTML).empty();
+            
             appData.services.phpService.addMessage(message, appData.views.ActivityDetailView.model.attributes.activity_id);   
           }
       });

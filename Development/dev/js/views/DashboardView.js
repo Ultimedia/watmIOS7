@@ -5,6 +5,7 @@ appData.views.DashboardView = Backbone.View.extend({
 
         var that = this;
         this.searching = false;
+        this.favouriteSportsFilter = false;
      
         appData.events.updateActivitiesEvent.bind("activitiesUpdateHandler", this.activitiesUpdateHandler);        
         appData.collections.activities.sort_by_attribute('sql_index');
@@ -29,33 +30,47 @@ appData.views.DashboardView = Backbone.View.extend({
     generateAcitvitiesCollection: function(){
         Backbone.off('dashboardUpdatedHandler', this.generateAcitvitiesCollection);
 
-        appData.views.activityListView = [];
-        appData.views.locationList = [];
+        if(appData.collections.activities.length === 0){
 
-        var selectedCollection;
-        if(this.searching){
-            $(appData.collections.activitiesSearch).each(function(index, activity) {
-              appData.views.locationList.push(activity);
-              appData.views.activityListView.push(new appData.views.DashboardActivityView({
-                model : activity
-              }));
-            });
 
         }else{
-            appData.collections.activities.each(function(activity) {
-              appData.views.locationList.push(activity);
-              appData.views.activityListView.push(new appData.views.DashboardActivityView({
-                model : activity
-              }));
+            appData.views.activityListView = [];
+            appData.views.locationList = [];
+
+            var selectedCollection;
+            if(this.searching){
+                $(appData.collections.activitiesSearch).each(function(index, activity) {
+                  appData.views.locationList.push(activity);
+                  appData.views.activityListView.push(new appData.views.DashboardActivityView({
+                    model : activity
+                  }));
+                });
+
+            }else if(this.favouriteSportsFilter){
+
+                $(appData.collections.filteredActivitiesCollection).each(function(index, activity) {
+                  appData.views.locationList.push(activity);
+                  appData.views.activityListView.push(new appData.views.DashboardActivityView({
+                    model : activity
+                  }));
+                });
+
+            }else{
+                appData.collections.activities.each(function(activity) {
+                  appData.views.locationList.push(activity);
+                  appData.views.activityListView.push(new appData.views.DashboardActivityView({
+                    model : activity
+                  }));
+                });
+            }
+
+            $('#activityTable', appData.settings.currentPageHTML).empty();
+            _(appData.views.activityListView).each(function(dv) {
+                $('#activityTable', appData.settings.currentPageHTML).append(dv.render().$el);
             });
+
+            this.setMarkers(appData.views.locationList);
         }
-
-        $('#activityTable', appData.settings.currentPageHTML).empty();
-        _(appData.views.activityListView).each(function(dv) {
-            $('#activityTable', appData.settings.currentPageHTML).append(dv.render().$el);
-        });
-
-        this.setMarkers(appData.views.locationList);
     },
 
     searchHandler: function(evt){
@@ -91,6 +106,8 @@ appData.views.DashboardView = Backbone.View.extend({
     // sort the activities table
     sortActivitiesChangeHandler: function(){
         
+        this.favouriteSportsFilter = false;
+
         switch($("#sortActivities")[0].selectedIndex){
             case 0:
                 appData.collections.activities.sort_by_attribute('sql_index');
@@ -130,6 +147,19 @@ appData.views.DashboardView = Backbone.View.extend({
 
                 // now order the collection by the distance
                 appData.collections.activities.sort_by_attribute('distance');
+            break;
+
+            case 2:
+                
+                var filterCollection = new ActivitiesCollection();
+
+
+                appData.models.userModel.attributes.myFavouriteSports.each(function(model){
+                    filterCollection = appData.collections.activities.where({"sport_id": model.attributes.sport_id})
+                });
+
+                appData.collections.filteredActivitiesCollection = filterCollection;
+                this.favouriteSportsFilter = true;
 
             break;
         }

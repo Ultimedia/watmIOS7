@@ -652,15 +652,16 @@ input.error{
     .cl-content{
       height: calc(100% - 262px);
       background: #1f3146;
+
+      .cl-message{
+        padding: 20px 10px;
+        background-color: #fef5e4;
+        line-height: 1.6em;
+      }
     }
 
     #sortBar{
       background-color: #d95555; /* layer fill content */
-      -moz-box-shadow: 0 1px 9px rgba(0,0,0,.36); /* drop shadow */
-      -webkit-box-shadow: 0 1px 9px rgba(0,0,0,.36); /* drop shadow */
-      box-shadow: 0 1px 9px rgba(0,0,0,.36); /* drop shadow */
-      text-transform: uppercase;
-
       z-index: 1000;
 
       select{
@@ -743,7 +744,7 @@ input.error{
               border-radius: 25px;
               -webkit-border-radius: 25px;
               -moz-border-rafisu: 25px;
-              margin: 6px 0;
+              margin: 6px 0 0 5px;
               float: left;
             }
           }
@@ -934,9 +935,21 @@ input.error{
       clear: both;
       display: block;
     }
-    #messagesContent ul{
-      padding-bottom: 10px;
+    #messagesContent{
+
+
+
+      ul{
+        .cl-message{
+          padding: 20px 10px;
+          background-color: #fef5e4;
+          line-height: 1.6em;
+        }
+
+        padding-bottom: 10px;
+      }
     }
+
     #messageBox{
       background: #e6e6e6;
       border-top: 1px solid #cacaca;

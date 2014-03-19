@@ -8,6 +8,7 @@
             </li>
             <li class="table-friends">
                 <% _.each(activity.users, function(friend) { %> 
+
                 <span class="avatar" style="background: url('<%= imagePath %><%= friend.avatar %>') no-repeat;     -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; "></span>
                 <% }); %>
             </li>
