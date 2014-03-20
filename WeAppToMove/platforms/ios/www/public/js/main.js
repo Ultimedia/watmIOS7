@@ -96,7 +96,7 @@ $(document).on("ready", function () {
 
       appData.models.userModel = new User();
 
-      appData.forms.sortOptions = [{"title": "Datum"},{"title": "Afstand"}];
+      appData.forms.sortOptions = [{"title": "Datum"},{"title": "Afstand"}, {"title": "Mijn Favoriete Sporten"}];
       appData.collections.sortOptions = new SortOptionsCollection(appData.forms.sortOptions);
 
       // New services class
@@ -145,7 +145,7 @@ $(document).on("ready", function () {
 
       if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
 
-        appData.settings.rootPath = "http://192.168.0.205/";
+        appData.settings.rootPath = "http://172.30.39.149/";
         appData.settings.servicePath =  appData.settings.rootPath + "services/";
         appData.settings.imagePath = appData.settings.rootPath + "common/uploads/";
         appData.settings.badgesPath = appData.settings.rootPath + "common/badges/";
@@ -292,10 +292,10 @@ User = Backbone.Model.extend({
 	    facebook_data: {},
 	    facebookUser: false,
 	    current_location: "50.827404, 3.254647",
-    	avatar_strength: 0,
-    	avatar_equipment: 0,
-    	avatar_stamina: 0,
-    	avatar: "",
+		strength_score: 0,
+		stamina_score: 0,
+		equipment_score: 0,
+    	avatar: "default.png",
     	myChallenges: [],
     	myBadges: []
     },
@@ -624,6 +624,7 @@ appData.views.ActivityMediaViewer = Backbone.View.extend({
     },
 
     render: function() { 
+
     	this.$el.html(this.template(this.model.toJSON()));
       return this; 
     }
@@ -671,30 +672,39 @@ appData.views.ActivityMessagesView = Backbone.View.extend({
     },
 
     postMessageSuccesHandler: function(){
+
       // update messages
       appData.services.phpService.getMessages(appData.views.ActivityDetailView.model);  
     },
 
     chatMessagesLoadSuccesHandler: function(messages){
 
-        appData.views.ActivityDetailView.messagesListView = [];
-        appData.views.ActivityDetailView.model.attributes.messages = messages;
-        appData.views.ActivityDetailView.model.attributes.messages.each(function(message) {
-          appData.views.ActivityDetailView.messagesListView.push(new appData.views.ActivityMessageView({
-            model : message
-          }));
-      });
+      appData.views.ActivityDetailView.model.attributes.messages = messages;
 
-      $('#messagesContent ul', appData.settings.currentModuleHTML).empty();
-      _(appData.views.ActivityDetailView.messagesListView).each(function(dv) {
-          $('#messagesContent ul', appData.settings.currentModuleHTML).append(dv.render().$el);
-      });
+      if(appData.views.ActivityDetailView.model.attributes.messages.length > 0){
+
+          appData.views.ActivityDetailView.messagesListView = [];
+          appData.views.ActivityDetailView.model.attributes.messages.each(function(message) {
+            appData.views.ActivityDetailView.messagesListView.push(new appData.views.ActivityMessageView({
+              model : message
+            }));
+        });
+
+        $('#messagesContent ul', appData.settings.currentModuleHTML).empty();
+        _(appData.views.ActivityDetailView.messagesListView).each(function(dv) {
+            $('#messagesContent ul', appData.settings.currentModuleHTML).append(dv.render().$el);
+        });
+      }else{
+
+      }
     },
 
     setValidators: function(){
       $("#messageForm",appData.settings.currentModuleHTML).validate({
           submitHandler: function(form) {
             var message = $('#messageInput', appData.settings.currentModuleHTML).val();
+            $('#messageInput', appData.settings.currentModuleHTML).empty();
+            
             appData.services.phpService.addMessage(message, appData.views.ActivityDetailView.model.attributes.activity_id);   
           }
       });
@@ -1412,8 +1422,6 @@ appData.views.DashboardActivityView = Backbone.View.extend({
 
     render: function() { 
     	// model to template
-    	console.log(this.model.attributes);
-
     	this.$el.html(this.template({activity: this.model.toJSON(), imagePath: appData.settings.imagePath}));
         return this; 
     }
@@ -1433,6 +1441,7 @@ appData.views.DashboardView = Backbone.View.extend({
 
         var that = this;
         this.searching = false;
+        this.favouriteSportsFilter = false;
      
         appData.events.updateActivitiesEvent.bind("activitiesUpdateHandler", this.activitiesUpdateHandler);        
         appData.collections.activities.sort_by_attribute('sql_index');
@@ -1457,33 +1466,47 @@ appData.views.DashboardView = Backbone.View.extend({
     generateAcitvitiesCollection: function(){
         Backbone.off('dashboardUpdatedHandler', this.generateAcitvitiesCollection);
 
-        appData.views.activityListView = [];
-        appData.views.locationList = [];
+        if(appData.collections.activities.length === 0){
 
-        var selectedCollection;
-        if(this.searching){
-            $(appData.collections.activitiesSearch).each(function(index, activity) {
-              appData.views.locationList.push(activity);
-              appData.views.activityListView.push(new appData.views.DashboardActivityView({
-                model : activity
-              }));
-            });
 
         }else{
-            appData.collections.activities.each(function(activity) {
-              appData.views.locationList.push(activity);
-              appData.views.activityListView.push(new appData.views.DashboardActivityView({
-                model : activity
-              }));
+            appData.views.activityListView = [];
+            appData.views.locationList = [];
+
+            var selectedCollection;
+            if(this.searching){
+                $(appData.collections.activitiesSearch).each(function(index, activity) {
+                  appData.views.locationList.push(activity);
+                  appData.views.activityListView.push(new appData.views.DashboardActivityView({
+                    model : activity
+                  }));
+                });
+
+            }else if(this.favouriteSportsFilter){
+
+                $(appData.collections.filteredActivitiesCollection).each(function(index, activity) {
+                  appData.views.locationList.push(activity);
+                  appData.views.activityListView.push(new appData.views.DashboardActivityView({
+                    model : activity
+                  }));
+                });
+
+            }else{
+                appData.collections.activities.each(function(activity) {
+                  appData.views.locationList.push(activity);
+                  appData.views.activityListView.push(new appData.views.DashboardActivityView({
+                    model : activity
+                  }));
+                });
+            }
+
+            $('#activityTable', appData.settings.currentPageHTML).empty();
+            _(appData.views.activityListView).each(function(dv) {
+                $('#activityTable', appData.settings.currentPageHTML).append(dv.render().$el);
             });
+
+            this.setMarkers(appData.views.locationList);
         }
-
-        $('#activityTable', appData.settings.currentPageHTML).empty();
-        _(appData.views.activityListView).each(function(dv) {
-            $('#activityTable', appData.settings.currentPageHTML).append(dv.render().$el);
-        });
-
-        this.setMarkers(appData.views.locationList);
     },
 
     searchHandler: function(evt){
@@ -1519,6 +1542,8 @@ appData.views.DashboardView = Backbone.View.extend({
     // sort the activities table
     sortActivitiesChangeHandler: function(){
         
+        this.favouriteSportsFilter = false;
+
         switch($("#sortActivities")[0].selectedIndex){
             case 0:
                 appData.collections.activities.sort_by_attribute('sql_index');
@@ -1558,6 +1583,19 @@ appData.views.DashboardView = Backbone.View.extend({
 
                 // now order the collection by the distance
                 appData.collections.activities.sort_by_attribute('distance');
+            break;
+
+            case 2:
+                
+                var filterCollection = new ActivitiesCollection();
+
+
+                appData.models.userModel.attributes.myFavouriteSports.each(function(model){
+                    filterCollection = appData.collections.activities.where({"sport_id": model.attributes.sport_id})
+                });
+
+                appData.collections.filteredActivitiesCollection = filterCollection;
+                this.favouriteSportsFilter = true;
 
             break;
         }
@@ -1674,7 +1712,7 @@ appData.views.FriendInvitieView = Backbone.View.extend({
     },
 
     render: function() { 
-      this.$el.html(this.template(this.model.toJSON()));
+      this.$el.html(this.template({friend: this.model.toJSON(), imagePath: appData.settings.imagePath}));
       appData.settings.currentPageHTML = this.$el;
       return this; 
     }, 
@@ -1753,7 +1791,7 @@ appData.views.FriendsListView = Backbone.View.extend({
     render: function () {
     	// model to template
     	console.log(this.model.attributes);
-    	this.$el.html(this.template(this.model.attributes));
+    	this.$el.html(this.template({user: this.model.toJSON(), imagePath: appData.settings.imagePath}));
         return this; 
     }
 });
@@ -2022,7 +2060,7 @@ appData.views.LoadingView = Backbone.View.extend({
         appData.settings.dataLoaded = true;
 
 
-        if(appData.collections.myFavouriteSports.length > 0){
+        if(appData.models.userModel.attributes.myFavouriteSports.length > 0){
             appData.router.navigate('dashboard', true);
         }else{
             appData.router.navigate('sportselector', true);
@@ -2395,7 +2433,6 @@ appData.views.ProfileAvatarView = Backbone.View.extend({
     },
     
     render: function() { 
-        console.log(appData.models.userModel);
 
     	this.$el.html(this.template(appData.models.userModel.toJSON()));
         appData.settings.currentModuleHTML = this.$el;
@@ -2511,14 +2548,19 @@ appData.views.ProfileChallengeView = Backbone.View.extend({
 appData.views.ProfileFriendsView = Backbone.View.extend({
     initialize: function () {
     	appData.views.friendsListView = [];
-        $(appData.models.userModel.attributes.myFriends.models).each(function(index, userModel) {
-       	appData.views.friendsListView.push(new appData.views.FriendsListView({
-            model:userModel
-          }));
-        });
-
-
         appData.views.ProfileFriendsView.friendRemovedHandler = this.friendRemovedHandler;
+        appData.views.ProfileFriendsView.generateFriendsList = this.generateFriendsList;
+
+        // get friends
+        appData.services.phpService.getFriends();
+        Backbone.on('getFriendsHandler', this.getMyFriendsHandler);
+    },
+
+    getMyFriendsHandler: function(){
+        console.log('updated friends');
+
+        Backbone.off('getFriendsHandler');
+        appData.views.ProfileFriendsView.generateFriendsList();
     },
     
     events:{
@@ -2539,13 +2581,28 @@ appData.views.ProfileFriendsView = Backbone.View.extend({
 
     },
 
+    generateFriendsList: function(){
+
+        appData.views.friendsListView = [];
+        $(appData.models.userModel.attributes.myFriends.models).each(function(index, userModel) {
+        appData.views.friendsListView.push(new appData.views.FriendsListView({
+            model:userModel
+          }));
+        });
+
+
+        $('#profileFriendsListView', appData.settings.currentModuleHTML).empty();
+        _(appData.views.friendsListView).each(function(listView) {
+            $('#profileFriendsListView', appData.settings.currentModuleHTML).append(listView.render().$el);
+        });
+
+    },
+
     render: function() { 
     	this.$el.html(this.template());
         appData.settings.currentModuleHTML = this.$el;
 
-        _(appData.views.friendsListView).each(function(listView) {
-            $('#profileFriendsListView', appData.settings.currentModuleHTML).append(listView.render().$el);
-        });
+        this.generateFriendsList();
 
         return this; 
     },
@@ -3405,8 +3462,7 @@ appData.services.PhpServices = Backbone.Model.extend({
 			dataType:'json',
 			data: "user_id="+appData.models.userModel.attributes.user_id,
 			success:function(data){
-				appData.collections.myFavouriteSports = new SportsCollection(data);
-				console.log(appData.collections.myFavouriteSports);
+				appData.models.userModel.attributes.myFavouriteSports = new SportsCollection(data);
         		Backbone.trigger('getMyFavouriteSportsHandler');
 			}
 		}); 

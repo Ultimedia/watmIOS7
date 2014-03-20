@@ -7,13 +7,14 @@
 	$sql = "SELECT * FROM watm_user_sports WHERE user_id=" . $user_id;
 	
 	$result = $dbc->query($sql);
-	$projects = array();
+	$project;
 
 	while($row = $result->fetch_assoc()){
-		$project = array("sport_data" => $row["sport_data"]);
-		$projects[] = $project;
+		$project = $row["sport_data"];
 	}
+
+	$project = json_decode($project);
 	
 	$dbc->close();
-	print json_encode($projects);
+	print json_encode($project);
 ?>
