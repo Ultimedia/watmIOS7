@@ -143,7 +143,7 @@ $(document).on("ready", function () {
 
       if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
 
-        appData.settings.rootPath = "http://172.30.39.149/";
+        appData.settings.rootPath = "http://192.168.0.205/";
         appData.settings.servicePath =  appData.settings.rootPath + "services/";
         appData.settings.imagePath = appData.settings.rootPath + "common/uploads/";
         appData.settings.badgesPath = appData.settings.rootPath + "common/badges/";
@@ -2041,7 +2041,7 @@ appData.views.LoadingView = Backbone.View.extend({
         Backbone.on('getMyFavouriteSportsHandler', this.getMyFavouriteSportsHandler)
         Backbone.on('getMyChallengesHandler', this.getMyChallengesHandler);
         Backbone.on('getMyBadgesHandler', this.getMyBadgesHandler);
-        Backbone.on('getFriendsHandler', this.getMyFriendsHandler)
+        Backbone.on('getFriendsHandler', this.loadingCompleteHandler)
     },
 
     render: function() {
@@ -2108,9 +2108,19 @@ appData.views.LoadingView = Backbone.View.extend({
         appData.services.phpService.getFriends();
     },
 
-    getMyFriendsHandler: function(){
+    loadingCompleteHandler: function(){
         Backbone.off('getFriendsHandler');
+
+
+        // set localstorage, so the user has data stored in case the connection drops
+        // set collections
+
+        // set usermodel
+
+
+
         appData.settings.dataLoaded = true;
+        appData.views.LoadingView.destroy_view();
 
 
         if(appData.models.userModel.attributes.myFavouriteSports.length > 0){
@@ -2118,10 +2128,8 @@ appData.views.LoadingView = Backbone.View.extend({
         }else{
             appData.router.navigate('sportselector', true);
         }
-
-       appData.views.LoadingView.destroy_view();
-
     },
+
 
     destroy_view: function() {
 
@@ -2788,22 +2796,23 @@ appData.views.SettingsView = Backbone.View.extend({
 
     avatarUpdatedHandler: function(){
     	Backbone.off('updateUserAvatar');
-      alert('hier');
-
-      console.log('path replacer');
-    	$('#userAvatar', appData.settings.currentPageHTML).attr('src', appData.settings.imagePath + appData.views.SettingsView.uploadedPhotoUrl);
+      $('#userAvatar', appData.settings.currentPageHTML).delay(400).attr("style", "background: url('" + appData.settings.imagePath + appData.views.SettingsView.uploadedPhotoUrl + "') no-repeat; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;");
     },
 
     changeAvatarHandler: function(){
 
-		navigator.camera.getPicture(this.uploadAvatar,
-			function(message) { 
-			},{ quality: 50, targetWidth: 640, targetHeight: 480, destinationType: navigator.camera.DestinationType.FILE_URI, sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY }
-		);
+  		navigator.camera.getPicture(this.uploadAvatar,
+  			function(message) { 
+  			},{ quality: 50, targetWidth: 640, targetHeight: 480, destinationType: navigator.camera.DestinationType.FILE_URI, sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY }
+  		);
     	// change avatar
     },
 
-    avatarUploadHandler: function(){
+    avatarUploadHandler: function(r){
+                  alert("Code = " + r.responseCode);
+            alert("Response = " + r.response);
+            alert("Sent = " + r.bytesSent);
+
     	Backbone.on('updateUserAvatar', appData.views.SettingsView.avatarUpdatedHandler);
     	appData.services.phpService.updateUserAvatar(appData.views.SettingsView.uploadedPhotoUrl);
     },

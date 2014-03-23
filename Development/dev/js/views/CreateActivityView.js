@@ -3,8 +3,22 @@ appData.views.CreateActivityView = Backbone.View.extend({
     initialize: function () {
         appData.views.ActivityDetailView.model = new Activity();
         appData.events.createActivityTabsEvent.bind("formStageCompleteEvent", this.formStageCompleteEvent);
+        
+          Backbone.on('networkFoundEvent', this.networkFoundHandler);
+          Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+
     },
 
+    // phonegap device back online
+    networkLostHandler: function(){
+
+    },
+    
     render: function() { 
     	this.$el.html(this.template());
         this.currentActivityPage = '#watContent';

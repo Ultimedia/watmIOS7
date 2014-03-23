@@ -15,7 +15,20 @@ appData.views.LoadingView = Backbone.View.extend({
         Backbone.on('getMyFavouriteSportsHandler', this.getMyFavouriteSportsHandler)
         Backbone.on('getMyChallengesHandler', this.getMyChallengesHandler);
         Backbone.on('getMyBadgesHandler', this.getMyBadgesHandler);
-        Backbone.on('getFriendsHandler', this.getMyFriendsHandler)
+        Backbone.on('getFriendsHandler', this.loadingCompleteHandler);
+
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
     },
 
     render: function() {
@@ -82,20 +95,24 @@ appData.views.LoadingView = Backbone.View.extend({
         appData.services.phpService.getFriends();
     },
 
-    getMyFriendsHandler: function(){
+    loadingCompleteHandler: function(){
         Backbone.off('getFriendsHandler');
-        appData.settings.dataLoaded = true;
 
+        // set localstorage, so the user has data stored in case the connection drops
+        // set collections
+        window.localStorage.setItem("collections", JSON.stringify(appData.collections));
+        window.localStorage.setItem("userModel", JSON.stringify(appData.models.userModel));
+
+        appData.settings.dataLoaded = true;
+        appData.views.LoadingView.destroy_view();
 
         if(appData.models.userModel.attributes.myFavouriteSports.length > 0){
             appData.router.navigate('dashboard', true);
         }else{
             appData.router.navigate('sportselector', true);
         }
-
-       appData.views.LoadingView.destroy_view();
-
     },
+
 
     destroy_view: function() {
 

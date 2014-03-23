@@ -5,6 +5,18 @@ appData.views.SettingsView = Backbone.View.extend({
     	appData.views.SettingsView.avatarUpdatedHandler = this.avatarUpdatedHandler;
       appData.views.SettingsView.fileUploadedHandler = this.fileUploadedHandler;
 
+      Backbone.on('networkFoundEvent', this.networkFoundHandler);
+      Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
     },
 
     render: function () {
@@ -69,12 +81,20 @@ appData.views.SettingsView = Backbone.View.extend({
     },
 
     signOutHandler: function(){
+      // clear local storage
+      window.localStorage.clear()
+
+      // not signed in
+      appData.settings.userLoggedIn = false;
+      appData.settings.storageFound = false;
+
+      // back to the landing page
       window.location.hash = "#";
     },   
 
     avatarUpdatedHandler: function(){
     	Backbone.off('updateUserAvatar');
-      $('#userAvatar', appData.settings.currentPageHTML).attr("style", "background: url(" + appData.settings.imagePath + appData.views.SettingsView.uploadedPhotoUrl + "') no-repeat; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;");
+      $('#userAvatar', appData.settings.currentPageHTML).delay(400).attr("style", "background: url('" + appData.settings.imagePath + appData.views.SettingsView.uploadedPhotoUrl + "') no-repeat; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;");
     },
 
     changeAvatarHandler: function(){
@@ -86,7 +106,7 @@ appData.views.SettingsView = Backbone.View.extend({
     	// change avatar
     },
 
-    avatarUploadHandler: function(){
+    avatarUploadHandler: function(r){
     	Backbone.on('updateUserAvatar', appData.views.SettingsView.avatarUpdatedHandler);
     	appData.services.phpService.updateUserAvatar(appData.views.SettingsView.uploadedPhotoUrl);
     },
@@ -116,6 +136,6 @@ appData.views.SettingsView = Backbone.View.extend({
       options.chunkedMode = false;
 
       var ft = new FileTransfer();  
-      ft.upload(imageURI, appData.settings.servicePath + appData.settings.imageUploadService, appData.views.SettingsView.avatarUploadHandler(), null, options);    
+      ft.upload(imageURI, appData.settings.servicePath + appData.settings.imageUploadService, appData.views.SettingsView.avatarUploadHandler, null, options);    
     },
 });

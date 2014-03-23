@@ -11,6 +11,18 @@ appData.views.FriendView = Backbone.View.extend({
       }else{
         this.model.attributes.myFriend = false;
       }
+      Backbone.on('networkFoundEvent', this.networkFoundHandler);
+      Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
     },
 
     render: function() { 

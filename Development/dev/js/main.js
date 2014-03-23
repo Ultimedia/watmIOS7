@@ -13,7 +13,8 @@ var appData = {
   services: {},
   events: {},
   forms: {},
-  garbage: {}
+  garbage: {},
+  storage: {}
 };
 
 // settings
@@ -77,17 +78,36 @@ appData.messages.noUser = "Er werd geen gebruiker met dit email adres gevonden, 
 
 /* Jquery Document Read */
 $(document).on("ready", function () {
-  document.addEventListener("deviceready", onDeviceReady, false);
+  document.addEventListener("deviceready", onDeviceReadyHandler, false);
+  document.addEventListener("resume", onResumeHandler, false);
+  document.addEventListener("offline", deviceOfflineHandler, false);
+  document.addEventListener("online", deviceOnlineHandler, false);
 
   // phonegap device ready
-  function onDeviceReady() {
+  function onDeviceReadyHandler() {
       // Now safe to use the PhoneGap API
       appData.settings.phonegapLoaded = true;
   }
 
+  // phonegap when the user returns to the app after minimizing it
+  function onResumeHandler(){
+    window.location.hash = "#";
+  }
+
+  // phonegap device offline
+  function deviceOfflineHandler(){
+    appData.settings.network = true;
+    Backbone.trigger('networkFoundEvent');
+  }
+
+  // phonegap device back online
+  function deviceOnlineHandler(){
+    appData.settings.network = false;
+    Backbone.trigger('networkLostEvent');
+  }
 
   appData.router = new appData.routers.AppRouter();
-  appData.utils.templates.load(["HomeView", "DashboardView", "PlannerView", "ProfileView", "ActivityDetailView", "CreateActivityView", "CreateUserView", "NavigationView", "SettingsView", "SportSelectorView", "DashboardActivityView", "LoadingView", "HelperView", "ChallengeListView", "ActivityMessageView", "ActivityMessageView", "ActivityInfoView", "ActivityMediaView", "ActivityMessagesView", "ActivityMediaViewer", "ActivityInfoView", "CreateActivityLocationView", "CreateActivityInfoView", "CreateActivityWieView", "ProfileAvatarView", "ProfileChallengeView", "ProfileFriendsView", "FriendsListView", "FriendView", "ActivityUserView", "PlannerMyActivitiesView", "GoogleMapView", "FavouriteSportListView", "ActiveChallengeListView", "BadgeListView", "FriendInvitieView", "PlannerInvitedActivitiesView"],
+  appData.utils.templates.load(["HomeView", "DashboardView", "PlannerView", "ProfileView", "ActivityDetailView", "CreateActivityView", "CreateUserView", "NavigationView", "SettingsView", "SportSelectorView", "DashboardActivityView", "LoadingView", "HelperView", "ChallengeListView", "ActivityMessageView", "ActivityMessageView", "ActivityInfoView", "ActivityMediaView", "ActivityMessagesView", "ActivityMediaViewer", "ActivityInfoView", "CreateActivityLocationView", "CreateActivityInfoView", "CreateActivityWieView", "ProfileAvatarView", "ProfileChallengeView", "ProfileFriendsView", "FriendsListView", "FriendView", "ActivityUserView", "PlannerMyActivitiesView", "GoogleMapView", "FavouriteSportListView", "ActiveChallengeListView", "BadgeListView", "FriendInvitieView", "PlannerInvitedActivitiesView", "NoConnectionView"],
 
   // backbone loaded
   function () {
@@ -141,7 +161,7 @@ $(document).on("ready", function () {
 
       if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
 
-        appData.settings.rootPath = "http://172.30.39.149/";
+        appData.settings.rootPath = "http://192.168.0.205/";
         appData.settings.servicePath =  appData.settings.rootPath + "services/";
         appData.settings.imagePath = appData.settings.rootPath + "common/uploads/";
         appData.settings.badgesPath = appData.settings.rootPath + "common/badges/";
@@ -154,7 +174,7 @@ $(document).on("ready", function () {
         appData.settings.destinationType = navigator.camera.DestinationType;
 
         // check to see if there is a working connection
-        checkConnection();
+        appData.services.utilService.checkConnection();
 
       } else {
         appData.settings.native = false;
@@ -162,27 +182,23 @@ $(document).on("ready", function () {
 
       appData.services.facebookService.facebookConnect();
 
+
+      // see if we have a user in our localstorage
+      if(window.localStorage.getItem("userModel")){
+
+        var localUser = JSON.parse(window.localStorage.getItem("userModel"));
+
+        appData.models.userModel = new User(localUser);
+        appData.settings.userLoggedIn = true;
+
+        // save the old data (so wen can retrieve if in case we don't have a working connection)
+        appData.settings.storageFound = true;
+        appData.storage = JSON.parse(window.localStorage.getItem("collections"));
+
+      }
+
       // init backbone
       Backbone.history.start();
   });
-
-
-
-  // check if there is a working internet / 3G / 4G / WIFI connection to enable the dynamic mode
-  function checkConnection() {
-    var networkState = navigator.connection.type;
-
-    var states = {};
-        states[Connection.UNKNOWN]  = false;
-        states[Connection.ETHERNET] = true;
-        states[Connection.WIFI]     = true;
-        states[Connection.CELL_2G]  = true;
-        states[Connection.CELL_3G]  = true;
-        states[Connection.CELL_4G]  = true;
-        states[Connection.CELL]     = false;
-        states[Connection.NONE]     = false;
-
-        appData.settings.network = states[networkState];
-  }
 
 });

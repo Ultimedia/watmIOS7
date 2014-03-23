@@ -9,7 +9,20 @@ appData.views.NavigationView = Backbone.View.extend({
             _this.afterRender(); 
             return _this; 
         }); 
+
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
     }, 
+    
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
+    },
 
     beforeRender: function() { 
     }, 

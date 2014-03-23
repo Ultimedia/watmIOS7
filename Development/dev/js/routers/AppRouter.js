@@ -11,6 +11,7 @@ appData.routers.AppRouter = Backbone.Router.extend({
         "createUser":       "createUser",
         "settings":         "settings",
         "sportselector":    "sportselector",
+        "noconnection":    "noconnection",
         "loading":          "loading",
         "friend/:id":        "friend"
     },
@@ -37,8 +38,38 @@ appData.routers.AppRouter = Backbone.Router.extend({
         }
     },
 
+    noconnection: function(){
+        appData.slider.slidePage(new appData.views.NoConnectionView().render().$el);
+    },
+
     home: function () {
-        appData.slider.slidePage(new appData.views.HomeView().render().$el);
+
+        // are we on a device or a mobile webbrowser?
+        if(appData.settings.native){
+
+            if(appData.settings.network){
+                // is this user already logged in? if so skip the login page and go straight to loading or the offline mode
+                if(appData.settings.userLoggedIn){
+                    window.location.hash = "loading";
+                }else{
+                    appData.slider.slidePage(new appData.views.HomeView().render().$el);
+                }
+            }else{
+
+                 // check if we have local storage from an earlier login
+                if(appData.settings.storageFound){
+
+                    appData.services.utilService.localDataToCollection(appData.storage);
+                    window.location.hash = "dashboard";
+                }else{
+                    window.location.hash = "noconnection";
+                }
+            }
+
+        }else{
+            appData.slider.slidePage(new appData.views.HomeView().render().$el);
+
+        }
     },
 
     loading: function () {
@@ -110,7 +141,6 @@ appData.routers.AppRouter = Backbone.Router.extend({
         }else{
             window.location.hash = "";
         }
-
     },
 
     createUser: function () {

@@ -1,6 +1,18 @@
 appData.views.ProfileView = Backbone.View.extend({
 
     initialize: function () {
+      Backbone.on('networkFoundEvent', this.networkFoundHandler);
+      Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    deviceOfflineHandler: function(){
+
+    },
+
+    // phonegap device back online
+    deviceOnlineHandler: function(){
+
     },
     
     render: function() { 

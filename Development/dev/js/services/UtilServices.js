@@ -81,6 +81,41 @@ appData.services.UtilServices = Backbone.Model.extend({
 		}else{
 			appData.events.locationEvent.trigger('locationErrorHandler', location);
 		}
-	}
+	},
+
+	localDataToCollection: function(dataObject){
+
+		// this function converts localstorage object to backbone collections
+		appData.collections.activities = new ActivitiesCollection(dataObject.activities);
+		appData.collections.buurten = new BuurtenCollection(dataObject.buurten);
+		appData.collections.challenges = new ChallengesCollection(dataObject.challenges);
+		appData.collections.favouriteSports = new SportsCollection(dataObject.favouriteSports);
+		appData.collections.locations = new LocationsCollection(dataObject.locations);
+		appData.collections.myActivities = new ActivitiesCollection(dataObject.myActivities);
+		appData.collections.myPlannedActivities = new ActivitiesCollection(dataObject.myPlannedActivities);
+		appData.collections.sortOptions = new SortOptionsCollection(dataObject.sortOptions);
+		appData.collections.sports = new SportsCollection(dataObject.sports);
+		appData.collections.users = new UsersCollection(dataObject.users);
+
+		appData.settings.dataLoaded = true;
+
+	},
+
+	  // check if there is a working internet / 3G / 4G / WIFI connection to enable the dynamic mode
+  checkConnection: function() {
+    var networkState = navigator.connection.type;
+
+    var states = {};
+        states[Connection.UNKNOWN]  = false;
+        states[Connection.ETHERNET] = true;
+        states[Connection.WIFI]     = true;
+        states[Connection.CELL_2G]  = true;
+        states[Connection.CELL_3G]  = true;
+        states[Connection.CELL_4G]  = true;
+        states[Connection.CELL]     = false;
+        states[Connection.NONE]     = false;
+
+        appData.settings.network = states[networkState];
+  }
 
 });

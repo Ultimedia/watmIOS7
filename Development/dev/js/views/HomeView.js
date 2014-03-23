@@ -13,6 +13,19 @@ appData.views.HomeView = Backbone.View.extend({
         appData.events.facebookUserToSQLEvent.bind('facebookUserToSQLSuccesHandler', this.facebookUserToSQLSuccesHandler);
         appData.events.locationHomeEvent.bind('locationSuccesHandler', this.locationSuccesHandler);
         appData.events.locationHomeEvent.bind('locationErrorHandler', this.locationErrorHandler);
+        
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
     },
 
     render: function() { 
@@ -59,8 +72,6 @@ appData.views.HomeView = Backbone.View.extend({
                 // First lets get the location
                 appData.services.utilService.getLocationService("login");
             }else{
-                console.log("to s")
-
                 appData.services.facebookService.facebookUserToSQL();
             }
 

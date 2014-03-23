@@ -15,6 +15,19 @@ appData.views.PlannerView = Backbone.View.extend({
     // Update when a user accepts / declines an invitation
     appData.views.PlannerView.acceptedInvite = this.acceptedInvite;
     appData.services.phpService.getMyPlannedActivities();
+  
+    Backbone.on('networkFoundEvent', this.networkFoundHandler);
+    Backbone.on('networkLostEvent', this.networkLostHandler);
+  }, 
+
+  // phonegap device offline
+  networkFoundHandler: function(){
+
+  },
+
+  // phonegap device back online
+  networkLostHandler: function(){
+
   },
 
   events:{

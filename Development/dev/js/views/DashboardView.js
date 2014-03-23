@@ -16,9 +16,29 @@ appData.views.DashboardView = Backbone.View.extend({
         // update activities collection
         appData.views.DashboardView.markers = [];
         appData.views.DashboardView.clearMarkers = this.clearMarkers;
-        appData.services.phpService.getActivities(false, null);
+
+        // update the activities if we have a network connection
+        if(appData.settings.network){
+            appData.services.phpService.getActivities(false, null);
+        }else{
+            $('#createActivityButton').hide();
+        }
+
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+
     },
 
+    // phonegap device back online
+    networkLostHandler: function(){
+
+    },
+    
     events: {
         "change #sortActivities": "sortActivitiesChangeHandler",
         "click #searchButton": "toggleSearchHandler",
@@ -185,6 +205,10 @@ appData.views.DashboardView = Backbone.View.extend({
 
         this.initMap();
         this.generateAcitvitiesCollection();
+
+        if(!appData.settings.network){
+            $('#createActivityButton', appData.settings.currentPageHTML).hide();
+        }
 
         return this;
     },

@@ -3,8 +3,21 @@ appData.views.ActivityDetailView = Backbone.View.extend({
     initialize: function () {
       console.log('----- In the initialize of ActivityDetailView -----');
       appData.views.ActivityDetailView.model = this.model;
+      
+      Backbone.on('networkFoundEvent', this.networkFoundHandler);
+      Backbone.on('networkLostEvent', networkLostHandler);
     }, 
 
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
+    },
 
     render: function() { 
       this.$el.html(this.template(this.model.attributes));
