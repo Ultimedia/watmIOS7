@@ -39,7 +39,6 @@ appData.views.ActivityInfoView = Backbone.View.extend({
 
         appData.models.activityModel.userData = new UsersCollection(data);
 
-
         // 1 set toggle switch for going
         var goingTo = appData.models.activityModel.userData.where({user_id:appData.models.userModel.attributes.user_id.toString()});
             goingTo = goingTo[0];
@@ -58,17 +57,22 @@ appData.views.ActivityInfoView = Backbone.View.extend({
         $('#aanwezigContent').empty();
         appData.views.ActivityInfoView.userListView = [];
         appData.views.ActivityDetailView.model.attributes.users = data;
-        
+
+
         var filteredUsers = _(appData.views.ActivityDetailView.model.attributes.users).where({"going": "1"});
         $(filteredUsers).each(function(index,userModel) {
           appData.views.ActivityInfoView.userListView.push(new appData.views.ActivityUserView({
             model : userModel
         }));
 
+        appData.views.ActivityDetailView.model.attributes.going = filteredUsers.length;
+        appData.views.ActivityDetailView.model.isFull();
+
         $('#aanwezigContent', appData.settings.currentModuleHTML).empty();
         _(appData.views.ActivityInfoView.userListView).each(function(dv) {
           $('#aanwezigContent', appData.settings.currentModuleHTML).append(dv.render().$el);
         });
+        $('#participantStat').text(appData.views.ActivityInfoView.userListView.length + " / " + appData.views.ActivityDetailView.model.attributes.participants);    
       });
 
     }

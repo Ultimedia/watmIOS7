@@ -96,10 +96,16 @@ appData.routers.AppRouter = Backbone.Router.extend({
     createActivity: function () {
         if(appData.settings.userLoggedIn){
 
-            if(appData.settings.dataLoaded){
-                appData.slider.slidePage(new appData.views.CreateActivityView({model: appData.models.userTemplate}).render().$el);
+            if(appData.settings.created){
+                window.location.hash = "#dashboard";
             }else{
-                window.location.hash = "loading";
+
+                if(appData.settings.dataLoaded){
+                    appData.slider.slidePage(new appData.views.CreateActivityView({model: appData.models.userTemplate}).render().$el);
+                }else{
+                    window.location.hash = "loading";
+                }
+
             }
         }else{
             window.location.hash = "";

@@ -36,7 +36,12 @@ appData.views.CreateUserView = Backbone.View.extend({
     }, 
 
     events: {
-        "click #createUserButton": "createUserButtonHandler"
+        "click #createUserButton": "createUserButtonHandler",
+        "change #ageSlider": "ageSliderHandler"
+    },
+
+    ageSliderHandler: function(){
+        $('#range', appData.settings.currentPageHTML).removeClass('hide').text($('#ageSlider', appData.settings.currentPageHTML).val() + " jaar");
     },
 
     createUserButtonHandler: function(){
@@ -57,6 +62,10 @@ appData.views.CreateUserView = Backbone.View.extend({
             rules: {
                 password: {
                     minlength:4
+                },
+                age: {
+                  required: true,
+                  range: [12, 60]
                 }
             },
 
@@ -79,11 +88,13 @@ appData.views.CreateUserView = Backbone.View.extend({
 				var password = $('#passwordInput', appData.settings.currentPageHTML).val();
 				var email = $('#emailInput', appData.settings.currentPageHTML).val();
                 var gender =  appData.views.CreateUserView.selectedGender;
+                var age = $('#ageSlider', appData.settings.currentPageHTML).val();
 
 				appData.models.userModel = new User();
                 appData.models.userModel.set('name', name);
 				appData.models.userModel.set('email', email);
 				appData.models.userModel.set('password', password);
+                appData.models.userModel.set('age', age);
 
                 if(appData.settings.native){
 

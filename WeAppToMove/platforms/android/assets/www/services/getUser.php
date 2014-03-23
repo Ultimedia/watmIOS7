@@ -5,14 +5,14 @@
 	$password = $_POST['password'];
 
 	$dbc = getDBConnection();		
-	$sql = "SELECT user_id, password, name, avatar, stamina_score, strength_score, equipment_score, current_location FROM watm_users WHERE email = ?";
+	$sql = "SELECT user_id, password, name, avatar, stamina_score, strength_score, equipment_score, current_location, age FROM watm_users WHERE email = ?";
 	if($stmt = $dbc->prepare($sql))
 	{
 		$stmt->bind_param('s',$email);
 		if($stmt->execute())
 		{
 			$stmt->store_result();
-			$stmt->bind_result($userid, $pdassword, $name, $avatar, $stamina_score, $strength_score, $equipment_score, $current_location);
+			$stmt->bind_result($userid, $pdassword, $name, $avatar, $stamina_score, $strength_score, $equipment_score, $current_location, $age);
 			$stmt->fetch();
 
 			if($stmt->num_rows() == 0)
@@ -25,6 +25,7 @@
 				$return['equipment_score'] = $equipment_score;
 				$return['current_location'] = $current_location;
 				$return['avatar'] = $avatar;
+				$return['age'] = $age;
 
 			}else{
 
@@ -42,6 +43,7 @@
 				$return['equipment_score'] = $equipment_score;
 				$return['current_location'] = $current_location;
 				$return['avatar'] = $avatar;
+				$return['age'] = $age;
 
 			}
 			print json_encode($return);

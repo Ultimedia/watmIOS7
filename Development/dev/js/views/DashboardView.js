@@ -2,7 +2,9 @@ appData.views.DashboardView = Backbone.View.extend({
 
     initialize: function () {
         console.log(appData.collections);
+        console.log(appData.models.userModel);
 
+ 
         var that = this;
         this.searching = false;
         this.favouriteSportsFilter = false;
@@ -20,7 +22,13 @@ appData.views.DashboardView = Backbone.View.extend({
     events: {
         "change #sortActivities": "sortActivitiesChangeHandler",
         "click #searchButton": "toggleSearchHandler",
-        "keyup #searchInput": "searchHandler"
+        "keyup #searchInput": "searchHandler",
+        "click #fullScreenButton": "fullscreenToggleHandler"
+    },
+
+    fullscreenToggleHandler: function(){
+        $('#dashboard',appData.settings.currentPageHTML).toggleClass('mapOpen');
+        google.maps.event.trigger(appData.views.DashboardView.map, 'resize');
     },
 
     activitiesUpdateHandler: function(){
@@ -28,6 +36,7 @@ appData.views.DashboardView = Backbone.View.extend({
     },
 
     generateAcitvitiesCollection: function(){
+      
         Backbone.off('dashboardUpdatedHandler', this.generateAcitvitiesCollection);
 
         if(appData.collections.activities.length === 0){

@@ -22,7 +22,13 @@ appData.views.CreateActivityView = Backbone.View.extend({
     },
 
     subHandler: function(){
-        $('form',appData.settings.currentPageHTML).submit();
+        if($('form').is('#wieForm')){
+              Backbone.on('activityCreated', appData.views.CreateActivityWieView.activityCreatedHandler);
+              appData.services.phpService.createActivity(appData.views.ActivityDetailView.model);
+ 
+        }else{
+            $('form',appData.settings.currentPageHTML).submit();
+        }
     },
 
 

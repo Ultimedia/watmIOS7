@@ -1245,8 +1245,8 @@ jQuery.extend(jQuery.validator.messages, {
     accept: "Please enter a value with a valid extension.",
     maxlength: jQuery.validator.format("Please enter no more than {0} characters."),
     minlength: jQuery.validator.format("Dit veld moet minstens {0} tekens lang zijn"),
-    rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
-    range: jQuery.validator.format("Please enter a value between {0} and {1}."),
+    rangelength: jQuery.validator.format("Kies een leeftijd tussen {0} en {1} jaar"),
+    range: jQuery.validator.format("Kies een leeftijd tussen {0} en {1} jaar"),
     max: jQuery.validator.format("Dit veld moet minstens {0} tekens lang zijn."),
     min: jQuery.validator.format("Dit veld moet minstens {0} tekens lang zijn.")
 });

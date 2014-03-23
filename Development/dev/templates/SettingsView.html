@@ -19,8 +19,15 @@
 	      	</div>
 	    </div>
   	</form>
-      <img src="<%= imagePath %><%= user.avatar %>" alt="" id="userAvatar"/>
-      <a href="javascript:;" class=" cl-btn flat-green" id="changeAvatar">Nieuwe avatar</a>
+
+
+      <div id="avatarSection">
+        <h4>Jouw profielfoto</h4>
+        <span id="userAvatar" style="background: url('<%= imagePath %><%= user.avatar %>') no-repeat;     -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; "></span>
+        <span id="avatarFunctionality">
+          <a href="javascript:;" class=" cl-btn flat-green" id="changeAvatar">Nieuwe foto</a>
+        </span>
+      </div>
 
       <form id="mediaForm" action="javascript:;" methode="POST">
         <input type="file" name="file" class="hide" id="nonNativeFileField" accept="image/gif, image/jpeg, image/png"/>

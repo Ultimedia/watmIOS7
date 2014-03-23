@@ -5,13 +5,15 @@
 	$name = $_POST['name'];
 	$password = $_POST['password'];
 	$current_location = $_POST['current_location'];
+	$age = $_POST['age'];
+
 
 	$dbc = getDBConnection();		
-	$sql = "INSERT INTO watm_users (email, password, name, current_location) VALUES (?,?,?,?)";
+	$sql = "INSERT INTO watm_users (email, password, name, current_location, age) VALUES (?,?,?,?,?)";
 	$stmt = null;
 	
 	if($stmt = $dbc->prepare($sql)){
-		$stmt->bind_param("ssss", $email, md5($password), $name, $current_location);
+		$stmt->bind_param("sssss", $email, md5($password), $name, $current_location, $age);
 		
 		if($stmt->execute())
 		{

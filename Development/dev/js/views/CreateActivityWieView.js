@@ -25,14 +25,7 @@ appData.views.CreateActivityWieView = Backbone.View.extend({
     },
 
     setValidator: function(){
-    	var that = this;
-        $("#wieForm",appData.settings.currentModuleHTML).validate({
-            submitHandler: function(form){
-              
-              Backbone.on('activityCreated', appData.views.CreateActivityWieView.activityCreatedHandler);
-              appData.services.phpService.createActivity(appData.views.ActivityDetailView.model);
-            }
-        });
+
     },
 
     activityCreatedHandler: function(activity_id){
@@ -47,6 +40,9 @@ appData.views.CreateActivityWieView = Backbone.View.extend({
       }else{
         appData.services.phpService.getActivities(false, appData.views.CreateActivityWieView.activity_id);
       }
+
+      // set this boolean so we return to disable back functionality
+      appData.settings.created = true;
 
     },
 

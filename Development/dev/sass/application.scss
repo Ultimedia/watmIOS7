@@ -165,6 +165,7 @@ form .cl-btn{
 }
 
 
+
 /* Login page */
 .error-box{
 	background: #da5555;
@@ -479,6 +480,24 @@ input.error{
   }
 }
 
+#createUser, #watContent{
+  #range, #participants{
+    width: auto;
+    height: auto;
+    text-align: center;
+    background: #23cddd;
+    padding: 7px 12px;
+    float: right;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+  }
+
+  h4{
+    float: left;
+  }
+}
+
 
 /**
 * Loading
@@ -576,6 +595,7 @@ input.error{
 * Dashboard
 */
 #dashboard{
+  position: relative;
 
     .cl-bar-title{
       .add-icon{
@@ -593,6 +613,16 @@ input.error{
         height: 18px;
         width: 18px;
       }
+    }
+
+    #fullScreenButton{
+      width: 36px;
+      height: 40px;
+      z-index: 100;
+      position: absolute;
+      right: 0;
+      top: 74px;
+      background: #378488 url('assets/fullscreen-icon@x2.png') no-repeat center center / 15px 15px;
     }
 
     .cl-content{
@@ -634,6 +664,19 @@ input.error{
       .cl-table-cell{
         background: #4fbab6;
         margin-bottom: 2px;
+
+        .full{
+          position: absolute;
+          right: 0;
+          top: 15px;
+          background-color: #d95555;
+          padding: 5px;
+          color: #fff;
+          border-radius: 3px;
+          -webkit-border-radius: 3px;
+          text-transform: uppercase;
+          font-family: "source_sans_prosemibold";
+        }
 
         span{
           margin: 5px 10px;
@@ -739,15 +782,60 @@ input.error{
   }
 }
 
+#dashboard.mapOpen{
+  #sortBar{
+    display: none;
+  }
+  .cl-content{
+    display: none;
+  }
+
+  #map_canvas{
+    height: calc(100% - 108px);
+    border-left: 3px solid #d95555;
+    border-right: 3px solid #d95555;
+  }
+
+  #fullScreenButton{
+      background: #378488 url('assets/normalscreen-icon@x2.png') no-repeat center center / 15px 15px;
+    }
+}
+
+
 
 /** 
 * Settings
 */
 #settings{
-  #userAvatar{
-    width: 100%;
-    margin-top: 0;
+
+.cl-content{
+  padding: 10px;
+
+    #avatarSection{
+      margin-bottom: 10px;
+      overflow: auto;
+
+      #userAvatar{
+        width: 120px;
+        height: 120px;
+        display: inline-block;
+        border-radius: 60px;
+        float: left;
+      }
+
+      #avatarFunctionality{
+        display: inline-block;
+        margin-top: 40px;
+        margin-left: 20px;
+      }
+    }
+
+    #signOutButton{
+      clear: both;
+      margin: 0;
+    }
   }
+
 }
 
 /**

@@ -10,11 +10,13 @@ appData.services.PhpServices = Backbone.Model.extend({
 	createActivity: function(activityModel){
 		var that = this;
 
+		console.log(activityModel);
+
 		$.ajax({
         url:appData.settings.servicePath + appData.settings.createActivityService,
         type:'POST',
         dataType:'json',
-        data: "location_id="+activityModel.attributes.location_id+"&title="+activityModel.attributes.title+"&sport_id="+activityModel.attributes.sport_id+"&description="+activityModel.attributes.description+"&date="+activityModel.attributes.date+"&time="+activityModel.attributes.time+"&user_id="+appData.models.userModel.attributes.user_id,
+        data: "location_id="+activityModel.attributes.location_id+"&title="+activityModel.attributes.title+"&sport_id="+activityModel.attributes.sport_id+"&description="+activityModel.attributes.description+"&date="+activityModel.attributes.date+"&time="+activityModel.attributes.time+"&user_id="+appData.models.userModel.attributes.user_id+"&participants="+appData.models.userModel.attributes.participants,
         timeout:60000,
 	        success:function(data){
 	        	console.log(data);
@@ -56,7 +58,7 @@ appData.services.PhpServices = Backbone.Model.extend({
 			url:appData.settings.servicePath + appData.settings.addUserService,
 			type:'POST',
 			dataType:'json',
-			data: "email="+appData.models.userModel.attributes.email+"&gender="+appData.models.userModel.attributes.gender+"&name="+appData.models.userModel.attributes.name+"&password="+appData.models.userModel.attributes.password+"&current_location="+JSON.stringify(appData.models.userModel.attributes.current_location),
+			data: "email="+appData.models.userModel.attributes.email+"&age="+appData.models.userModel.attributes.age+"&gender="+appData.models.userModel.attributes.gender+"&name="+appData.models.userModel.attributes.name+"&password="+appData.models.userModel.attributes.password+"&current_location="+JSON.stringify(appData.models.userModel.attributes.current_location),
 			timeout:60000,
 			success:function(data){
 				if(data.value === true){
@@ -91,6 +93,7 @@ appData.services.PhpServices = Backbone.Model.extend({
 						appData.models.userModel.attributes.stamina_score = data.stamina_score;
 						appData.models.userModel.attributes.equipment_score = data.equipment_score;
 						appData.models.userModel.attributes.avatar = data.avatar;
+						appData.models.userModel.attributes.avatar = data.age;
 
 						console.log(data);
 
@@ -113,8 +116,6 @@ appData.services.PhpServices = Backbone.Model.extend({
 			dataType:'json',
 			data: "activity_id="+activityModel.attributes.activity_id,
 			success:function(data){
-				console.log(data);
-
 				var messages = new MessagesCollection(data);
 				appData.events.getMessagesSuccesEvent.trigger("chatMessagesLoadSuccesHandler", messages);
 			}
@@ -143,8 +144,6 @@ appData.services.PhpServices = Backbone.Model.extend({
 		dataType:'json',
 		data: "user_id="+appData.models.userModel.attributes.user_id,
 		success:function(data){
-			console.log(data);
-
 			appData.collections.myActivities = new ActivitiesCollection(data);
 			Backbone.trigger('myActivitiesLoadedHandler');
 		}
@@ -255,8 +254,6 @@ appData.services.PhpServices = Backbone.Model.extend({
 			dataType:'json',
 			data: "activity_id="+activityModel.attributes.activity_id,
 			success:function(data){
-				console.log(data);
-
 				Backbone.trigger('activityUsersSuccesEvent', data);
 			},error: function(){
 			}
@@ -270,8 +267,6 @@ appData.services.PhpServices = Backbone.Model.extend({
 			dataType:'json',
 			data: "user_id="+appData.models.userModel.attributes.user_id+"&going="+going+"&activity_id="+activity_id,
 			success:function(data){
-				console.log(data);
-
 				Backbone.trigger('goinToActivitySuccesEvent');
 			},error: function(){
 
@@ -356,7 +351,6 @@ appData.services.PhpServices = Backbone.Model.extend({
 			dataType:'json',
 			data: "url="+imageName+"&user_id="+appData.models.userModel.attributes.user_id+"&type="+1+"&activity_id="+activity_id,
 			success:function(data){
-				console.log(data);
         		Backbone.trigger('addPhotoToDatabaseHandler');
 			}
 		}); 
@@ -484,8 +478,6 @@ appData.services.PhpServices = Backbone.Model.extend({
 			dataType:'json',
 			data: "user_id="+appData.models.userModel.attributes.user_id,
 			success:function(data){
-				console.log(data);
-
 				appData.models.userModel.attributes.myFriends = new UsersCollection(data);
 				Backbone.trigger('getFriendsHandler');
 			}, error:function(){

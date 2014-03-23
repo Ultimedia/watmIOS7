@@ -15,13 +15,15 @@ appData.views.CreateActivityInfoView = Backbone.View.extend({
       return this; 
     },
 
-    events: {
-      "click #submitButton": "subHandler"
+    events:{
+      "change #participantsSlider": "participantsSliderHandler"
+    },
+
+    participantsSliderHandler: function(){
+        $('#participants', appData.settings.currentModuleHTML).removeClass('hide').text($('#participantsSlider', appData.settings.currentModuleHTML).val() + " deelnemers");
     },
 
     subHandler: function(){
-      alert('dddd');
-
       $("#watForm",appData.settings.currentModuleHTML).submit();
     },
 
@@ -40,12 +42,17 @@ appData.views.CreateActivityInfoView = Backbone.View.extend({
           rules: {
             wanneerInput: {
               date: true
+            },
+            participants: {
+              required: true,
+              range: [2, 60]
             }
           },
           submitHandler: function(form) {
-
+            appData.views.ActivityDetailView.model.attributes.participants = $('#participantsSlider', appData.settings.currentModuleHTML).val();
             appData.views.ActivityDetailView.model.attributes.title = $('#titelInput', appData.settings.currentModuleHTML).val();
-            appData.views.ActivityDetailView.model.attributes.date = $('#wanneerInput', appData.settings.currentModuleHTML).val() + " " + $('#timeInput', appData.settings.currentModuleHTML).val();
+            appData.views.ActivityDetailView.model.attributes.date = $('#wanneerInput', appData.settings.currentModuleHTML).val() + " " + $('#vanInput', appData.settings.currentModuleHTML).val();
+            appData.views.ActivityDetailView.model.attributes.stopTime  = $('#totInput', appData.settings.currentModuleHTML).val();
             appData.views.ActivityDetailView.model.attributes.description = $('#omschrijvingInput', appData.settings.currentModuleHTML).val();
 
             appData.views.CreateActivityInfoView.tabTarget = {};
