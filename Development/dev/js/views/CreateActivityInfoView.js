@@ -12,6 +12,30 @@ appData.views.CreateActivityInfoView = Backbone.View.extend({
       appData.views.CreateActivityInfoView.sportAutComplete = new AutoCompleteView({input: $("#sportInput", appData.settings.currentModuleHTML), model: appData.collections.sports, wait: 100, updateModel: appData.views.ActivityDetailView.model, updateID: "sport_id"}).render();
       this.setValidator();
 
+      // if we are updating, enter the date from the activity in the input form
+      if(appData.views.CreateActivityView.isUpdating){
+            var selectedSport = appData.collections.sports.where({"sport_id": appData.views.ActivityDetailView.model.attributes.sport_id})
+                selectedSport = selectedSport[0];
+
+            $('#sportInput', appData.settings.currentModuleHTML).val(selectedSport.attributes.sport_title);
+            $('#participantsSlider', appData.settings.currentModuleHTML).attr('value', appData.views.ActivityDetailView.model.attributes.participants);
+            this.participantsSliderHandler();
+            $('#titelInput', appData.settings.currentModuleHTML).val(appData.views.ActivityDetailView.model.attributes.title);
+
+            var time = appData.views.ActivityDetailView.model.attributes.date.slice(-5);
+            $('#vanInput', appData.settings.currentModuleHTML).val(time);
+            $('#totInput', appData.settings.currentModuleHTML).val(appData.views.ActivityDetailView.model.attributes.stopTime);
+            $('#omschrijvingInput', appData.settings.currentModuleHTML).val(appData.views.ActivityDetailView.model.attributes.description);
+          
+            var dateObject = new Date(appData.views.ActivityDetailView.model.attributes.savedDate);
+
+              console.log(dateObject);
+            $('#wanneerInput', appData.settings.currentModuleHTML).val(dateObject.toDateInputValue());
+
+            // find out how to make dates
+
+      }
+
       return this; 
     },
 
@@ -46,7 +70,7 @@ appData.views.CreateActivityInfoView = Backbone.View.extend({
             participants: {
               required: true,
               range: [2, 60]
-            }
+            },
           },
           submitHandler: function(form) {
             appData.views.ActivityDetailView.model.attributes.participants = $('#participantsSlider', appData.settings.currentModuleHTML).val();

@@ -860,9 +860,6 @@ input.error{
     margin-top: 5px;
   }
 
-  #editPanel{
-    display: none;
-  }
 
   #mediaContent{
     #addMediaButton{
@@ -1338,6 +1335,27 @@ input.error{
     background-size: cover;
     margin-bottom: 5px;
   }
+
+  .cl-content{
+    padding: 10px;
+
+
+    h4{
+      font-family: "source_sans_prosemibold";
+      text-transform: uppercase;
+      font-size: 12px;
+      text-align:center;
+    }
+
+
+    #mediaContainer{
+      img{
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+
 
 }
 

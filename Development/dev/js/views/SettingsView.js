@@ -35,7 +35,18 @@ appData.views.SettingsView = Backbone.View.extend({
         });
       }
 
+      this.generateFavouriteSportList();
+
       return this;
+    },
+
+    generateFavouriteSportList: function(){
+
+      _(appData.models.userModel.attributes.myFavouriteSports).each(function(model){
+
+
+      });
+
     },
 
     mediaFormSubmitHandler: function(event){
@@ -64,9 +75,7 @@ appData.views.SettingsView = Backbone.View.extend({
     },
 
     nonNativeFileSelectedHandler: function(evt){
-
         // upload script
-        // do some checks
         var files = evt.target.files;
         appData.views.SettingsView.files = files;
 

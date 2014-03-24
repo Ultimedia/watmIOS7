@@ -206,7 +206,7 @@ appData.views.DashboardView = Backbone.View.extend({
         this.initMap();
         this.generateAcitvitiesCollection();
 
-        if(!appData.settings.network){
+        if(!appData.settings.network && appData.settings.native){
             $('#createActivityButton', appData.settings.currentPageHTML).hide();
         }
 
@@ -216,9 +216,19 @@ appData.views.DashboardView = Backbone.View.extend({
     initMap: function() { 
         appData.settings.mapAdded = true;
 
+
+        var myLocation = appData.models.userModel.attributes.current_location;
+        if(myLocation !== "" || myLocation !== null){
+            myLocation = appData.models.userModel.attributes.current_location.split(',');
+        }else{
+            myLocation = appData.settings.defaultLocation;
+        }
+
+        appData.views.DashboardView.locations = myLocation;
+
         var mapOptions = {
             zoom: 15,
-            center: new google.maps.LatLng(appData.settings.defaultLocation[0], appData.settings.defaultLocation[1]),
+            center: new google.maps.LatLng(appData.views.DashboardView.locations[0], appData.views.DashboardView.locations[1]),
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             disableDefaultUI: true
         }
@@ -227,8 +237,16 @@ appData.views.DashboardView = Backbone.View.extend({
         // resize and relocate map
         google.maps.event.addListenerOnce(appData.views.DashboardView.map, 'idle', function() {
             google.maps.event.trigger(appData.views.DashboardView.map, 'resize');
-            appData.views.DashboardView.map.setCenter(new google.maps.LatLng(appData.settings.defaultLocation[0], appData.settings.defaultLocation[1]), 13);
+            appData.views.DashboardView.map.setCenter(new google.maps.LatLng(appData.views.DashboardView.locations[0], appData.views.DashboardView.locations[1]), 13);
         });
+
+        var userMarker = new google.maps.Marker({
+              position: new google.maps.LatLng(appData.views.DashboardView.locations[0], appData.views.DashboardView.locations[1]),
+              map:  appData.views.DashboardView.map,
+              title: "",
+              icon: appData.settings.iconPath + "my-map-icon@x2.png"
+            });
+        appData.views.DashboardView.markers.push(userMarker);
 
         if(appData.settings.native){
             Backbone.on('getMyLocationHandler', this.getMyLocationHandler);
@@ -261,6 +279,14 @@ appData.views.DashboardView = Backbone.View.extend({
 
             appData.views.DashboardView.markers.push(marker);
         });
+
+        var userMarker = new google.maps.Marker({
+          position: new google.maps.LatLng(appData.views.DashboardView.locations[0], appData.views.DashboardView.locations[1]),
+          map:  appData.views.DashboardView.map,
+          title: "",
+          icon: appData.settings.iconPath + "my-map-icon@x2.png"
+        });
+        appData.views.DashboardView.markers.push(userMarker);
     },
 
     clearMarkers: function(){

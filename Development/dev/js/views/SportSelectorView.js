@@ -6,8 +6,8 @@ appData.views.SportSelectorView = Backbone.View.extend({
     
         appData.views.SportSelectorView.model = this.model;
 
-        Backbone.on('networkFoundEvent', networkFoundHandler);
-        Backbone.on('networkLostEvent', networkLostHandler);
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
     }, 
 
     // phonegap device offline

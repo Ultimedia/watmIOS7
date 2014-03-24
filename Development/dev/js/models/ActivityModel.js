@@ -17,7 +17,8 @@ Activity = Backbone.Model.extend({
 		participants: "0",
 		going: "",
 		users: [],
-		full: false
+		full: false,
+		updateActivity: false
     },
 
 	initialize: function(){

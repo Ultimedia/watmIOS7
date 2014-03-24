@@ -11,9 +11,10 @@ appData.routers.AppRouter = Backbone.Router.extend({
         "createUser":       "createUser",
         "settings":         "settings",
         "sportselector":    "sportselector",
-        "noconnection":    "noconnection",
+        "noconnection":     "noconnection",
         "loading":          "loading",
-        "friend/:id":        "friend"
+        "friend/:id":       "friend",
+        "update/:id":       "update"
     },
 
 
@@ -67,6 +68,7 @@ appData.routers.AppRouter = Backbone.Router.extend({
             }
 
         }else{
+
             appData.slider.slidePage(new appData.views.HomeView().render().$el);
 
         }
@@ -81,7 +83,7 @@ appData.routers.AppRouter = Backbone.Router.extend({
     },
     
     dashboard: function () {
-
+        appData.settings.created = false;
         if(appData.settings.userLoggedIn){
 
             if(appData.settings.dataLoaded){                
@@ -122,6 +124,25 @@ appData.routers.AppRouter = Backbone.Router.extend({
 
     activity: function (id) {
         appData.slider.slidePage(new appData.views.ActivityDetailView().render().$el); 
+    },
+
+    update: function(id){
+        if(appData.settings.userLoggedIn){
+
+            if(appData.settings.dataLoaded){
+                var activitiesCollection = appData.collections.activities;
+                var selectedActivityModel = activitiesCollection.where({activity_id: id}); 
+                    selectedActivityModel = selectedActivityModel[0];
+                    selectedActivityModel.attributes.updateActivity = true;
+
+                appData.slider.slidePage(new appData.views.CreateActivityView({model: selectedActivityModel}).render().$el);
+            }else{
+                window.location.hash = "loading";
+            }
+        
+        }else{
+            window.location.hash = "";
+        }
     },
 
     createActivity: function () {

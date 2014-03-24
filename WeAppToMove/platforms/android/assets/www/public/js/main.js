@@ -99,13 +99,14 @@ $(document).on("ready", function () {
   // phonegap device offline
   function deviceOfflineHandler(){
     appData.settings.network = true;
+    Backbone.trigger('networkFoundEvent');
   }
 
   // phonegap device back online
   function deviceOnlineHandler(){
     appData.settings.network = false;
+    Backbone.trigger('networkLostEvent');
   }
-
 
   appData.router = new appData.routers.AppRouter();
   appData.utils.templates.load(["HomeView", "DashboardView", "PlannerView", "ProfileView", "ActivityDetailView", "CreateActivityView", "CreateUserView", "NavigationView", "SettingsView", "SportSelectorView", "DashboardActivityView", "LoadingView", "HelperView", "ChallengeListView", "ActivityMessageView", "ActivityMessageView", "ActivityInfoView", "ActivityMediaView", "ActivityMessagesView", "ActivityMediaViewer", "ActivityInfoView", "CreateActivityLocationView", "CreateActivityInfoView", "CreateActivityWieView", "ProfileAvatarView", "ProfileChallengeView", "ProfileFriendsView", "FriendsListView", "FriendView", "ActivityUserView", "PlannerMyActivitiesView", "GoogleMapView", "FavouriteSportListView", "ActiveChallengeListView", "BadgeListView", "FriendInvitieView", "PlannerInvitedActivitiesView", "NoConnectionView"],
@@ -183,7 +184,7 @@ $(document).on("ready", function () {
 
       appData.services.facebookService.facebookConnect();
 
-
+/*
       // see if we have a user in our localstorage
       if(window.localStorage.getItem("userModel")){
 
@@ -197,7 +198,7 @@ $(document).on("ready", function () {
         appData.storage = JSON.parse(window.localStorage.getItem("collections"));
 
       }
-
+*/
       // init backbone
       Backbone.history.start();
   });
@@ -464,7 +465,15 @@ appData.views.ActivityDetailView = Backbone.View.extend({
     initialize: function () {
       console.log('----- In the initialize of ActivityDetailView -----');
       appData.views.ActivityDetailView.model = this.model;
+      
+      Backbone.on('networkFoundEvent', this.networkFoundHandler);
     }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+
+    },
 
 
     render: function() { 
@@ -1004,7 +1013,10 @@ appData.views.CreateActivityInfoView = Backbone.View.extend({
             participants: {
               required: true,
               range: [2, 60]
-            }
+            },
+
+
+            
           },
           submitHandler: function(form) {
             appData.views.ActivityDetailView.model.attributes.participants = $('#participantsSlider', appData.settings.currentModuleHTML).val();
@@ -1012,6 +1024,8 @@ appData.views.CreateActivityInfoView = Backbone.View.extend({
             appData.views.ActivityDetailView.model.attributes.date = $('#wanneerInput', appData.settings.currentModuleHTML).val() + " " + $('#vanInput', appData.settings.currentModuleHTML).val();
             appData.views.ActivityDetailView.model.attributes.stopTime  = $('#totInput', appData.settings.currentModuleHTML).val();
             appData.views.ActivityDetailView.model.attributes.description = $('#omschrijvingInput', appData.settings.currentModuleHTML).val();
+
+            console.log(appData.views.ActivityDetailView.model.attributes.participants + "part");
 
             appData.views.CreateActivityInfoView.tabTarget = {};
             appData.views.CreateActivityInfoView.tabTarget.location = "#waarContent";
@@ -1055,6 +1069,9 @@ appData.views.CreateActivityLocationView = Backbone.View.extend({
         appData.views.CreateActivityLocationView.tabTarget.tab = "#wieTab";
         appData.views.CreateActivityLocationView.markers = [];
         appData.views.CreateActivityLocationView.clearMarkers = this.clearMarkers;
+
+           appData.views.CreateActivityLocationView.activityCreatedHandler = this.activityCreatedHandler;
+
     },
 
     events: {
@@ -1210,10 +1227,30 @@ appData.views.CreateActivityLocationView = Backbone.View.extend({
                     // Add location to database
                     appData.services.phpService.addLocation($('#locationInput',appData.settings.currentModuleHTML).val(), appData.views.CreateActivityLocationView.currentMapLocation,"");
                 }else{
-                    appData.events.createActivityTabsEvent.trigger('formStageCompleteEvent', appData.views.CreateActivityLocationView.tabTarget);
+
+                    // if we don't have friends just create the activity, else go to the friends invite page
+                    if(appData.models.userModel.attributes.myFriends.models.length !== 0){
+                        appData.events.createActivityTabsEvent.trigger('formStageCompleteEvent', appData.views.CreateActivityLocationView.tabTarget);
+                    }else{
+                        Backbone.on('activityCreated', appData.views.CreateActivityLocationView.activityCreatedHandler);
+                        appData.services.phpService.createActivity(appData.views.ActivityDetailView.model);
+                    }
                 }
             }
         });
+    },
+
+    activityCreatedHandler: function(activity_id){
+
+      // now add friends
+      Backbone.off('activityCreated');
+      
+      appData.views.CreateActivityLocationView.activity_id = activity_id;
+      appData.services.phpService.getActivities(false, appData.views.CreateActivityLocationView.activity_id);
+      
+      // set this boolean so we return to disable back functionality
+      appData.settings.created = true;
+
     }
 });
 
@@ -1222,8 +1259,22 @@ appData.views.CreateActivityView = Backbone.View.extend({
     initialize: function () {
         appData.views.ActivityDetailView.model = new Activity();
         appData.events.createActivityTabsEvent.bind("formStageCompleteEvent", this.formStageCompleteEvent);
+        
+          Backbone.on('networkFoundEvent', this.networkFoundHandler);
+          Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+
     },
 
+    // phonegap device back online
+    networkLostHandler: function(){
+
+    },
+    
     render: function() { 
     	this.$el.html(this.template());
         this.currentActivityPage = '#watContent';
@@ -1232,6 +1283,11 @@ appData.views.CreateActivityView = Backbone.View.extend({
         
         var view = new appData.views.CreateActivityInfoView({ model:  appData.views.ActivityDetailView.model});
         $('#createActivityContent', appData.settings.currentPageHTML).empty().append(view.render().$el);
+
+        // if this user doesn't have friends, just hide the friends tab from the flow
+        if(appData.models.userModel.attributes.myFriends.models.length === 0){
+            $('#wieTab', appData.settings.currentPageHTML).addClass('hide');
+        }
 
         return this; 
     }, 
@@ -1518,8 +1574,22 @@ appData.views.DashboardView = Backbone.View.extend({
         }else{
             $('#createActivityButton').hide();
         }
+
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+
     },
 
+    // phonegap device back online
+    networkLostHandler: function(){
+
+    },
+    
     events: {
         "change #sortActivities": "sortActivitiesChangeHandler",
         "click #searchButton": "toggleSearchHandler",
@@ -1687,7 +1757,7 @@ appData.views.DashboardView = Backbone.View.extend({
         this.initMap();
         this.generateAcitvitiesCollection();
 
-        if(!appData.settings.network){
+        if(!appData.settings.network && appData.settings.native){
             $('#createActivityButton', appData.settings.currentPageHTML).hide();
         }
 
@@ -1697,9 +1767,19 @@ appData.views.DashboardView = Backbone.View.extend({
     initMap: function() { 
         appData.settings.mapAdded = true;
 
+
+        var myLocation = appData.models.userModel.attributes.current_location;
+        if(myLocation !== "" || myLocation !== null){
+            myLocation = appData.models.userModel.attributes.current_location.split(',');
+        }else{
+            myLocation = appData.settings.defaultLocation;
+        }
+
+        appData.views.DashboardView.locations = myLocation;
+
         var mapOptions = {
             zoom: 15,
-            center: new google.maps.LatLng(appData.settings.defaultLocation[0], appData.settings.defaultLocation[1]),
+            center: new google.maps.LatLng(appData.views.DashboardView.locations[0], appData.views.DashboardView.locations[1]),
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             disableDefaultUI: true
         }
@@ -1708,8 +1788,16 @@ appData.views.DashboardView = Backbone.View.extend({
         // resize and relocate map
         google.maps.event.addListenerOnce(appData.views.DashboardView.map, 'idle', function() {
             google.maps.event.trigger(appData.views.DashboardView.map, 'resize');
-            appData.views.DashboardView.map.setCenter(new google.maps.LatLng(appData.settings.defaultLocation[0], appData.settings.defaultLocation[1]), 13);
+            appData.views.DashboardView.map.setCenter(new google.maps.LatLng(appData.views.DashboardView.locations[0], appData.views.DashboardView.locations[1]), 13);
         });
+
+        var userMarker = new google.maps.Marker({
+              position: new google.maps.LatLng(appData.views.DashboardView.locations[0], appData.views.DashboardView.locations[1]),
+              map:  appData.views.DashboardView.map,
+              title: "",
+              icon: appData.settings.iconPath + "my-map-icon@x2.png"
+            });
+        appData.views.DashboardView.markers.push(userMarker);
 
         if(appData.settings.native){
             Backbone.on('getMyLocationHandler', this.getMyLocationHandler);
@@ -1742,6 +1830,14 @@ appData.views.DashboardView = Backbone.View.extend({
 
             appData.views.DashboardView.markers.push(marker);
         });
+
+        var userMarker = new google.maps.Marker({
+          position: new google.maps.LatLng(appData.views.DashboardView.locations[0], appData.views.DashboardView.locations[1]),
+          map:  appData.views.DashboardView.map,
+          title: "",
+          icon: appData.settings.iconPath + "my-map-icon@x2.png"
+        });
+        appData.views.DashboardView.markers.push(userMarker);
     },
 
     clearMarkers: function(){
@@ -1830,6 +1926,18 @@ appData.views.FriendView = Backbone.View.extend({
       }else{
         this.model.attributes.myFriend = false;
       }
+      Backbone.on('networkFoundEvent', this.networkFoundHandler);
+      Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
     },
 
     render: function() { 
@@ -1928,6 +2036,19 @@ appData.views.HomeView = Backbone.View.extend({
         appData.events.facebookUserToSQLEvent.bind('facebookUserToSQLSuccesHandler', this.facebookUserToSQLSuccesHandler);
         appData.events.locationHomeEvent.bind('locationSuccesHandler', this.locationSuccesHandler);
         appData.events.locationHomeEvent.bind('locationErrorHandler', this.locationErrorHandler);
+        
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
     },
 
     render: function() { 
@@ -1963,15 +2084,17 @@ appData.views.HomeView = Backbone.View.extend({
     * Facebook login flow 
     */
     facebookUserToSQLSuccesHandler: function(){
+        $('#facebookLoad').removeClass('hide');
         appData.router.navigate('loading', true);
     },
 
     facebookGetIDHandler: function(newUser){
-        if(!newUser.facebook_user){
-            console.log("nieuwe gebruiker");
 
-            if(appData.settings.native){
+        if(!newUser.facebook_user){
+
+            if(navigator.geolocation){
                 // First lets get the location
+                appData.settings.newUser = true;
                 appData.services.utilService.getLocationService("login");
             }else{
                 appData.services.facebookService.facebookUserToSQL();
@@ -1980,22 +2103,24 @@ appData.views.HomeView = Backbone.View.extend({
         }else{
             appData.models.userModel.set('user_id', newUser.user_id);
 
-            if(appData.settings.native){
+            if(navigator.geolocation){
+                appData.settings.newUser = false;
                 appData.services.utilService.getLocationService("login");
             }else{
                 appData.router.navigate('loading', true);
-            }
-
-            // Excisting user, do nothing for now
-            appData.router.navigate('loading', true);          
+            }      
         }
     },
 
     locationSuccesHandler: function(location){
-        var myLocation = location.coords.coordinates.latitude + "," + location.coords.coordinates.longitude;
-
+        var myLocation = location.coords.latitude + "," + location.coords.longitude;
         appData.models.userModel.set('current_location', myLocation);
-        appData.services.facebookService.facebookUserToSQL();
+
+        if(appData.settings.newUser){
+            appData.services.facebookService.facebookUserToSQL();
+        }else{
+            appData.router.navigate('loading', true);
+        }
     },
 
     locationErrorHandler: function(){
@@ -2010,6 +2135,8 @@ appData.views.HomeView = Backbone.View.extend({
     facebookLoginHandler: function(){
         // fetch profile data
         appData.services.facebookService.getProfileData();
+
+        $('#facebookLoad').removeClass('hide');
     },
 
     facebookGetFriendsHandler: function(){
@@ -2064,7 +2191,20 @@ appData.views.LoadingView = Backbone.View.extend({
         Backbone.on('getMyFavouriteSportsHandler', this.getMyFavouriteSportsHandler)
         Backbone.on('getMyChallengesHandler', this.getMyChallengesHandler);
         Backbone.on('getMyBadgesHandler', this.getMyBadgesHandler);
-        Backbone.on('getFriendsHandler', this.loadingCompleteHandler)
+        Backbone.on('getFriendsHandler', this.loadingCompleteHandler);
+
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
     },
 
     render: function() {
@@ -2263,7 +2403,20 @@ appData.views.NavigationView = Backbone.View.extend({
             _this.afterRender(); 
             return _this; 
         }); 
+
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
     }, 
+    
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
+    },
 
     beforeRender: function() { 
     }, 
@@ -2356,6 +2509,19 @@ appData.views.NoConnectionView = Backbone.View.extend({
 
     initialize: function () {
 
+      Backbone.on('networkFoundEvent', this.networkFoundHandler);
+      Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+        window.location = "#";
     },
 
     render: function() { 
@@ -2420,6 +2586,19 @@ appData.views.PlannerView = Backbone.View.extend({
     // Update when a user accepts / declines an invitation
     appData.views.PlannerView.acceptedInvite = this.acceptedInvite;
     appData.services.phpService.getMyPlannedActivities();
+  
+    Backbone.on('networkFoundEvent', this.networkFoundHandler);
+    Backbone.on('networkLostEvent', this.networkLostHandler);
+  }, 
+
+  // phonegap device offline
+  networkFoundHandler: function(){
+
+  },
+
+  // phonegap device back online
+  networkLostHandler: function(){
+
   },
 
   events:{
@@ -2717,6 +2896,18 @@ appData.views.ProfileFriendsView = Backbone.View.extend({
 appData.views.ProfileView = Backbone.View.extend({
 
     initialize: function () {
+      Backbone.on('networkFoundEvent', this.networkFoundHandler);
+      Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    deviceOfflineHandler: function(){
+
+    },
+
+    // phonegap device back online
+    deviceOnlineHandler: function(){
+
     },
     
     render: function() { 
@@ -2771,6 +2962,18 @@ appData.views.SettingsView = Backbone.View.extend({
     	appData.views.SettingsView.avatarUploadHandler = this.avatarUploadHandler;
     	appData.views.SettingsView.avatarUpdatedHandler = this.avatarUpdatedHandler;
       appData.views.SettingsView.fileUploadedHandler = this.fileUploadedHandler;
+
+      Backbone.on('networkFoundEvent', this.networkFoundHandler);
+      Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
 
     },
 
@@ -2902,6 +3105,19 @@ appData.views.SportSelectorView = Backbone.View.extend({
         Backbone.on('addFavouriteSportsHandler', this.addFavouriteSportsHandler)
     
         appData.views.SportSelectorView.model = this.model;
+
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
     },
 
     render: function() {
@@ -3040,6 +3256,7 @@ appData.routers.AppRouter = Backbone.Router.extend({
             }
 
         }else{
+
             appData.slider.slidePage(new appData.views.HomeView().render().$el);
 
         }
@@ -3194,11 +3411,12 @@ appData.services.FacebookServices = Backbone.Model.extend({
 	},
 
 	facebookUserToSQL: function(){
+		console.log(appData.models.userModel.attributes);
 		$.ajax({
 			url:appData.settings.servicePath + appData.settings.facebookUserToSQL,
 			type:'POST',
 			dataType:'json',
-			data: "email="+appData.models.userModel.attributes.email+"&age="+appData.models.userModel.attributes.age+"&gender="+appData.models.userModel.attributes.gender+"&name="+appData.models.userModel.attributes.name+"&facebook_data="+JSON.stringify(appData.models.userModel.attributes.facebook_data)+"&facebook_id="+appData.models.userModel.attributes.facebook_id+"&avatar="+appData.models.userModel.attributes.avatar+"&current_location="+JSON.stringify(appData.models.userModel.attributes.current_location),
+			data: "email="+appData.models.userModel.attributes.email+"&age="+appData.models.userModel.attributes.age+"&gender="+appData.models.userModel.attributes.gender+"&name="+appData.models.userModel.attributes.name+"&facebook_data="+JSON.stringify(appData.models.userModel.attributes.facebook_data)+"&facebook_id="+appData.models.userModel.attributes.facebook_id+"&avatar="+appData.models.userModel.attributes.facebook_avatar+"&current_location="+JSON.stringify(appData.models.userModel.attributes.current_location),
 			timeout:60000,
 			success:function(data){
 				if(data.value === true){
@@ -3215,6 +3433,7 @@ appData.services.FacebookServices = Backbone.Model.extend({
 	},
 
 	getUserFromFacebookID: function(){
+
 	  	$.ajax({
 			url:appData.settings.servicePath + appData.settings.getUserFromFacebookID,
 			type:'GET',
@@ -3252,7 +3471,7 @@ appData.services.FacebookServices = Backbone.Model.extend({
 			appData.models.userModel.attributes.facebookUser = true;
 			appData.models.userModel.attributes.name = response.name;
 			appData.models.userModel.attributes.email = response.email;
-			appData.models.userModel.attributes.age = response.age_range;
+			appData.models.userModel.attributes.age = response.age_range.min;
 			appData.models.userModel.attributes.facebook_data.age_range = response.age_range.min;
 			appData.models.userModel.attributes.facebook_data.favorite_athletes = response.favorite_athletes;
 			appData.models.userModel.attributes.facebook_data.favorite_teams = response.favorite_teams;
@@ -3307,13 +3526,11 @@ appData.services.PhpServices = Backbone.Model.extend({
 	createActivity: function(activityModel){
 		var that = this;
 
-		console.log(activityModel);
-
 		$.ajax({
         url:appData.settings.servicePath + appData.settings.createActivityService,
         type:'POST',
         dataType:'json',
-        data: "location_id="+activityModel.attributes.location_id+"&title="+activityModel.attributes.title+"&sport_id="+activityModel.attributes.sport_id+"&description="+activityModel.attributes.description+"&date="+activityModel.attributes.date+"&time="+activityModel.attributes.time+"&user_id="+appData.models.userModel.attributes.user_id+"&participants="+appData.models.userModel.attributes.participants,
+        data: "location_id="+activityModel.attributes.location_id+"&title="+activityModel.attributes.title+"&sport_id="+activityModel.attributes.sport_id+"&description="+activityModel.attributes.description+"&date="+activityModel.attributes.date+"&time="+activityModel.attributes.time+"&user_id="+appData.models.userModel.attributes.user_id+"&participants="+activityModel.attributes.participants,
         timeout:60000,
 	        success:function(data){
 	        	console.log(data);
@@ -3953,14 +4170,13 @@ appData.services.UtilServices = Backbone.Model.extend({
 
 	getLocationService: function(target){
 		// geolocate
-		if(appData.settings.native){
+		if(navigator.geolocation){
 
 				navigator.geolocation.getCurrentPosition(onSuccess, onError);
 				var location = [];
 
 
 				function onSuccess(position) {
-					console.log(position);
 
 					switch(target){
 					case "login":
@@ -3980,6 +4196,7 @@ appData.services.UtilServices = Backbone.Model.extend({
 
 					switch(target){
 					case "login":
+
 						Backbone.trigger('locationError');
 						break;
 					case "createActivity":
@@ -3988,6 +4205,7 @@ appData.services.UtilServices = Backbone.Model.extend({
 					}
 				}
 		}else{
+
 			appData.events.locationEvent.trigger('locationErrorHandler', location);
 		}
 	},

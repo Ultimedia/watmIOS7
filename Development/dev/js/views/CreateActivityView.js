@@ -1,11 +1,28 @@
 appData.views.CreateActivityView = Backbone.View.extend({
 
     initialize: function () {
-        appData.views.ActivityDetailView.model = new Activity();
+
+        // check if we are updating or creating
+        if(this.model){
+
+            if(this.model.attributes.updateActivity){
+                appData.views.CreateActivityView.updating = this.model.attributes.updateActivity;
+                appData.views.ActivityDetailView.model = this.model;
+
+                appData.views.CreateActivityView.isUpdating = true;
+            }else{
+                appData.views.ActivityDetailView.model = new Activity();
+                appData.views.CreateActivityView.isUpdating = false;
+            }
+        }else{
+            appData.views.ActivityDetailView.model = new Activity();
+            appData.views.CreateActivityView.isUpdating = false;
+        }
+
         appData.events.createActivityTabsEvent.bind("formStageCompleteEvent", this.formStageCompleteEvent);
         
-          Backbone.on('networkFoundEvent', this.networkFoundHandler);
-          Backbone.on('networkLostEvent', this.networkLostHandler);
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
     }, 
 
     // phonegap device offline
@@ -24,9 +41,18 @@ appData.views.CreateActivityView = Backbone.View.extend({
         this.currentActivityPage = '#watContent';
 
         appData.settings.currentPageHTML = this.$el;
-        
+
         var view = new appData.views.CreateActivityInfoView({ model:  appData.views.ActivityDetailView.model});
         $('#createActivityContent', appData.settings.currentPageHTML).empty().append(view.render().$el);
+
+        // if this user doesn't have friends, just hide the friends tab from the flow
+        if(appData.models.userModel.attributes.myFriends.models.length === 0){
+            $('#wieTab', appData.settings.currentPageHTML).addClass('hide');
+        }
+
+        if(appData.views.CreateActivityView.isUpdating){
+            $('.cl-title', appData.settings.currentPageHTML).text('Wijzig activitiet');
+        }
 
         return this; 
     }, 
@@ -37,14 +63,18 @@ appData.views.CreateActivityView = Backbone.View.extend({
 
     subHandler: function(){
         if($('form').is('#wieForm')){
-              Backbone.on('activityCreated', appData.views.CreateActivityWieView.activityCreatedHandler);
-              appData.services.phpService.createActivity(appData.views.ActivityDetailView.model);
- 
+            if(appData.views.CreateActivityView.updating){
+                Backbone.on('activityUpdated', appData.views.CreateActivityLocationView.activityCreatedHandler);
+                appData.services.phpService.updateActivity(appData.views.ActivityDetailView.model);
+
+            }else{
+                Backbone.on('activityCreated', appData.views.CreateActivityLocationView.activityCreatedHandler);
+                appData.services.phpService.createActivity(appData.views.ActivityDetailView.model);
+            }
         }else{
             $('form',appData.settings.currentPageHTML).submit();
         }
     },
-
 
     formStageCompleteEvent: function(data){
 
@@ -68,10 +98,25 @@ appData.views.CreateActivityView = Backbone.View.extend({
 
             case "#waarContent":
                 view = new appData.views.CreateActivityLocationView({ model:  appData.views.ActivityDetailView.model});
+
+                if(appData.models.userModel.attributes.myFriends.models.length === 0){
+
+                    if(appData.views.CreateActivityView.isUpdating){
+                        $('#submitButton').val('Activiteit bijwerken');
+                    }else{
+                        $('#submitButton').val('Activiteit aanmaken');
+                    }
+                }
             break;
 
             case "#wieContent": 
                 view = new appData.views.CreateActivityWieView({ model:  appData.views.ActivityDetailView.model});
+                
+                if(appData.views.CreateActivityView.isUpdating){
+                    $('#submitButton').val('Activiteit bijwerken');
+                }else{
+                    $('#submitButton').val('Activiteit aanmaken');
+                }
             break;
         }
 

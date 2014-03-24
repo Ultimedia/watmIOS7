@@ -67,6 +67,8 @@ appData.settings.handleInvitationsService = "handleInvitation.php";
 appData.settings.removeFriendService = "removeFriend.php";
 appData.settings.updateUserAvatarService = "updateUserAvatar.php";
 appData.settings.uploadMediaNonNativeService = "uploadMediaNonNative.php";
+appData.settings.updateActivityService = "updateActivity.php";
+appData.settings.getUserMediaService = "getUserMedia.php";
 
 appData.settings.defaultLocation = [51.20935, 3.22470];
 appData.settings.dataLoaded = false;
@@ -182,7 +184,7 @@ $(document).on("ready", function () {
 
       appData.services.facebookService.facebookConnect();
 
-
+/*
       // see if we have a user in our localstorage
       if(window.localStorage.getItem("userModel")){
 
@@ -196,7 +198,7 @@ $(document).on("ready", function () {
         appData.storage = JSON.parse(window.localStorage.getItem("collections"));
 
       }
-
+*/
       // init backbone
       Backbone.history.start();
   });

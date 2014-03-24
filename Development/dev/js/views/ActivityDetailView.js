@@ -5,7 +5,6 @@ appData.views.ActivityDetailView = Backbone.View.extend({
       appData.views.ActivityDetailView.model = this.model;
       
       Backbone.on('networkFoundEvent', this.networkFoundHandler);
-      Backbone.on('networkLostEvent', networkLostHandler);
     }, 
 
     // phonegap device offline
@@ -14,10 +13,6 @@ appData.views.ActivityDetailView = Backbone.View.extend({
 
     },
 
-    // phonegap device back online
-    networkLostHandler: function(){
-
-    },
 
     render: function() { 
       this.$el.html(this.template(this.model.attributes));
@@ -78,7 +73,12 @@ appData.views.ActivityDetailView = Backbone.View.extend({
       "click #navigateButton": "navigateClickHandler",
       "click #backButton": "backHandler",
       "click #shareButton": "sharePopopverClickHandler",
-      "click #popover-close": "sharePopopverClickHandler"
+      "click #popover-close": "sharePopopverClickHandler",
+      "click #updateButton": "updateButtonClickHandler"
+    },
+
+    updateButtonClickHandler: function(){
+      window.location.hash = "#update/" + appData.views.ActivityDetailView.model.attributes.activity_id;
     },
 
     sharePopopverClickHandler: function(e){

@@ -28,10 +28,18 @@ appData.views.CreateActivityWieView = Backbone.View.extend({
 
     },
 
+
+
+
     activityCreatedHandler: function(activity_id){
 
       // now add friends
       Backbone.off('activityCreated');
+      Backbone.off('activityUpdated');
+
+      appData.views.CreateActivityView.updating = false;
+      appData.views.CreateActivityView.isUpdating = false;
+
       appData.views.CreateActivityWieView.activity_id = activity_id;
 
       if(appData.collections.selectedFriends.length > 0){

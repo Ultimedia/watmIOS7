@@ -5,8 +5,10 @@
     </a>
     <div class="cl-title"><%= user.name %></div>
   </div>
-  <div class="cl-content" >
   <span class="avatar" style="background: url('<%= imagePath %><%= user.avatar %>') no-repeat;     -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; "></span>
+  
+  <div class="cl-content" >
+
 
   	<h1>Avatar</h1>
   	<p>Kracht: <%= user.strength_score %></p>
@@ -17,6 +19,12 @@
     <% if (user.myFriend == false) { %>
         <a href="javascript:;" id="addFriendButton" class="cl-btn  cl-btn flat-green">Voeg toe als vriend</a>
     <% } %>
+
+
+    <h4>Media</h4>
+    <div id="mediaContainer">
+
+    </div>
 
   </div>
 </div>

@@ -16,6 +16,8 @@ appData.views.CreateActivityLocationView = Backbone.View.extend({
         appData.views.CreateActivityLocationView.tabTarget.tab = "#wieTab";
         appData.views.CreateActivityLocationView.markers = [];
         appData.views.CreateActivityLocationView.clearMarkers = this.clearMarkers;
+
+        appData.views.CreateActivityLocationView.activityCreatedHandler = this.activityCreatedHandler;
     },
 
     events: {
@@ -42,15 +44,18 @@ appData.views.CreateActivityLocationView = Backbone.View.extend({
 
                 var selectedLocationModel = appData.collections.locations.where({ "location_id": appData.views.ActivityDetailView.model.attributes.location_id });
                     if(selectedLocationModel){
+
                         selectedLocationModel = selectedLocationModel[0];
 
                         var coordinates = selectedLocationModel.attributes.coordinates.split(',');
                             appData.views.CreateActivityLocationView.currentLocation = coordinates;
                             appData.views.CreateActivityLocationView.map.setCenter(new google.maps.LatLng(coordinates[0], coordinates[1]), 13);
                     
-                        if(selectedLocationModel.location == $('#locationInput',  appData.settings.currentModuleHTML).val()){
-                        
+                            console.log(selectedLocationModel);
+
+                        if(selectedLocationModel.location == $('#locationInput',  appData.settings.currentModuleHTML).val() || selectedLocationModel.attributes.location == $('#locationInput',  appData.settings.currentModuleHTML).val()){
                         }else{
+
                             appData.views.ActivityDetailView.model.attributes.location_id = null;
                             appData.services.utilService.getLatLon($('#locationInput').val());
                         }
@@ -119,6 +124,11 @@ appData.views.CreateActivityLocationView = Backbone.View.extend({
       this.setValidators();
       this.initMap();
 
+     if(appData.views.CreateActivityView.updating){
+        $('#locationInput', appData.settings.currentModuleHTML).val(appData.views.ActivityDetailView.model.attributes.location);
+        this.locationChangeHandler();
+      }
+
       return this; 
     },
 
@@ -171,9 +181,40 @@ appData.views.CreateActivityLocationView = Backbone.View.extend({
                     // Add location to database
                     appData.services.phpService.addLocation($('#locationInput',appData.settings.currentModuleHTML).val(), appData.views.CreateActivityLocationView.currentMapLocation,"");
                 }else{
-                    appData.events.createActivityTabsEvent.trigger('formStageCompleteEvent', appData.views.CreateActivityLocationView.tabTarget);
+
+                    // if we don't have friends just create the activity, else go to the friends invite page
+                    if(appData.models.userModel.attributes.myFriends.models.length !== 0){
+                        appData.events.createActivityTabsEvent.trigger('formStageCompleteEvent', appData.views.CreateActivityLocationView.tabTarget);
+                    }else{
+
+                        if(appData.views.CreateActivityView.updating){
+                            Backbone.on('activityUpdated', appData.views.CreateActivityLocationView.activityCreatedHandler);
+                            appData.services.phpService.updateActivity(appData.views.ActivityDetailView.model);
+
+                            console.log(appData.views.ActivityDetailView.model);
+                        }else{
+                            Backbone.on('activityCreated', appData.views.CreateActivityLocationView.activityCreatedHandler);
+                            appData.services.phpService.createActivity(appData.views.ActivityDetailView.model);
+                        }
+                    }
                 }
             }
         });
+    },
+
+    activityCreatedHandler: function(activity_id){
+
+      // now add friends
+      Backbone.off('activityCreated');
+      Backbone.off('activityUpdated');
+      
+      appData.views.CreateActivityView.updating = false;
+      appData.views.CreateActivityView.isUpdating = false;
+      appData.views.CreateActivityLocationView.activity_id = activity_id;
+      appData.services.phpService.getActivities(false, appData.views.CreateActivityLocationView.activity_id);
+      
+      // set this boolean so we return to disable back functionality
+      appData.settings.created = true;
+
     }
 });

@@ -34,11 +34,12 @@ appData.services.FacebookServices = Backbone.Model.extend({
 	},
 
 	facebookUserToSQL: function(){
+		console.log(appData.models.userModel.attributes);
 		$.ajax({
 			url:appData.settings.servicePath + appData.settings.facebookUserToSQL,
 			type:'POST',
 			dataType:'json',
-			data: "email="+appData.models.userModel.attributes.email+"&age="+appData.models.userModel.attributes.age+"&gender="+appData.models.userModel.attributes.gender+"&name="+appData.models.userModel.attributes.name+"&facebook_data="+JSON.stringify(appData.models.userModel.attributes.facebook_data)+"&facebook_id="+appData.models.userModel.attributes.facebook_id+"&avatar="+appData.models.userModel.attributes.avatar+"&current_location="+JSON.stringify(appData.models.userModel.attributes.current_location),
+			data: "email="+appData.models.userModel.attributes.email+"&age="+appData.models.userModel.attributes.age+"&gender="+appData.models.userModel.attributes.gender+"&name="+appData.models.userModel.attributes.name+"&facebook_data="+JSON.stringify(appData.models.userModel.attributes.facebook_data)+"&facebook_id="+appData.models.userModel.attributes.facebook_id+"&avatar="+appData.models.userModel.attributes.facebook_avatar+"&current_location="+JSON.stringify(appData.models.userModel.attributes.current_location),
 			timeout:60000,
 			success:function(data){
 				if(data.value === true){
@@ -55,6 +56,7 @@ appData.services.FacebookServices = Backbone.Model.extend({
 	},
 
 	getUserFromFacebookID: function(){
+
 	  	$.ajax({
 			url:appData.settings.servicePath + appData.settings.getUserFromFacebookID,
 			type:'GET',
@@ -92,7 +94,7 @@ appData.services.FacebookServices = Backbone.Model.extend({
 			appData.models.userModel.attributes.facebookUser = true;
 			appData.models.userModel.attributes.name = response.name;
 			appData.models.userModel.attributes.email = response.email;
-			appData.models.userModel.attributes.age = response.age_range;
+			appData.models.userModel.attributes.age = response.age_range.min;
 			appData.models.userModel.attributes.facebook_data.age_range = response.age_range.min;
 			appData.models.userModel.attributes.facebook_data.favorite_athletes = response.favorite_athletes;
 			appData.models.userModel.attributes.facebook_data.favorite_teams = response.favorite_teams;

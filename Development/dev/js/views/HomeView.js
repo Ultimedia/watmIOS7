@@ -61,15 +61,17 @@ appData.views.HomeView = Backbone.View.extend({
     * Facebook login flow 
     */
     facebookUserToSQLSuccesHandler: function(){
+        $('#facebookLoad').removeClass('hide');
         appData.router.navigate('loading', true);
     },
 
     facebookGetIDHandler: function(newUser){
-        if(!newUser.facebook_user){
-            console.log("nieuwe gebruiker");
 
-            if(appData.settings.native){
+        if(!newUser.facebook_user){
+
+            if(navigator.geolocation){
                 // First lets get the location
+                appData.settings.newUser = true;
                 appData.services.utilService.getLocationService("login");
             }else{
                 appData.services.facebookService.facebookUserToSQL();
@@ -78,22 +80,24 @@ appData.views.HomeView = Backbone.View.extend({
         }else{
             appData.models.userModel.set('user_id', newUser.user_id);
 
-            if(appData.settings.native){
+            if(navigator.geolocation){
+                appData.settings.newUser = false;
                 appData.services.utilService.getLocationService("login");
             }else{
                 appData.router.navigate('loading', true);
-            }
-
-            // Excisting user, do nothing for now
-            appData.router.navigate('loading', true);          
+            }      
         }
     },
 
     locationSuccesHandler: function(location){
-        var myLocation = location.coords.coordinates.latitude + "," + location.coords.coordinates.longitude;
-
+        var myLocation = location.coords.latitude + "," + location.coords.longitude;
         appData.models.userModel.set('current_location', myLocation);
-        appData.services.facebookService.facebookUserToSQL();
+
+        if(appData.settings.newUser){
+            appData.services.facebookService.facebookUserToSQL();
+        }else{
+            appData.router.navigate('loading', true);
+        }
     },
 
     locationErrorHandler: function(){
@@ -108,6 +112,8 @@ appData.views.HomeView = Backbone.View.extend({
     facebookLoginHandler: function(){
         // fetch profile data
         appData.services.facebookService.getProfileData();
+
+        $('#facebookLoad').removeClass('hide');
     },
 
     facebookGetFriendsHandler: function(){

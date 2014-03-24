@@ -10,13 +10,11 @@ appData.services.PhpServices = Backbone.Model.extend({
 	createActivity: function(activityModel){
 		var that = this;
 
-		console.log(activityModel);
-
 		$.ajax({
         url:appData.settings.servicePath + appData.settings.createActivityService,
         type:'POST',
         dataType:'json',
-        data: "location_id="+activityModel.attributes.location_id+"&title="+activityModel.attributes.title+"&sport_id="+activityModel.attributes.sport_id+"&description="+activityModel.attributes.description+"&date="+activityModel.attributes.date+"&time="+activityModel.attributes.time+"&user_id="+appData.models.userModel.attributes.user_id+"&participants="+appData.models.userModel.attributes.participants,
+        data: "location_id="+activityModel.attributes.location_id+"&title="+activityModel.attributes.title+"&sport_id="+activityModel.attributes.sport_id+"&description="+activityModel.attributes.description+"&date="+activityModel.attributes.date+"&time="+activityModel.attributes.time+"&stopTime="+activityModel.attributes.stopTime+"&user_id="+appData.models.userModel.attributes.user_id+"&participants="+activityModel.attributes.participants,
         timeout:60000,
 	        success:function(data){
 	        	console.log(data);
@@ -32,7 +30,28 @@ appData.services.PhpServices = Backbone.Model.extend({
     	});
 	},
 
+	updateActivity: function(activityModel){
+		var that = this;
 
+		$.ajax({
+        url:appData.settings.servicePath + appData.settings.updateActivityService,
+        type:'POST',
+        dataType:'json',
+        data: "location_id="+activityModel.attributes.location_id+"&activity_id="+activityModel.attributes.activity_id+"&title="+activityModel.attributes.title+"&sport_id="+activityModel.attributes.sport_id+"&description="+activityModel.attributes.description+"&date="+activityModel.attributes.date+"&time="+activityModel.attributes.time+"&stopTime="+activityModel.attributes.stopTime+"&user_id="+appData.models.userModel.attributes.user_id+"&participants="+activityModel.attributes.participants,
+        timeout:60000,
+	        success:function(data){
+	        	console.log(data);
+	        	if(data.value === true){
+	        		Backbone.trigger('activityUpdated', data.activity_id);
+	        	}else{
+
+	        	}
+	        },
+	        error: function(){
+	        	alert('errr');
+	        }
+    	});
+	},
 
 	addMessage: function(message, activity_id){
 		$.ajax({
@@ -509,6 +528,20 @@ appData.services.PhpServices = Backbone.Model.extend({
 			success:function(data){
 				appData.collections.myInvitations = new ActivitiesCollection(data);
 				Backbone.trigger('getInvitationsHandler');
+			}
+  		});
+    },
+
+    getUserMedia: function(userID){
+
+		$.ajax({
+			url:appData.settings.servicePath + appData.settings.getUserMediaService,
+			type:'POST',
+			dataType:'json',
+			data: "user_id="+userID,
+			success:function(data){
+				var media = new MediaCollection(data);
+				Backbone.trigger('userMediaHandler', media);
 			}
   		});
     },

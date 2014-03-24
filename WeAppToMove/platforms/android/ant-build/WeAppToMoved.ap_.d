@@ -238,6 +238,7 @@
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/AcLX1.jpg \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/aCTI2.jpg \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/avatar.png \
+/Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/avatar709525856.jpg \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/bhmhl.jpg \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/BxljW.jpg \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/cdv_photo_001.jpg \
@@ -367,6 +368,7 @@
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/css/assets/lock-icon@x2.png \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/css/assets/mail-icon@x2.png \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/css/assets/map-icon@x2.png \
+/Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/css/assets/my-map-icon@x2.png \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/css/assets/name-icon@x2.png \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/css/assets/normalscreen-icon@x2.png \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/public/css/assets/search-icon@x2.png \

@@ -10,6 +10,8 @@
 	$dateRoot = $_POST['date'];
 	$time = "";
 	$participants = $_POST['participants'];
+	$stopTime = $_POST['stopTime'];
+
 
 	//$finalDate = strtotime($date);
 
@@ -17,11 +19,11 @@
 	$date = date('Y/m/d H:i:s', $date);
 
 	$dbc = getDBConnection();		
-	$sql = "INSERT INTO watm_activities (title, sport_id, activity_description, date, time, user_id, location_id, participants) VALUES (?,?,?,?,?,?,?,?)";
+	$sql = "INSERT INTO watm_activities (title, sport_id, activity_description, date, time, user_id, location_id, participants, stopTime) VALUES (?,?,?,?,?,?,?,?,?)";
 	$stmt = null;
 	
 	if($stmt = $dbc->prepare($sql)){
-		$stmt->bind_param("ssssssss", $title, $sport_id, $description, $date, $time, $user_id, $location_id, $participants);
+		$stmt->bind_param("sssssssss", $title, $sport_id, $description, $date, $time, $user_id, $location_id, $participants, $stopTime);
 		
 		if($stmt->execute())
 		{
