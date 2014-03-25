@@ -6,19 +6,33 @@
     <div class="cl-title"><%= user.name %></div>
   </div>
   <span class="avatar" style="background: url('<%= imagePath %><%= user.avatar %>') no-repeat;     -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; "></span>
-  
+
   <div class="cl-content" >
-
-
-  	<h1>Avatar</h1>
-  	<p>Kracht: <%= user.strength_score %></p>
-  	<p>Uithuiding: <%= user.stamina_score %></p>
-  	<p>Outfit: <%= user.equipment_score %></p>
-
 
     <% if (user.myFriend == false) { %>
         <a href="javascript:;" id="addFriendButton" class="cl-btn  cl-btn flat-green">Voeg toe als vriend</a>
     <% } %>
+    
+    <h4>Avatar</h4>
+    <div id="avatarView">
+      <div id="barContainer">
+        <div id="bars">
+          <h4>Coolness</h4>
+          <progress value="<%= user.strength_score %>" max="100"></progress>  
+
+          <h4>Uithouding</h4>
+          <progress value="<%= user.stamina_score %>" max="100"></progress>  
+
+          <h4>Outfit</h4>
+          <progress value="<%= user.equipment_score %>" max="100"></progress> 
+        </div>
+      </div>
+
+      <div id="avatar">
+
+      </div> 
+    </div>
+
 
 
     <h4>Media</h4>

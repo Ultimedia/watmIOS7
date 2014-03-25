@@ -1,9 +1,19 @@
 <div id="avatarView">
-	<h1>Mijn alteet</h1>
 
-  	<p>Kracht: <%= strength_score %></p>
-  	<p>Uithuiding: <%= stamina_score %></p>
-  	<p>Outfit: <%= equipment_score %></p>
+	<div id="barContainer">
+		<div id="bars">
+			<h4>Coolness</h4>
+			<progress value="<%= strength_score %>" max="100"></progress>  
 
-  	<a href="javascript:;" id="updateAvatar">Update</a>
+			<h4>Uithouding</h4>
+			<progress value="<%= stamina_score %>" max="100"></progress>  
+
+			<h4>Outfit</h4>
+			<progress value="<%= equipment_score %>" max="100"></progress> 
+		</div>
+	</div>
+
+	<div id="avatar">
+
+	</div> 
 </div>

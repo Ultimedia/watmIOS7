@@ -18,7 +18,7 @@ var appData = {
 };
 
 // settings
-appData.settings.rootPath = "http://localhost/";
+appData.settings.rootPath = "http://ultimedia.biz/";
 appData.settings.servicePath =  appData.settings.rootPath + "services/";
 appData.settings.imagePath = appData.settings.rootPath + "common/uploads/";
 appData.settings.badgesPath = appData.settings.rootPath + "common/badges/";
@@ -97,13 +97,13 @@ $(document).on("ready", function () {
   }
 
   // phonegap device offline
-  function deviceOfflineHandler(){
+  function deviceOnlineHandler(){
     appData.settings.network = true;
     Backbone.trigger('networkFoundEvent');
   }
 
   // phonegap device back online
-  function deviceOnlineHandler(){
+  function deviceOfflineHandler(){
     appData.settings.network = false;
     Backbone.trigger('networkLostEvent');
   }
@@ -157,6 +157,8 @@ $(document).on("ready", function () {
       appData.events.locationHomeEvent = _.extend({}, Backbone.Events);
       appData.events.locationCreateActivityEvent = _.extend({}, Backbone.Events);
 
+      appData.services.avatarService = new appData.services.AvatarService();
+
       // Create a new instance of the helperclass
       appData.helpers.phonegapHelper = new appData.views.HelperView();
 
@@ -184,7 +186,7 @@ $(document).on("ready", function () {
 
       appData.services.facebookService.facebookConnect();
 
-/*
+
       // see if we have a user in our localstorage
       if(window.localStorage.getItem("userModel")){
 
@@ -196,9 +198,8 @@ $(document).on("ready", function () {
         // save the old data (so wen can retrieve if in case we don't have a working connection)
         appData.settings.storageFound = true;
         appData.storage = JSON.parse(window.localStorage.getItem("collections"));
-
       }
-*/
+
       // init backbone
       Backbone.history.start();
   });

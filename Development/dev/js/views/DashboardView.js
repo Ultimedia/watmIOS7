@@ -18,10 +18,12 @@ appData.views.DashboardView = Backbone.View.extend({
         appData.views.DashboardView.clearMarkers = this.clearMarkers;
 
         // update the activities if we have a network connection
-        if(appData.settings.network){
-            appData.services.phpService.getActivities(false, null);
-        }else{
-            $('#createActivityButton').hide();
+        if(appData.settings.native){
+            if(appData.services.utilService.getNetworkConnection()){
+                appData.services.phpService.getActivities(false, null);
+            }else{
+                $('#createActivityButton').hide();
+            }
         }
 
         Backbone.on('networkFoundEvent', this.networkFoundHandler);
@@ -30,13 +32,12 @@ appData.views.DashboardView = Backbone.View.extend({
 
     // phonegap device offline
     networkFoundHandler: function(){
-
-
+        $('#createActivityButton').show();
     },
 
     // phonegap device back online
     networkLostHandler: function(){
-
+        $('#createActivityButton').hide();
     },
     
     events: {
@@ -56,7 +57,6 @@ appData.views.DashboardView = Backbone.View.extend({
     },
 
     generateAcitvitiesCollection: function(){
-      
         Backbone.off('dashboardUpdatedHandler', this.generateAcitvitiesCollection);
 
         if(appData.collections.activities.length === 0){

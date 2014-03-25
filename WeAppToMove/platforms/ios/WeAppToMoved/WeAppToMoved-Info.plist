@@ -79,16 +79,5 @@
     </array>
     <key>CFBundleShortVersionString</key>
     <string>0.0.1</string>
-    <key>FacebookAppID</key>
-    <string>595730207182331</string>
-    <key>CFBundleURLTypes</key>
-    <array>
-      <dict>
-        <key>CFBundleURLSchemes</key>
-        <array>
-          <string>fb[595730207182331]</string>
-        </array>
-      </dict>
-    </array>
   </dict>
 </plist>

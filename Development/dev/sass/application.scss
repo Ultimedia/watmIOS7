@@ -20,6 +20,10 @@ body {
     width:100%;
 }
 
+.clear{
+  clear: both;
+}
+
 /* Error box */
 label.error{
   background: #da5555;
@@ -808,12 +812,65 @@ input.error{
 */
 #settings{
 
+
 .cl-content{
-  padding: 10px;
+  padding: 0;
+  height: calc(100% - 74px);
+
+  h4{
+    text-align: center;
+
+  }
+
+  li{
+    padding: 15px 10px;
+  }
+  li:nth-child(odd){
+    background: #72848f;
+  }
+
+
+    #favouriteSportList{
+      width: 100%;
+      overflow: auto;
+      padding-bottom: 10px;
+
+      div{
+        float: left;
+        display: inline-block;
+
+        span{
+          display: block;
+          text-align: center;
+          font-size: 11px;
+        }
+
+        a{
+          width: 86px;
+          height: 86px;
+          background: #d2d2d2;
+          margin: 10px;
+          padding: 5px;
+          float: left;
+          text-align: center;
+          font-size: 12px;
+          border-radius: 40px;
+          -webkit-border-radius: 42px;
+          -moz-border-radius: 42px;
+          -webkit-background-size: cover;
+          -moz-background-size: cover;
+          -o-background-size: cover;
+          background-size: cover;
+          position: relative;
+          color: #fff;
+        }
+      }
+    }
 
     #avatarSection{
       margin-bottom: 10px;
       overflow: auto;
+      clear: both;
 
       #userAvatar{
         width: 120px;
@@ -1194,6 +1251,36 @@ input.error{
   }
 }
 
+/**
+* Avatar
+*/
+#avatarView{
+  #barContainer{
+    #bars{
+      padding: 10px;
+      width: 30%;
+      position: absolute;
+      top: 30%;
+
+      h4{
+        text-transform: uppercase;
+        margin-bottom: 3px;
+      }
+
+      progress{
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  #avatar{
+    background: #ededed;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 80px;
+  }
+}
 
 /**
 *  Profile
@@ -1325,6 +1412,13 @@ input.error{
 * Friend
 */
 #friendView{
+  position: relative;
+
+  #avatarView{
+    height: 400px;
+    position: relative;
+  }
+
   .avatar{
     display: inline-block;
     width: 100%;
@@ -1344,7 +1438,7 @@ input.error{
       font-family: "source_sans_prosemibold";
       text-transform: uppercase;
       font-size: 12px;
-      text-align:center;
+      text-align:left;
     }
 
 

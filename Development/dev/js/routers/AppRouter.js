@@ -98,7 +98,6 @@ appData.routers.AppRouter = Backbone.Router.extend({
 
     planner: function () {
         if(appData.settings.userLoggedIn){
-
             appData.slider.slidePage(new appData.views.PlannerView().render().$el);
         }else{
             window.location.hash = "";
@@ -114,16 +113,24 @@ appData.routers.AppRouter = Backbone.Router.extend({
     },
 
     friend: function(id){
-        var userModel = appData.collections.users.where({ "user_id": id });
-            userModel = userModel[0];
+        if(appData.settings.userLoggedIn){
 
-            console.log(userModel);
-        
-        appData.slider.slidePage(new appData.views.FriendView({model: userModel}).render().$el); 
+            var userModel = appData.collections.users.where({ "user_id": id });
+                userModel = userModel[0];
+
+            
+            appData.slider.slidePage(new appData.views.FriendView({model: userModel}).render().$el); 
+        }else{
+            window.location.hash = ""
+        }
     },
 
     activity: function (id) {
-        appData.slider.slidePage(new appData.views.ActivityDetailView().render().$el); 
+        if(appData.settings.userLoggedIn){
+            appData.slider.slidePage(new appData.views.ActivityDetailView().render().$el); 
+        }else{
+            window.location.hash = "";
+        }
     },
 
     update: function(id){
@@ -165,11 +172,19 @@ appData.routers.AppRouter = Backbone.Router.extend({
     },
 
     createUser: function () {
-        appData.slider.slidePage(new appData.views.CreateUserView({model: appData.models.userModel}).render().$el);
+        if(appData.settings.userLoggedIn){
+            appData.slider.slidePage(new appData.views.CreateUserView({model: appData.models.userModel}).render().$el);
+        }else{
+
+        }
     },
     
     navigater: function (id) {
-        appData.slider.slidePage(new appData.views.NavigationView().render().$el);
+        if(appData.settings.userLoggedIn){
+            appData.slider.slidePage(new appData.views.NavigationView().render().$el);
+        }else{
+            window.location.hash = ""
+        }
     },
 
     activity: function (id) {
@@ -192,13 +207,19 @@ appData.routers.AppRouter = Backbone.Router.extend({
     },
 
     settings: function (id) {
-        appData.slider.slidePage(new appData.views.SettingsView().render().$el);
+        if(appData.settings.userLoggedIn){
+            appData.slider.slidePage(new appData.views.SettingsView().render().$el);
+        }else{
+            window.location.hash = "";
+        }
     },
 
     sportselector: function (id) {
-        //       $('body').empty().append(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
-        appData.slider.slidePage(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
-
+        if(appData.settings.userLoggedIn){
+            appData.slider.slidePage(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
+        }else{
+            window.location.hash = "";
+        }
     },
 
     checkLoggedIn: function(){

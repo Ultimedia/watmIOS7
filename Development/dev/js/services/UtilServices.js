@@ -21,6 +21,7 @@ appData.services.UtilServices = Backbone.Model.extend({
 		states[Connection.CELL]     = false;
 		states[Connection.NONE]     = false;
 
+
 		appData.settings.network = states[networkState];
 		return appData.settings.network;
 	},
@@ -70,7 +71,6 @@ appData.services.UtilServices = Backbone.Model.extend({
 
 					switch(target){
 					case "login":
-
 						Backbone.trigger('locationError');
 						break;
 					case "createActivity":

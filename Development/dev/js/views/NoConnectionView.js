@@ -8,8 +8,7 @@ appData.views.NoConnectionView = Backbone.View.extend({
 
     // phonegap device offline
     networkFoundHandler: function(){
-
-
+        window.history.back();
     },
 
     // phonegap device back online

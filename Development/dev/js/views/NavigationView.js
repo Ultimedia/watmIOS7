@@ -76,8 +76,8 @@ appData.views.NavigationView = Backbone.View.extend({
 
         var directionsService = new google.maps.DirectionsService();
         var directionsRequest = {
-            origin: appData.views.ActivityDetailView.model.attributes.coordinates,
-            destination: appData.models.userModel.attributes.current_location,
+            origin: appData.models.userModel.attributes.current_location,
+            destination: appData.views.ActivityDetailView.model.attributes.coordinates,
             travelMode: google.maps.DirectionsTravelMode.WALKING,
             unitSystem: google.maps.UnitSystem.METRIC
         };

@@ -15,7 +15,8 @@ var appData = {
   services: {},
   events: {},
   forms: {},
-  garbage: {}
+  garbage: {},
+  storage: {}
 };
 
 // settings
@@ -68,6 +69,8 @@ appData.settings.handleInvitationsService = "handleInvitation.php";
 appData.settings.removeFriendService = "removeFriend.php";
 appData.settings.updateUserAvatarService = "updateUserAvatar.php";
 appData.settings.uploadMediaNonNativeService = "uploadMediaNonNative.php";
+appData.settings.updateActivityService = "updateActivity.php";
+appData.settings.getUserMediaService = "getUserMedia.php";
 
 appData.settings.defaultLocation = [51.20935, 3.22470];
 appData.settings.dataLoaded = false;
@@ -79,17 +82,36 @@ appData.messages.noUser = "Er werd geen gebruiker met dit email adres gevonden, 
 
 /* Jquery Document Read */
 $(document).on("ready", function () {
-  document.addEventListener("deviceready", onDeviceReady, false);
+  document.addEventListener("deviceready", onDeviceReadyHandler, false);
+  document.addEventListener("resume", onResumeHandler, false);
+  document.addEventListener("offline", deviceOfflineHandler, false);
+  document.addEventListener("online", deviceOnlineHandler, false);
 
   // phonegap device ready
-  function onDeviceReady() {
+  function onDeviceReadyHandler() {
       // Now safe to use the PhoneGap API
       appData.settings.phonegapLoaded = true;
   }
 
+  // phonegap when the user returns to the app after minimizing it
+  function onResumeHandler(){
+    window.location.hash = "#";
+  }
+
+  // phonegap device offline
+  function deviceOfflineHandler(){
+    appData.settings.network = true;
+    Backbone.trigger('networkFoundEvent');
+  }
+
+  // phonegap device back online
+  function deviceOnlineHandler(){
+    appData.settings.network = false;
+    Backbone.trigger('networkLostEvent');
+  }
 
   appData.router = new appData.routers.AppRouter();
-  appData.utils.templates.load(["HomeView", "DashboardView", "PlannerView", "ProfileView", "ActivityDetailView", "CreateActivityView", "CreateUserView", "NavigationView", "SettingsView", "SportSelectorView", "DashboardActivityView", "LoadingView", "HelperView", "ChallengeListView", "ActivityMessageView", "ActivityMessageView", "ActivityInfoView", "ActivityMediaView", "ActivityMessagesView", "ActivityMediaViewer", "ActivityInfoView", "CreateActivityLocationView", "CreateActivityInfoView", "CreateActivityWieView", "ProfileAvatarView", "ProfileChallengeView", "ProfileFriendsView", "FriendsListView", "FriendView", "ActivityUserView", "PlannerMyActivitiesView", "GoogleMapView", "FavouriteSportListView", "ActiveChallengeListView", "BadgeListView", "FriendInvitieView", "PlannerInvitedActivitiesView"],
+  appData.utils.templates.load(["HomeView", "DashboardView", "PlannerView", "ProfileView", "ActivityDetailView", "CreateActivityView", "CreateUserView", "NavigationView", "SettingsView", "SportSelectorView", "DashboardActivityView", "LoadingView", "HelperView", "ChallengeListView", "ActivityMessageView", "ActivityMessageView", "ActivityInfoView", "ActivityMediaView", "ActivityMessagesView", "ActivityMediaViewer", "ActivityInfoView", "CreateActivityLocationView", "CreateActivityInfoView", "CreateActivityWieView", "ProfileAvatarView", "ProfileChallengeView", "ProfileFriendsView", "FriendsListView", "FriendView", "ActivityUserView", "PlannerMyActivitiesView", "GoogleMapView", "FavouriteSportListView", "ActiveChallengeListView", "BadgeListView", "FriendInvitieView", "PlannerInvitedActivitiesView", "NoConnectionView"],
 
   // backbone loaded
   function () {
@@ -137,6 +159,8 @@ $(document).on("ready", function () {
       appData.events.locationHomeEvent = _.extend({}, Backbone.Events);
       appData.events.locationCreateActivityEvent = _.extend({}, Backbone.Events);
 
+      appData.services.avatarService = new appData.services.AvatarService();
+
       // Create a new instance of the helperclass
       appData.helpers.phonegapHelper = new appData.views.HelperView();
 
@@ -156,7 +180,7 @@ $(document).on("ready", function () {
         appData.settings.destinationType = navigator.camera.DestinationType;
 
         // check to see if there is a working connection
-        checkConnection();
+        appData.services.utilService.checkConnection();
 
       } else {
         appData.settings.native = false;
@@ -164,28 +188,24 @@ $(document).on("ready", function () {
 
       appData.services.facebookService.facebookConnect();
 
+/*
+      // see if we have a user in our localstorage
+      if(window.localStorage.getItem("userModel")){
+
+        var localUser = JSON.parse(window.localStorage.getItem("userModel"));
+
+        appData.models.userModel = new User(localUser);
+        appData.settings.userLoggedIn = true;
+
+        // save the old data (so wen can retrieve if in case we don't have a working connection)
+        appData.settings.storageFound = true;
+        appData.storage = JSON.parse(window.localStorage.getItem("collections"));
+
+      }
+*/
       // init backbone
       Backbone.history.start();
   });
-
-
-
-  // check if there is a working internet / 3G / 4G / WIFI connection to enable the dynamic mode
-  function checkConnection() {
-    var networkState = navigator.connection.type;
-
-    var states = {};
-        states[Connection.UNKNOWN]  = false;
-        states[Connection.ETHERNET] = true;
-        states[Connection.WIFI]     = true;
-        states[Connection.CELL_2G]  = true;
-        states[Connection.CELL_3G]  = true;
-        states[Connection.CELL_4G]  = true;
-        states[Connection.CELL]     = false;
-        states[Connection.NONE]     = false;
-
-        appData.settings.network = states[networkState];
-  }
 
 });
 
@@ -209,7 +229,8 @@ Activity = Backbone.Model.extend({
 		participants: "0",
 		going: "",
 		users: [],
-		full: false
+		full: false,
+		updateActivity: false
     },
 
 	initialize: function(){
@@ -449,7 +470,15 @@ appData.views.ActivityDetailView = Backbone.View.extend({
     initialize: function () {
       console.log('----- In the initialize of ActivityDetailView -----');
       appData.views.ActivityDetailView.model = this.model;
+      
+      Backbone.on('networkFoundEvent', this.networkFoundHandler);
     }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+
+    },
 
 
     render: function() { 
@@ -511,7 +540,12 @@ appData.views.ActivityDetailView = Backbone.View.extend({
       "click #navigateButton": "navigateClickHandler",
       "click #backButton": "backHandler",
       "click #shareButton": "sharePopopverClickHandler",
-      "click #popover-close": "sharePopopverClickHandler"
+      "click #popover-close": "sharePopopverClickHandler",
+      "click #updateButton": "updateButtonClickHandler"
+    },
+
+    updateButtonClickHandler: function(){
+      window.location.hash = "#update/" + appData.views.ActivityDetailView.model.attributes.activity_id;
     },
 
     sharePopopverClickHandler: function(e){
@@ -955,6 +989,30 @@ appData.views.CreateActivityInfoView = Backbone.View.extend({
       appData.views.CreateActivityInfoView.sportAutComplete = new AutoCompleteView({input: $("#sportInput", appData.settings.currentModuleHTML), model: appData.collections.sports, wait: 100, updateModel: appData.views.ActivityDetailView.model, updateID: "sport_id"}).render();
       this.setValidator();
 
+      // if we are updating, enter the date from the activity in the input form
+      if(appData.views.CreateActivityView.isUpdating){
+            var selectedSport = appData.collections.sports.where({"sport_id": appData.views.ActivityDetailView.model.attributes.sport_id})
+                selectedSport = selectedSport[0];
+
+            $('#sportInput', appData.settings.currentModuleHTML).val(selectedSport.attributes.sport_title);
+            $('#participantsSlider', appData.settings.currentModuleHTML).attr('value', appData.views.ActivityDetailView.model.attributes.participants);
+            this.participantsSliderHandler();
+            $('#titelInput', appData.settings.currentModuleHTML).val(appData.views.ActivityDetailView.model.attributes.title);
+
+            var time = appData.views.ActivityDetailView.model.attributes.date.slice(-5);
+            $('#vanInput', appData.settings.currentModuleHTML).val(time);
+            $('#totInput', appData.settings.currentModuleHTML).val(appData.views.ActivityDetailView.model.attributes.stopTime);
+            $('#omschrijvingInput', appData.settings.currentModuleHTML).val(appData.views.ActivityDetailView.model.attributes.description);
+          
+            var dateObject = new Date(appData.views.ActivityDetailView.model.attributes.savedDate);
+
+              console.log(dateObject);
+            $('#wanneerInput', appData.settings.currentModuleHTML).val(dateObject.toDateInputValue());
+
+            // find out how to make dates
+
+      }
+
       return this; 
     },
 
@@ -989,7 +1047,7 @@ appData.views.CreateActivityInfoView = Backbone.View.extend({
             participants: {
               required: true,
               range: [2, 60]
-            }
+            },
           },
           submitHandler: function(form) {
             appData.views.ActivityDetailView.model.attributes.participants = $('#participantsSlider', appData.settings.currentModuleHTML).val();
@@ -1040,6 +1098,8 @@ appData.views.CreateActivityLocationView = Backbone.View.extend({
         appData.views.CreateActivityLocationView.tabTarget.tab = "#wieTab";
         appData.views.CreateActivityLocationView.markers = [];
         appData.views.CreateActivityLocationView.clearMarkers = this.clearMarkers;
+
+        appData.views.CreateActivityLocationView.activityCreatedHandler = this.activityCreatedHandler;
     },
 
     events: {
@@ -1066,15 +1126,18 @@ appData.views.CreateActivityLocationView = Backbone.View.extend({
 
                 var selectedLocationModel = appData.collections.locations.where({ "location_id": appData.views.ActivityDetailView.model.attributes.location_id });
                     if(selectedLocationModel){
+
                         selectedLocationModel = selectedLocationModel[0];
 
                         var coordinates = selectedLocationModel.attributes.coordinates.split(',');
                             appData.views.CreateActivityLocationView.currentLocation = coordinates;
                             appData.views.CreateActivityLocationView.map.setCenter(new google.maps.LatLng(coordinates[0], coordinates[1]), 13);
                     
-                        if(selectedLocationModel.location == $('#locationInput',  appData.settings.currentModuleHTML).val()){
-                        
+                            console.log(selectedLocationModel);
+
+                        if(selectedLocationModel.location == $('#locationInput',  appData.settings.currentModuleHTML).val() || selectedLocationModel.attributes.location == $('#locationInput',  appData.settings.currentModuleHTML).val()){
                         }else{
+
                             appData.views.ActivityDetailView.model.attributes.location_id = null;
                             appData.services.utilService.getLatLon($('#locationInput').val());
                         }
@@ -1143,6 +1206,11 @@ appData.views.CreateActivityLocationView = Backbone.View.extend({
       this.setValidators();
       this.initMap();
 
+     if(appData.views.CreateActivityView.updating){
+        $('#locationInput', appData.settings.currentModuleHTML).val(appData.views.ActivityDetailView.model.attributes.location);
+        this.locationChangeHandler();
+      }
+
       return this; 
     },
 
@@ -1195,28 +1263,99 @@ appData.views.CreateActivityLocationView = Backbone.View.extend({
                     // Add location to database
                     appData.services.phpService.addLocation($('#locationInput',appData.settings.currentModuleHTML).val(), appData.views.CreateActivityLocationView.currentMapLocation,"");
                 }else{
-                    appData.events.createActivityTabsEvent.trigger('formStageCompleteEvent', appData.views.CreateActivityLocationView.tabTarget);
+
+                    // if we don't have friends just create the activity, else go to the friends invite page
+                    if(appData.models.userModel.attributes.myFriends.models.length !== 0){
+                        appData.events.createActivityTabsEvent.trigger('formStageCompleteEvent', appData.views.CreateActivityLocationView.tabTarget);
+                    }else{
+
+                        if(appData.views.CreateActivityView.updating){
+                            Backbone.on('activityUpdated', appData.views.CreateActivityLocationView.activityCreatedHandler);
+                            appData.services.phpService.updateActivity(appData.views.ActivityDetailView.model);
+
+                            console.log(appData.views.ActivityDetailView.model);
+                        }else{
+                            Backbone.on('activityCreated', appData.views.CreateActivityLocationView.activityCreatedHandler);
+                            appData.services.phpService.createActivity(appData.views.ActivityDetailView.model);
+                        }
+                    }
                 }
             }
         });
+    },
+
+    activityCreatedHandler: function(activity_id){
+
+      // now add friends
+      Backbone.off('activityCreated');
+      Backbone.off('activityUpdated');
+      
+      appData.views.CreateActivityView.updating = false;
+      appData.views.CreateActivityView.isUpdating = false;
+      appData.views.CreateActivityLocationView.activity_id = activity_id;
+      appData.services.phpService.getActivities(false, appData.views.CreateActivityLocationView.activity_id);
+      
+      // set this boolean so we return to disable back functionality
+      appData.settings.created = true;
+
     }
 });
 
 appData.views.CreateActivityView = Backbone.View.extend({
 
     initialize: function () {
-        appData.views.ActivityDetailView.model = new Activity();
+
+        // check if we are updating or creating
+        if(this.model){
+
+            if(this.model.attributes.updateActivity){
+                appData.views.CreateActivityView.updating = this.model.attributes.updateActivity;
+                appData.views.ActivityDetailView.model = this.model;
+
+                appData.views.CreateActivityView.isUpdating = true;
+            }else{
+                appData.views.ActivityDetailView.model = new Activity();
+                appData.views.CreateActivityView.isUpdating = false;
+            }
+        }else{
+            appData.views.ActivityDetailView.model = new Activity();
+            appData.views.CreateActivityView.isUpdating = false;
+        }
+
         appData.events.createActivityTabsEvent.bind("formStageCompleteEvent", this.formStageCompleteEvent);
+        
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+
     },
 
+    // phonegap device back online
+    networkLostHandler: function(){
+
+    },
+    
     render: function() { 
     	this.$el.html(this.template());
         this.currentActivityPage = '#watContent';
 
         appData.settings.currentPageHTML = this.$el;
-        
+
         var view = new appData.views.CreateActivityInfoView({ model:  appData.views.ActivityDetailView.model});
         $('#createActivityContent', appData.settings.currentPageHTML).empty().append(view.render().$el);
+
+        // if this user doesn't have friends, just hide the friends tab from the flow
+        if(appData.models.userModel.attributes.myFriends.models.length === 0){
+            $('#wieTab', appData.settings.currentPageHTML).addClass('hide');
+        }
+
+        if(appData.views.CreateActivityView.isUpdating){
+            $('.cl-title', appData.settings.currentPageHTML).text('Wijzig activitiet');
+        }
 
         return this; 
     }, 
@@ -1227,14 +1366,18 @@ appData.views.CreateActivityView = Backbone.View.extend({
 
     subHandler: function(){
         if($('form').is('#wieForm')){
-              Backbone.on('activityCreated', appData.views.CreateActivityWieView.activityCreatedHandler);
-              appData.services.phpService.createActivity(appData.views.ActivityDetailView.model);
- 
+            if(appData.views.CreateActivityView.updating){
+                Backbone.on('activityUpdated', appData.views.CreateActivityLocationView.activityCreatedHandler);
+                appData.services.phpService.updateActivity(appData.views.ActivityDetailView.model);
+
+            }else{
+                Backbone.on('activityCreated', appData.views.CreateActivityLocationView.activityCreatedHandler);
+                appData.services.phpService.createActivity(appData.views.ActivityDetailView.model);
+            }
         }else{
             $('form',appData.settings.currentPageHTML).submit();
         }
     },
-
 
     formStageCompleteEvent: function(data){
 
@@ -1258,10 +1401,25 @@ appData.views.CreateActivityView = Backbone.View.extend({
 
             case "#waarContent":
                 view = new appData.views.CreateActivityLocationView({ model:  appData.views.ActivityDetailView.model});
+
+                if(appData.models.userModel.attributes.myFriends.models.length === 0){
+
+                    if(appData.views.CreateActivityView.isUpdating){
+                        $('#submitButton').val('Activiteit bijwerken');
+                    }else{
+                        $('#submitButton').val('Activiteit aanmaken');
+                    }
+                }
             break;
 
             case "#wieContent": 
                 view = new appData.views.CreateActivityWieView({ model:  appData.views.ActivityDetailView.model});
+                
+                if(appData.views.CreateActivityView.isUpdating){
+                    $('#submitButton').val('Activiteit bijwerken');
+                }else{
+                    $('#submitButton').val('Activiteit aanmaken');
+                }
             break;
         }
 
@@ -1302,10 +1460,18 @@ appData.views.CreateActivityWieView = Backbone.View.extend({
 
     },
 
+
+
+
     activityCreatedHandler: function(activity_id){
 
       // now add friends
       Backbone.off('activityCreated');
+      Backbone.off('activityUpdated');
+
+      appData.views.CreateActivityView.updating = false;
+      appData.views.CreateActivityView.isUpdating = false;
+
       appData.views.CreateActivityWieView.activity_id = activity_id;
 
       if(appData.collections.selectedFriends.length > 0){
@@ -1496,9 +1662,29 @@ appData.views.DashboardView = Backbone.View.extend({
         // update activities collection
         appData.views.DashboardView.markers = [];
         appData.views.DashboardView.clearMarkers = this.clearMarkers;
-        appData.services.phpService.getActivities(false, null);
+
+        // update the activities if we have a network connection
+        if(appData.settings.network){
+            appData.services.phpService.getActivities(false, null);
+        }else{
+            $('#createActivityButton').hide();
+        }
+
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+
     },
 
+    // phonegap device back online
+    networkLostHandler: function(){
+
+    },
+    
     events: {
         "change #sortActivities": "sortActivitiesChangeHandler",
         "click #searchButton": "toggleSearchHandler",
@@ -1516,7 +1702,6 @@ appData.views.DashboardView = Backbone.View.extend({
     },
 
     generateAcitvitiesCollection: function(){
-      
         Backbone.off('dashboardUpdatedHandler', this.generateAcitvitiesCollection);
 
         if(appData.collections.activities.length === 0){
@@ -1666,15 +1851,29 @@ appData.views.DashboardView = Backbone.View.extend({
         this.initMap();
         this.generateAcitvitiesCollection();
 
+        if(!appData.settings.network && appData.settings.native){
+            $('#createActivityButton', appData.settings.currentPageHTML).hide();
+        }
+
         return this;
     },
 
     initMap: function() { 
         appData.settings.mapAdded = true;
 
+
+        var myLocation = appData.models.userModel.attributes.current_location;
+        if(myLocation !== "" || myLocation !== null){
+            myLocation = appData.models.userModel.attributes.current_location.split(',');
+        }else{
+            myLocation = appData.settings.defaultLocation;
+        }
+
+        appData.views.DashboardView.locations = myLocation;
+
         var mapOptions = {
             zoom: 15,
-            center: new google.maps.LatLng(appData.settings.defaultLocation[0], appData.settings.defaultLocation[1]),
+            center: new google.maps.LatLng(appData.views.DashboardView.locations[0], appData.views.DashboardView.locations[1]),
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             disableDefaultUI: true
         }
@@ -1683,8 +1882,16 @@ appData.views.DashboardView = Backbone.View.extend({
         // resize and relocate map
         google.maps.event.addListenerOnce(appData.views.DashboardView.map, 'idle', function() {
             google.maps.event.trigger(appData.views.DashboardView.map, 'resize');
-            appData.views.DashboardView.map.setCenter(new google.maps.LatLng(appData.settings.defaultLocation[0], appData.settings.defaultLocation[1]), 13);
+            appData.views.DashboardView.map.setCenter(new google.maps.LatLng(appData.views.DashboardView.locations[0], appData.views.DashboardView.locations[1]), 13);
         });
+
+        var userMarker = new google.maps.Marker({
+              position: new google.maps.LatLng(appData.views.DashboardView.locations[0], appData.views.DashboardView.locations[1]),
+              map:  appData.views.DashboardView.map,
+              title: "",
+              icon: appData.settings.iconPath + "my-map-icon@x2.png"
+            });
+        appData.views.DashboardView.markers.push(userMarker);
 
         if(appData.settings.native){
             Backbone.on('getMyLocationHandler', this.getMyLocationHandler);
@@ -1717,6 +1924,14 @@ appData.views.DashboardView = Backbone.View.extend({
 
             appData.views.DashboardView.markers.push(marker);
         });
+
+        var userMarker = new google.maps.Marker({
+          position: new google.maps.LatLng(appData.views.DashboardView.locations[0], appData.views.DashboardView.locations[1]),
+          map:  appData.views.DashboardView.map,
+          title: "",
+          icon: appData.settings.iconPath + "my-map-icon@x2.png"
+        });
+        appData.views.DashboardView.markers.push(userMarker);
     },
 
     clearMarkers: function(){
@@ -1805,13 +2020,54 @@ appData.views.FriendView = Backbone.View.extend({
       }else{
         this.model.attributes.myFriend = false;
       }
+      Backbone.on('networkFoundEvent', this.networkFoundHandler);
+      Backbone.on('networkLostEvent', this.networkLostHandler);
+
+
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
     },
 
     render: function() { 
       this.$el.html(this.template({imagePath: appData.settings.imagePath, user: this.model.toJSON()}));
       appData.settings.currentPageHTML = this.$el;
+
+      Backbone.on('userMediaHandler', this.userMediaRecievedHandler);
+      appData.services.phpService.getUserMedia(this.model.attributes.user_id);
+
       return this; 
     }, 
+
+    userMediaRecievedHandler: function(media){
+      console.log(media);
+      Backbone.off('userMediaHandler');
+
+      var mediaList = [];
+
+      // generate media tiles
+      media.each(function(mediaModel) {
+
+          mediaModel.attributes.userModel = appData.views.FriendView.model.attributes;
+          mediaModel.attributes.imagePath = appData.settings.imagePath;
+
+          mediaList.push(new appData.views.ActivityMediaViewer({
+            model : mediaModel
+          }));
+      });
+
+      $('#mediaContainer', appData.settings.currentPageHTML).empty();
+      _(mediaList).each(function(dv) {
+          $('#mediaContainer', appData.settings.currentPageHTML).append(dv.render().$el);
+      });
+    },
 
     events: {
       "click #backButton": "backHandler",
@@ -1903,6 +2159,19 @@ appData.views.HomeView = Backbone.View.extend({
         appData.events.facebookUserToSQLEvent.bind('facebookUserToSQLSuccesHandler', this.facebookUserToSQLSuccesHandler);
         appData.events.locationHomeEvent.bind('locationSuccesHandler', this.locationSuccesHandler);
         appData.events.locationHomeEvent.bind('locationErrorHandler', this.locationErrorHandler);
+        
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
     },
 
     render: function() { 
@@ -1938,41 +2207,43 @@ appData.views.HomeView = Backbone.View.extend({
     * Facebook login flow 
     */
     facebookUserToSQLSuccesHandler: function(){
+        $('#facebookLoad').removeClass('hide');
         appData.router.navigate('loading', true);
     },
 
     facebookGetIDHandler: function(newUser){
-        if(!newUser.facebook_user){
-            console.log("nieuwe gebruiker");
 
-            if(appData.settings.native){
+        if(!newUser.facebook_user){
+
+            if(navigator.geolocation){
                 // First lets get the location
+                appData.settings.newUser = true;
                 appData.services.utilService.getLocationService("login");
             }else{
-                console.log("to s")
-
                 appData.services.facebookService.facebookUserToSQL();
             }
 
         }else{
             appData.models.userModel.set('user_id', newUser.user_id);
 
-            if(appData.settings.native){
+            if(navigator.geolocation){
+                appData.settings.newUser = false;
                 appData.services.utilService.getLocationService("login");
             }else{
                 appData.router.navigate('loading', true);
-            }
-
-            // Excisting user, do nothing for now
-            appData.router.navigate('loading', true);          
+            }      
         }
     },
 
     locationSuccesHandler: function(location){
-        var myLocation = location.coords.coordinates.latitude + "," + location.coords.coordinates.longitude;
-
+        var myLocation = location.coords.latitude + "," + location.coords.longitude;
         appData.models.userModel.set('current_location', myLocation);
-        appData.services.facebookService.facebookUserToSQL();
+
+        if(appData.settings.newUser){
+            appData.services.facebookService.facebookUserToSQL();
+        }else{
+            appData.router.navigate('loading', true);
+        }
     },
 
     locationErrorHandler: function(){
@@ -1987,6 +2258,8 @@ appData.views.HomeView = Backbone.View.extend({
     facebookLoginHandler: function(){
         // fetch profile data
         appData.services.facebookService.getProfileData();
+
+        $('#facebookLoad').removeClass('hide');
     },
 
     facebookGetFriendsHandler: function(){
@@ -2041,7 +2314,20 @@ appData.views.LoadingView = Backbone.View.extend({
         Backbone.on('getMyFavouriteSportsHandler', this.getMyFavouriteSportsHandler)
         Backbone.on('getMyChallengesHandler', this.getMyChallengesHandler);
         Backbone.on('getMyBadgesHandler', this.getMyBadgesHandler);
-        Backbone.on('getFriendsHandler', this.loadingCompleteHandler)
+        Backbone.on('getFriendsHandler', this.loadingCompleteHandler);
+
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
     },
 
     render: function() {
@@ -2111,17 +2397,13 @@ appData.views.LoadingView = Backbone.View.extend({
     loadingCompleteHandler: function(){
         Backbone.off('getFriendsHandler');
 
-
         // set localstorage, so the user has data stored in case the connection drops
         // set collections
-
-        // set usermodel
-
-
+        window.localStorage.setItem("collections", JSON.stringify(appData.collections));
+        window.localStorage.setItem("userModel", JSON.stringify(appData.models.userModel));
 
         appData.settings.dataLoaded = true;
         appData.views.LoadingView.destroy_view();
-
 
         if(appData.models.userModel.attributes.myFavouriteSports.length > 0){
             appData.router.navigate('dashboard', true);
@@ -2244,7 +2526,20 @@ appData.views.NavigationView = Backbone.View.extend({
             _this.afterRender(); 
             return _this; 
         }); 
+
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
     }, 
+    
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
+    },
 
     beforeRender: function() { 
     }, 
@@ -2333,6 +2628,44 @@ appData.views.NavigationView = Backbone.View.extend({
 
 
 
+appData.views.NoConnectionView = Backbone.View.extend({
+
+    initialize: function () {
+
+      Backbone.on('networkFoundEvent', this.networkFoundHandler);
+      Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+        window.history.back();
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+        window.location = "#";
+    },
+
+    render: function() { 
+      this.$el.html(this.template());
+      appData.settings.currentModuleHTML = this.$el;
+    
+      return this; 
+    },
+    events: {
+        "click #refreshButton": "checkConnectionHandler"
+    },
+
+    checkConnectionHandler: function(){
+        var result = appData.services.utilService.checkConnection();
+        alert(appData.settings.network);
+
+        if(appData.settings.network){
+            window.location = "#";
+        }
+    }
+});
+
 appData.views.PlannerInvitedActivitiesView = Backbone.View.extend({
 
     initialize: function () {
@@ -2375,6 +2708,19 @@ appData.views.PlannerView = Backbone.View.extend({
     // Update when a user accepts / declines an invitation
     appData.views.PlannerView.acceptedInvite = this.acceptedInvite;
     appData.services.phpService.getMyPlannedActivities();
+  
+    Backbone.on('networkFoundEvent', this.networkFoundHandler);
+    Backbone.on('networkLostEvent', this.networkLostHandler);
+  }, 
+
+  // phonegap device offline
+  networkFoundHandler: function(){
+
+  },
+
+  // phonegap device back online
+  networkLostHandler: function(){
+
   },
 
   events:{
@@ -2672,6 +3018,18 @@ appData.views.ProfileFriendsView = Backbone.View.extend({
 appData.views.ProfileView = Backbone.View.extend({
 
     initialize: function () {
+      Backbone.on('networkFoundEvent', this.networkFoundHandler);
+      Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    deviceOfflineHandler: function(){
+
+    },
+
+    // phonegap device back online
+    deviceOnlineHandler: function(){
+
     },
     
     render: function() { 
@@ -2727,6 +3085,18 @@ appData.views.SettingsView = Backbone.View.extend({
     	appData.views.SettingsView.avatarUpdatedHandler = this.avatarUpdatedHandler;
       appData.views.SettingsView.fileUploadedHandler = this.fileUploadedHandler;
 
+      Backbone.on('networkFoundEvent', this.networkFoundHandler);
+      Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
     },
 
     render: function () {
@@ -2745,7 +3115,21 @@ appData.views.SettingsView = Backbone.View.extend({
         });
       }
 
+      this.generateFavouriteSportList();
+
       return this;
+    },
+
+    generateFavouriteSportList: function(){
+
+      var sports = [];
+      $('#favouriteSportList', appData.settings.currentPageHTML).empty();
+
+      _(appData.models.userModel.attributes.myFavouriteSports.models).each(function(sport){
+        var sportView = new appData.views.FavouriteSportListView({model:sport});
+        $('#favouriteSportList', appData.settings.currentPageHTML).append(sportView.render().$el);
+      });
+
     },
 
     mediaFormSubmitHandler: function(event){
@@ -2774,9 +3158,7 @@ appData.views.SettingsView = Backbone.View.extend({
     },
 
     nonNativeFileSelectedHandler: function(evt){
-
         // upload script
-        // do some checks
         var files = evt.target.files;
         appData.views.SettingsView.files = files;
 
@@ -2791,6 +3173,14 @@ appData.views.SettingsView = Backbone.View.extend({
     },
 
     signOutHandler: function(){
+      // clear local storage
+      window.localStorage.clear()
+
+      // not signed in
+      appData.settings.userLoggedIn = false;
+      appData.settings.storageFound = false;
+
+      // back to the landing page
       window.location.hash = "#";
     },   
 
@@ -2809,10 +3199,6 @@ appData.views.SettingsView = Backbone.View.extend({
     },
 
     avatarUploadHandler: function(r){
-                  alert("Code = " + r.responseCode);
-            alert("Response = " + r.response);
-            alert("Sent = " + r.bytesSent);
-
     	Backbone.on('updateUserAvatar', appData.views.SettingsView.avatarUpdatedHandler);
     	appData.services.phpService.updateUserAvatar(appData.views.SettingsView.uploadedPhotoUrl);
     },
@@ -2842,7 +3228,7 @@ appData.views.SettingsView = Backbone.View.extend({
       options.chunkedMode = false;
 
       var ft = new FileTransfer();  
-      ft.upload(imageURI, appData.settings.servicePath + appData.settings.imageUploadService, appData.views.SettingsView.avatarUploadHandler(), null, options);    
+      ft.upload(imageURI, appData.settings.servicePath + appData.settings.imageUploadService, appData.views.SettingsView.avatarUploadHandler, null, options);    
     },
 });
 
@@ -2853,6 +3239,19 @@ appData.views.SportSelectorView = Backbone.View.extend({
         Backbone.on('addFavouriteSportsHandler', this.addFavouriteSportsHandler)
     
         appData.views.SportSelectorView.model = this.model;
+
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device offline
+    networkFoundHandler: function(){
+
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
     },
 
     render: function() {
@@ -2935,8 +3334,10 @@ appData.routers.AppRouter = Backbone.Router.extend({
         "createUser":       "createUser",
         "settings":         "settings",
         "sportselector":    "sportselector",
+        "noconnection":     "noconnection",
         "loading":          "loading",
-        "friend/:id":        "friend"
+        "friend/:id":       "friend",
+        "update/:id":       "update"
     },
 
 
@@ -2961,8 +3362,39 @@ appData.routers.AppRouter = Backbone.Router.extend({
         }
     },
 
+    noconnection: function(){
+        appData.slider.slidePage(new appData.views.NoConnectionView().render().$el);
+    },
+
     home: function () {
-        appData.slider.slidePage(new appData.views.HomeView().render().$el);
+
+        // are we on a device or a mobile webbrowser?
+        if(appData.settings.native){
+
+            if(appData.settings.network){
+                // is this user already logged in? if so skip the login page and go straight to loading or the offline mode
+                if(appData.settings.userLoggedIn){
+                    window.location.hash = "loading";
+                }else{
+                    appData.slider.slidePage(new appData.views.HomeView().render().$el);
+                }
+            }else{
+
+                 // check if we have local storage from an earlier login
+                if(appData.settings.storageFound){
+
+                    appData.services.utilService.localDataToCollection(appData.storage);
+                    window.location.hash = "dashboard";
+                }else{
+                    window.location.hash = "noconnection";
+                }
+            }
+
+        }else{
+
+            appData.slider.slidePage(new appData.views.HomeView().render().$el);
+
+        }
     },
 
     loading: function () {
@@ -2974,7 +3406,7 @@ appData.routers.AppRouter = Backbone.Router.extend({
     },
     
     dashboard: function () {
-
+        appData.settings.created = false;
         if(appData.settings.userLoggedIn){
 
             if(appData.settings.dataLoaded){                
@@ -2989,7 +3421,6 @@ appData.routers.AppRouter = Backbone.Router.extend({
 
     planner: function () {
         if(appData.settings.userLoggedIn){
-
             appData.slider.slidePage(new appData.views.PlannerView().render().$el);
         }else{
             window.location.hash = "";
@@ -3005,16 +3436,43 @@ appData.routers.AppRouter = Backbone.Router.extend({
     },
 
     friend: function(id){
-        var userModel = appData.collections.users.where({ "user_id": id });
-            userModel = userModel[0];
+        if(appData.settings.userLoggedIn){
 
-            console.log(userModel);
-        
-        appData.slider.slidePage(new appData.views.FriendView({model: userModel}).render().$el); 
+            var userModel = appData.collections.users.where({ "user_id": id });
+                userModel = userModel[0];
+
+            
+            appData.slider.slidePage(new appData.views.FriendView({model: userModel}).render().$el); 
+        }else{
+            window.location.hash = ""
+        }
     },
 
     activity: function (id) {
-        appData.slider.slidePage(new appData.views.ActivityDetailView().render().$el); 
+        if(appData.settings.userLoggedIn){
+            appData.slider.slidePage(new appData.views.ActivityDetailView().render().$el); 
+        }else{
+            window.location.hash = "";
+        }
+    },
+
+    update: function(id){
+        if(appData.settings.userLoggedIn){
+
+            if(appData.settings.dataLoaded){
+                var activitiesCollection = appData.collections.activities;
+                var selectedActivityModel = activitiesCollection.where({activity_id: id}); 
+                    selectedActivityModel = selectedActivityModel[0];
+                    selectedActivityModel.attributes.updateActivity = true;
+
+                appData.slider.slidePage(new appData.views.CreateActivityView({model: selectedActivityModel}).render().$el);
+            }else{
+                window.location.hash = "loading";
+            }
+        
+        }else{
+            window.location.hash = "";
+        }
     },
 
     createActivity: function () {
@@ -3034,15 +3492,22 @@ appData.routers.AppRouter = Backbone.Router.extend({
         }else{
             window.location.hash = "";
         }
-
     },
 
     createUser: function () {
-        appData.slider.slidePage(new appData.views.CreateUserView({model: appData.models.userModel}).render().$el);
+        if(appData.settings.userLoggedIn){
+            appData.slider.slidePage(new appData.views.CreateUserView({model: appData.models.userModel}).render().$el);
+        }else{
+
+        }
     },
     
     navigater: function (id) {
-        appData.slider.slidePage(new appData.views.NavigationView().render().$el);
+        if(appData.settings.userLoggedIn){
+            appData.slider.slidePage(new appData.views.NavigationView().render().$el);
+        }else{
+            window.location.hash = ""
+        }
     },
 
     activity: function (id) {
@@ -3065,19 +3530,95 @@ appData.routers.AppRouter = Backbone.Router.extend({
     },
 
     settings: function (id) {
-        appData.slider.slidePage(new appData.views.SettingsView().render().$el);
+        if(appData.settings.userLoggedIn){
+            appData.slider.slidePage(new appData.views.SettingsView().render().$el);
+        }else{
+            window.location.hash = "";
+        }
     },
 
     sportselector: function (id) {
-        //       $('body').empty().append(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
-        appData.slider.slidePage(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
-
+        if(appData.settings.userLoggedIn){
+            appData.slider.slidePage(new appData.views.SportSelectorView({ model: new Backbone.Model({"sport_id": ""})}).render().$el);
+        }else{
+            window.location.hash = "";
+        }
     },
 
     checkLoggedIn: function(){
 
     }
 });
+
+/**
+* Updating a users avatar according to app usage
+*/
+appData.services.AvatarService = Backbone.Model.extend({
+
+	initialize: function() {
+
+	},
+
+	addScore: function(paramter){
+		var arr = [];
+		var multiplier;
+
+		switch(paramter){
+			case "create":
+				multiplier = 2.5;
+			break;
+
+			case "join":
+				multiplier = 1.4;
+			break;
+
+			case "media":
+				multiplier = 1.3
+			break;
+
+			case "chat":
+				multiplier = 1.1;
+			break;
+
+			case "challenge":
+				multiplier = 1.2;
+			break;
+
+			case "friend":
+				multiplier = 1.3;
+			break;
+		}
+
+		// score generator
+		while(arr.length < 3){
+		  var randomnumber=Math.ceil((Math.random()*3)*multiplier)
+		  var found=false;
+		  for(var i=0;i<arr.length;i++){
+		    if(arr[i]==randomnumber){found=true;break}
+		  }
+		  if(!found)arr[arr.length]=randomnumber;
+		}
+
+		appData.models.userModel.attributes.equipment_score = parseInt(appData.models.userModel.attributes.equipment_score) + arr[0];
+		appData.models.userModel.attributes.stamina_score = parseInt(appData.models.userModel.attributes.stamina_score) + arr[1];
+		appData.models.userModel.attributes.strength_score = parseInt(appData.models.userModel.attributes.strength_score) + arr[2];
+	
+		// update avatar on the database
+		Backbone.on('updateAvatarCompleteHandler', this.avatarCompleteHandler);
+		appData.services.phpService.updateAvatar();
+	},
+
+	avatarCompleteHandler: function(){
+		Backbone.off('updateAvatarCompleteHandler');
+	},
+
+	levelUp: function(){
+
+		Backbone.trigger('levelUp');
+	}
+
+});
+
 
 /**
 * Facebook Services
@@ -3103,7 +3644,7 @@ appData.services.FacebookServices = Backbone.Model.extend({
     		try {
 
 	            FB.init({
-	                appId: '293375630813769', // App ID
+	                appId: '595730207182331', // App ID
 	                status: false // check login status
 	            });
 
@@ -3115,11 +3656,12 @@ appData.services.FacebookServices = Backbone.Model.extend({
 	},
 
 	facebookUserToSQL: function(){
+		console.log(appData.models.userModel.attributes);
 		$.ajax({
 			url:appData.settings.servicePath + appData.settings.facebookUserToSQL,
 			type:'POST',
 			dataType:'json',
-			data: "email="+appData.models.userModel.attributes.email+"&age="+appData.models.userModel.attributes.age+"&gender="+appData.models.userModel.attributes.gender+"&name="+appData.models.userModel.attributes.name+"&facebook_data="+JSON.stringify(appData.models.userModel.attributes.facebook_data)+"&facebook_id="+appData.models.userModel.attributes.facebook_id+"&avatar="+appData.models.userModel.attributes.avatar+"&current_location="+JSON.stringify(appData.models.userModel.attributes.current_location),
+			data: "email="+appData.models.userModel.attributes.email+"&age="+appData.models.userModel.attributes.age+"&gender="+appData.models.userModel.attributes.gender+"&name="+appData.models.userModel.attributes.name+"&facebook_data="+JSON.stringify(appData.models.userModel.attributes.facebook_data)+"&facebook_id="+appData.models.userModel.attributes.facebook_id+"&avatar="+appData.models.userModel.attributes.facebook_avatar+"&current_location="+JSON.stringify(appData.models.userModel.attributes.current_location),
 			timeout:60000,
 			success:function(data){
 				if(data.value === true){
@@ -3136,6 +3678,7 @@ appData.services.FacebookServices = Backbone.Model.extend({
 	},
 
 	getUserFromFacebookID: function(){
+
 	  	$.ajax({
 			url:appData.settings.servicePath + appData.settings.getUserFromFacebookID,
 			type:'GET',
@@ -3143,6 +3686,9 @@ appData.services.FacebookServices = Backbone.Model.extend({
 			data: "facebook_id="+appData.models.userModel.attributes.facebook_id,
 			timeout:60000,
 			success:function(data){		
+
+				console.log(data);
+
 				appData.models.userModel.attributes.strength_score = data.strength_score;
 				appData.models.userModel.attributes.stamina_score = data.stamina_score;
 				appData.models.userModel.attributes.equipment_score = data.equipment_score;
@@ -3169,11 +3715,14 @@ appData.services.FacebookServices = Backbone.Model.extend({
 		
 		FB.api('/me', {fields:['name','email','username','age_range','gender','hometown','link','favorite_athletes','favorite_teams']}, function(response) {
 
+				console.log(response);
+
+
 			// store the date in the user profile
 			appData.models.userModel.attributes.facebookUser = true;
 			appData.models.userModel.attributes.name = response.name;
 			appData.models.userModel.attributes.email = response.email;
-			appData.models.userModel.attributes.age = response.age_range;
+			appData.models.userModel.attributes.age = response.age_range.min;
 			appData.models.userModel.attributes.facebook_data.age_range = response.age_range.min;
 			appData.models.userModel.attributes.facebook_data.favorite_athletes = response.favorite_athletes;
 			appData.models.userModel.attributes.facebook_data.favorite_teams = response.favorite_teams;
@@ -3228,18 +3777,16 @@ appData.services.PhpServices = Backbone.Model.extend({
 	createActivity: function(activityModel){
 		var that = this;
 
-		console.log(activityModel);
-
 		$.ajax({
         url:appData.settings.servicePath + appData.settings.createActivityService,
         type:'POST',
         dataType:'json',
-        data: "location_id="+activityModel.attributes.location_id+"&title="+activityModel.attributes.title+"&sport_id="+activityModel.attributes.sport_id+"&description="+activityModel.attributes.description+"&date="+activityModel.attributes.date+"&time="+activityModel.attributes.time+"&user_id="+appData.models.userModel.attributes.user_id+"&participants="+appData.models.userModel.attributes.participants,
+        data: "location_id="+activityModel.attributes.location_id+"&title="+activityModel.attributes.title+"&sport_id="+activityModel.attributes.sport_id+"&description="+activityModel.attributes.description+"&date="+activityModel.attributes.date+"&time="+activityModel.attributes.time+"&stopTime="+activityModel.attributes.stopTime+"&user_id="+appData.models.userModel.attributes.user_id+"&participants="+activityModel.attributes.participants,
         timeout:60000,
 	        success:function(data){
-	        	console.log(data);
 	        	if(data.value === true){
 	        		Backbone.trigger('activityCreated', data.activity_id);
+	        		appData.services.avatarService.addScore("create");
 	        	}else{
 
 	        	}
@@ -3250,7 +3797,28 @@ appData.services.PhpServices = Backbone.Model.extend({
     	});
 	},
 
+	updateActivity: function(activityModel){
+		var that = this;
 
+		$.ajax({
+        url:appData.settings.servicePath + appData.settings.updateActivityService,
+        type:'POST',
+        dataType:'json',
+        data: "location_id="+activityModel.attributes.location_id+"&activity_id="+activityModel.attributes.activity_id+"&title="+activityModel.attributes.title+"&sport_id="+activityModel.attributes.sport_id+"&description="+activityModel.attributes.description+"&date="+activityModel.attributes.date+"&time="+activityModel.attributes.time+"&stopTime="+activityModel.attributes.stopTime+"&user_id="+appData.models.userModel.attributes.user_id+"&participants="+activityModel.attributes.participants,
+        timeout:60000,
+	        success:function(data){
+	        	console.log(data);
+	        	if(data.value === true){
+	        		Backbone.trigger('activityUpdated', data.activity_id);
+	        	}else{
+
+	        	}
+	        },
+	        error: function(){
+	        	alert('errr');
+	        }
+    	});
+	},
 
 	addMessage: function(message, activity_id){
 		$.ajax({
@@ -3262,6 +3830,7 @@ appData.services.PhpServices = Backbone.Model.extend({
 			success:function(data){
 				if(data.value === true){
 					appData.events.postMessageSuccesEvent.trigger("postMessageSuccesHandler");
+					appData.services.avatarService.addScore("chat");
 				}else{
 
 				}
@@ -3570,6 +4139,7 @@ appData.services.PhpServices = Backbone.Model.extend({
 			data: "url="+imageName+"&user_id="+appData.models.userModel.attributes.user_id+"&type="+1+"&activity_id="+activity_id,
 			success:function(data){
         		Backbone.trigger('addPhotoToDatabaseHandler');
+				appData.services.avatarService.addScore("media");
 			}
 		}); 
   	},
@@ -3616,7 +4186,7 @@ appData.services.PhpServices = Backbone.Model.extend({
 			url:appData.settings.servicePath + appData.settings.updateAvatarService,
 			type:'POST',
 			dataType:'json',
-			data: "user_id="+appData.models.userModel.attributes.user_id+"&strength_score="+appData.models.userModel.attributes.avatar_strength+"&stamina_score="+appData.models.userModel.attributes.avatar_stamina+"&equipment_score="+appData.models.userModel.attributes.avatar_equipment,
+			data: "user_id="+appData.models.userModel.attributes.user_id+"&strength_score="+appData.models.userModel.attributes.strength_score+"&stamina_score="+appData.models.userModel.attributes.stamina_score+"&equipment_score="+appData.models.userModel.attributes.equipment_score,
 			success:function(data){
 				Backbone.trigger('updateAvatarCompleteHandler');
 			}
@@ -3644,6 +4214,7 @@ appData.services.PhpServices = Backbone.Model.extend({
 			data: "user_id="+appData.models.userModel.attributes.user_id+"&challenge_id="+challenge_id,
 			success:function(data){
 				Backbone.trigger('joinedChallengeHandler');
+				appData.services.avatarService.addScore("challenge");
 			}, error: function(){
 				alert('errro');
 			}
@@ -3713,6 +4284,7 @@ appData.services.PhpServices = Backbone.Model.extend({
 			data: "friend_id="+friend_id+"&friend_from_id="+friend_from_id,
 			success:function(data){
 				Backbone.trigger('addedFriendHandler');
+				appData.services.avatarService.addScore("friend");
 			}
   		});
     },
@@ -3727,6 +4299,20 @@ appData.services.PhpServices = Backbone.Model.extend({
 			success:function(data){
 				appData.collections.myInvitations = new ActivitiesCollection(data);
 				Backbone.trigger('getInvitationsHandler');
+			}
+  		});
+    },
+
+    getUserMedia: function(userID){
+
+		$.ajax({
+			url:appData.settings.servicePath + appData.settings.getUserMediaService,
+			type:'POST',
+			dataType:'json',
+			data: "user_id="+userID,
+			success:function(data){
+				var media = new MediaCollection(data);
+				Backbone.trigger('userMediaHandler', media);
 			}
   		});
     },
@@ -3874,14 +4460,13 @@ appData.services.UtilServices = Backbone.Model.extend({
 
 	getLocationService: function(target){
 		// geolocate
-		if(appData.settings.native){
+		if(navigator.geolocation){
 
 				navigator.geolocation.getCurrentPosition(onSuccess, onError);
 				var location = [];
 
 
 				function onSuccess(position) {
-					console.log(position);
 
 					switch(target){
 					case "login":
@@ -3901,6 +4486,7 @@ appData.services.UtilServices = Backbone.Model.extend({
 
 					switch(target){
 					case "login":
+
 						Backbone.trigger('locationError');
 						break;
 					case "createActivity":
@@ -3909,9 +4495,45 @@ appData.services.UtilServices = Backbone.Model.extend({
 					}
 				}
 		}else{
+
 			appData.events.locationEvent.trigger('locationErrorHandler', location);
 		}
-	}
+	},
+
+	localDataToCollection: function(dataObject){
+
+		// this function converts localstorage object to backbone collections
+		appData.collections.activities = new ActivitiesCollection(dataObject.activities);
+		appData.collections.buurten = new BuurtenCollection(dataObject.buurten);
+		appData.collections.challenges = new ChallengesCollection(dataObject.challenges);
+		appData.collections.favouriteSports = new SportsCollection(dataObject.favouriteSports);
+		appData.collections.locations = new LocationsCollection(dataObject.locations);
+		appData.collections.myActivities = new ActivitiesCollection(dataObject.myActivities);
+		appData.collections.myPlannedActivities = new ActivitiesCollection(dataObject.myPlannedActivities);
+		appData.collections.sortOptions = new SortOptionsCollection(dataObject.sortOptions);
+		appData.collections.sports = new SportsCollection(dataObject.sports);
+		appData.collections.users = new UsersCollection(dataObject.users);
+
+		appData.settings.dataLoaded = true;
+
+	},
+
+	  // check if there is a working internet / 3G / 4G / WIFI connection to enable the dynamic mode
+  checkConnection: function() {
+    var networkState = navigator.connection.type;
+
+    var states = {};
+        states[Connection.UNKNOWN]  = false;
+        states[Connection.ETHERNET] = true;
+        states[Connection.WIFI]     = true;
+        states[Connection.CELL_2G]  = true;
+        states[Connection.CELL_3G]  = true;
+        states[Connection.CELL_4G]  = true;
+        states[Connection.CELL]     = false;
+        states[Connection.NONE]     = false;
+
+        appData.settings.network = states[networkState];
+  }
 
 });
 

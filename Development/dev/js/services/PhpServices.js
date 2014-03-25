@@ -17,9 +17,9 @@ appData.services.PhpServices = Backbone.Model.extend({
         data: "location_id="+activityModel.attributes.location_id+"&title="+activityModel.attributes.title+"&sport_id="+activityModel.attributes.sport_id+"&description="+activityModel.attributes.description+"&date="+activityModel.attributes.date+"&time="+activityModel.attributes.time+"&stopTime="+activityModel.attributes.stopTime+"&user_id="+appData.models.userModel.attributes.user_id+"&participants="+activityModel.attributes.participants,
         timeout:60000,
 	        success:function(data){
-	        	console.log(data);
 	        	if(data.value === true){
 	        		Backbone.trigger('activityCreated', data.activity_id);
+	        		appData.services.avatarService.addScore("create");
 	        	}else{
 
 	        	}
@@ -63,6 +63,7 @@ appData.services.PhpServices = Backbone.Model.extend({
 			success:function(data){
 				if(data.value === true){
 					appData.events.postMessageSuccesEvent.trigger("postMessageSuccesHandler");
+					appData.services.avatarService.addScore("chat");
 				}else{
 
 				}
@@ -371,6 +372,7 @@ appData.services.PhpServices = Backbone.Model.extend({
 			data: "url="+imageName+"&user_id="+appData.models.userModel.attributes.user_id+"&type="+1+"&activity_id="+activity_id,
 			success:function(data){
         		Backbone.trigger('addPhotoToDatabaseHandler');
+				appData.services.avatarService.addScore("media");
 			}
 		}); 
   	},
@@ -417,7 +419,7 @@ appData.services.PhpServices = Backbone.Model.extend({
 			url:appData.settings.servicePath + appData.settings.updateAvatarService,
 			type:'POST',
 			dataType:'json',
-			data: "user_id="+appData.models.userModel.attributes.user_id+"&strength_score="+appData.models.userModel.attributes.avatar_strength+"&stamina_score="+appData.models.userModel.attributes.avatar_stamina+"&equipment_score="+appData.models.userModel.attributes.avatar_equipment,
+			data: "user_id="+appData.models.userModel.attributes.user_id+"&strength_score="+appData.models.userModel.attributes.strength_score+"&stamina_score="+appData.models.userModel.attributes.stamina_score+"&equipment_score="+appData.models.userModel.attributes.equipment_score,
 			success:function(data){
 				Backbone.trigger('updateAvatarCompleteHandler');
 			}
@@ -445,6 +447,7 @@ appData.services.PhpServices = Backbone.Model.extend({
 			data: "user_id="+appData.models.userModel.attributes.user_id+"&challenge_id="+challenge_id,
 			success:function(data){
 				Backbone.trigger('joinedChallengeHandler');
+				appData.services.avatarService.addScore("challenge");
 			}, error: function(){
 				alert('errro');
 			}
@@ -514,6 +517,7 @@ appData.services.PhpServices = Backbone.Model.extend({
 			data: "friend_id="+friend_id+"&friend_from_id="+friend_from_id,
 			success:function(data){
 				Backbone.trigger('addedFriendHandler');
+				appData.services.avatarService.addScore("friend");
 			}
   		});
     },

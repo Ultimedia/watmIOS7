@@ -42,9 +42,12 @@ appData.views.SettingsView = Backbone.View.extend({
 
     generateFavouriteSportList: function(){
 
-      _(appData.models.userModel.attributes.myFavouriteSports).each(function(model){
+      var sports = [];
+      $('#favouriteSportList', appData.settings.currentPageHTML).empty();
 
-
+      _(appData.models.userModel.attributes.myFavouriteSports.models).each(function(sport){
+        var sportView = new appData.views.FavouriteSportListView({model:sport});
+        $('#favouriteSportList', appData.settings.currentPageHTML).append(sportView.render().$el);
       });
 
     },

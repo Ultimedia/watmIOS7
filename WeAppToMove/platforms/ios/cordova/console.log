@@ -1,58 +1,56 @@
-2014-03-03 15:10:40.809 WeAppToMoved[86131:80b] Multi-tasking -> Device: YES, App: YES
-2014-03-03 15:10:40.815 WeAppToMoved[86131:80b] Unlimited access to network resources
-2014-03-03 15:10:40.823 WeAppToMoved[86131:80b] Fix applied for database locations?: YES
-2014-03-03 15:10:40.845 WeAppToMoved[86131:80b] [CDVTimer][splashscreen] 8.267045ms
-2014-03-03 15:10:40.845 WeAppToMoved[86131:80b] [CDVTimer][TotalPluginStartup] 8.776009ms
-2014-03-03 15:10:40.923 WeAppToMoved[86131:80b] Resetting plugins due to page load.
-2014-03-03 15:10:40.958 WeAppToMoved[86131:80b] Finished load of: file:///Users/maartenbressinck/Library/Application%20Support/iPhone%20Simulator/7.0.3-64/Applications/2B6B3C4E-9DA9-479E-B1E6-E1F4A40A1D22/WeAppToMoved.app/www/index.html
-2014-03-03 16:37:04.479 WeAppToMoved[4097:80b] Multi-tasking -> Device: YES, App: YES
-2014-03-03 16:37:04.501 WeAppToMoved[4097:80b] Unlimited access to network resources
-2014-03-03 16:37:04.504 WeAppToMoved[4097:80b] Fix applied for database locations?: YES
-2014-03-03 16:37:04.696 WeAppToMoved[4097:80b] [CDVTimer][splashscreen] 50.316989ms
-2014-03-03 16:37:04.696 WeAppToMoved[4097:80b] [CDVTimer][TotalPluginStartup] 50.712049ms
-2014-03-03 16:37:04.804 WeAppToMoved[4097:80b] Resetting plugins due to page load.
-2014-03-03 16:37:04.880 WeAppToMoved[4097:80b] Finished load of: file:///Users/maartenbressinck/Library/Application%20Support/iPhone%20Simulator/7.0.3/Applications/3F0F83D3-816B-4862-933E-A2D321D34401/WeAppToMoved.app/www/index.html
-2014-03-03 16:37:04.947 WeAppToMoved[4097:80b] Received Event: deviceready
-2014-03-03 17:31:07.487 WeAppToMoved[16268:80b] Multi-tasking -> Device: YES, App: YES
-2014-03-03 17:31:07.494 WeAppToMoved[16268:80b] Unlimited access to network resources
-2014-03-03 17:31:07.518 WeAppToMoved[16268:80b] [CDVTimer][splashscreen] 7.568002ms
-2014-03-03 17:31:07.518 WeAppToMoved[16268:80b] [CDVTimer][TotalPluginStartup] 7.997990ms
-2014-03-03 17:31:07.596 WeAppToMoved[16268:80b] Resetting plugins due to page load.
-2014-03-03 17:31:07.993 WeAppToMoved[16268:80b] Finished load of: file:///Users/maartenbressinck/Library/Application%20Support/iPhone%20Simulator/7.0.3/Applications/3F0F83D3-816B-4862-933E-A2D321D34401/WeAppToMoved.app/www/index.html
-2014-03-03 17:31:08.029 WeAppToMoved[16268:80b] ERROR: Plugin 'org.apache.cordova.facebook.Connect' not found, or is not a CDVPlugin. Check your plugin mapping in config.xml.
-2014-03-03 17:31:08.030 WeAppToMoved[16268:80b] -[CDVCommandQueue executePending] [Line 158] FAILED pluginJSON = [
-  "org.apache.cordova.facebook.Connect1302440177",
+2014-03-25 08:49:46.977 WeAppToMoved[6791:70b] Multi-tasking -> Device: YES, App: YES
+2014-03-25 08:49:46.998 WeAppToMoved[6791:70b] Unlimited access to network resources
+2014-03-25 08:49:47.182 WeAppToMoved[6791:70b] WARNING: The splashscreen image named Default-Portrait was not found
+2014-03-25 08:49:47.183 WeAppToMoved[6791:70b] [CDVTimer][splashscreen] 48.837960ms
+2014-03-25 08:49:47.183 WeAppToMoved[6791:70b] [CDVTimer][TotalPluginStartup] 49.237013ms
+2014-03-25 08:49:47.184 WeAppToMoved[6791:70b] WARNING: The splashscreen image named Default-Portrait was not found
+2014-03-25 08:49:47.190 WeAppToMoved[6791:70b] WARNING: The splashscreen image named Default-Portrait was not found
+2014-03-25 08:49:47.192 WeAppToMoved[6791:70b] WARNING: The splashscreen image named Default-Portrait was not found
+2014-03-25 08:49:47.286 WeAppToMoved[6791:70b] Resetting plugins due to page load.
+2014-03-25 08:49:47.312 WeAppToMoved[6791:70b] Finished load of: file:///Users/maartenbressinck/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/0FA02E03-AB3F-4D26-9EA6-1E19AC92745C/WeAppToMoved.app/www/index.html
+2014-03-25 08:49:47.314 WeAppToMoved[6791:70b] Resetting plugins due to page load.
+2014-03-25 08:49:47.756 WeAppToMoved[6791:70b] Finished load of: file:///Users/maartenbressinck/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/0FA02E03-AB3F-4D26-9EA6-1E19AC92745C/WeAppToMoved.app/www/main.html
+2014-03-25 08:59:47.721 WeAppToMoved[9776:70b] Multi-tasking -> Device: YES, App: YES
+2014-03-25 08:59:47.727 WeAppToMoved[9776:70b] Unlimited access to network resources
+2014-03-25 08:59:47.749 WeAppToMoved[9776:70b] WARNING: The splashscreen image named Default-Portrait was not found
+2014-03-25 08:59:47.750 WeAppToMoved[9776:70b] [CDVTimer][splashscreen] 7.155001ms
+2014-03-25 08:59:47.750 WeAppToMoved[9776:70b] [CDVTimer][TotalPluginStartup] 7.569015ms
+2014-03-25 08:59:47.751 WeAppToMoved[9776:70b] WARNING: The splashscreen image named Default-Portrait was not found
+2014-03-25 08:59:47.753 WeAppToMoved[9776:70b] WARNING: The splashscreen image named Default-Portrait was not found
+2014-03-25 08:59:47.754 WeAppToMoved[9776:70b] WARNING: The splashscreen image named Default-Portrait was not found
+2014-03-25 08:59:47.780 WeAppToMoved[9776:70b] Resetting plugins due to page load.
+2014-03-25 08:59:47.796 WeAppToMoved[9776:70b] Finished load of: file:///Users/maartenbressinck/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/0FA02E03-AB3F-4D26-9EA6-1E19AC92745C/WeAppToMoved.app/www/index.html
+2014-03-25 08:59:47.797 WeAppToMoved[9776:70b] Resetting plugins due to page load.
+2014-03-25 08:59:48.232 WeAppToMoved[9776:70b] Finished load of: file:///Users/maartenbressinck/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/0FA02E03-AB3F-4D26-9EA6-1E19AC92745C/WeAppToMoved.app/www/main.html
+2014-03-25 13:36:45.362 WeAppToMoved[14685:70b] Multi-tasking -> Device: YES, App: YES
+2014-03-25 13:36:45.387 WeAppToMoved[14685:70b] Unlimited access to network resources
+2014-03-25 13:36:45.506 WeAppToMoved[14685:70b] WARNING: The splashscreen image named Default-Portrait was not found
+2014-03-25 13:36:45.507 WeAppToMoved[14685:70b] [CDVTimer][splashscreen] 57.663977ms
+2014-03-25 13:36:45.507 WeAppToMoved[14685:70b] [CDVTimer][TotalPluginStartup] 58.139980ms
+2014-03-25 13:36:45.508 WeAppToMoved[14685:70b] WARNING: The splashscreen image named Default-Portrait was not found
+2014-03-25 13:36:45.514 WeAppToMoved[14685:70b] WARNING: The splashscreen image named Default-Portrait was not found
+2014-03-25 13:36:45.515 WeAppToMoved[14685:70b] WARNING: The splashscreen image named Default-Portrait was not found
+2014-03-25 13:36:45.688 WeAppToMoved[14685:70b] Resetting plugins due to page load.
+2014-03-25 13:36:45.708 WeAppToMoved[14685:70b] Finished load of: file:///Users/maartenbressinck/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/0FA02E03-AB3F-4D26-9EA6-1E19AC92745C/WeAppToMoved.app/www/index.html
+2014-03-25 13:36:45.710 WeAppToMoved[14685:70b] Resetting plugins due to page load.
+2014-03-25 13:36:46.051 WeAppToMoved[14685:70b] Finished load of: file:///Users/maartenbressinck/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/0FA02E03-AB3F-4D26-9EA6-1E19AC92745C/WeAppToMoved.app/www/main.html
+2014-03-25 13:36:55.770 WeAppToMoved[14685:70b] CDVPlugin class FacebookConnectPlugin (pluginName: org.apache.cordova.facebook.Connect) does not exist.
+2014-03-25 13:36:55.770 WeAppToMoved[14685:70b] ERROR: Plugin 'org.apache.cordova.facebook.Connect' not found, or is not a CDVPlugin. Check your plugin mapping in config.xml.
+2014-03-25 13:36:55.770 WeAppToMoved[14685:70b] -[CDVCommandQueue executePending] [Line 158] FAILED pluginJSON = [
+  "org.apache.cordova.facebook.Connect1693386958",
   "org.apache.cordova.facebook.Connect",
   "init",
   [
     "595730207182331"
   ]
 ]
-2014-03-03 17:31:08.030 WeAppToMoved[16268:80b] ERROR: Plugin 'org.apache.cordova.facebook.Connect' not found, or is not a CDVPlugin. Check your plugin mapping in config.xml.
-2014-03-03 17:31:08.030 WeAppToMoved[16268:80b] -[CDVCommandQueue executePending] [Line 158] FAILED pluginJSON = [
-  "org.apache.cordova.facebook.Connect1302440178",
+2014-03-25 13:36:55.770 WeAppToMoved[14685:70b] CDVPlugin class FacebookConnectPlugin (pluginName: org.apache.cordova.facebook.Connect) does not exist.
+2014-03-25 13:36:55.771 WeAppToMoved[14685:70b] ERROR: Plugin 'org.apache.cordova.facebook.Connect' not found, or is not a CDVPlugin. Check your plugin mapping in config.xml.
+2014-03-25 13:36:55.771 WeAppToMoved[14685:70b] -[CDVCommandQueue executePending] [Line 158] FAILED pluginJSON = [
+  "org.apache.cordova.facebook.Connect1693386959",
   "org.apache.cordova.facebook.Connect",
   "getLoginStatus",
   [
 
-  ]
-]
-2014-03-03 17:31:08.286 WeAppToMoved[16268:80b] Endpoint saved GIF89a
-2014-03-03 17:31:10.928 WeAppToMoved[16268:80b] ERROR: Plugin 'org.apache.cordova.facebook.Connect' not found, or is not a CDVPlugin. Check your plugin mapping in config.xml.
-2014-03-03 17:31:10.929 WeAppToMoved[16268:80b] -[CDVCommandQueue executePending] [Line 158] FAILED pluginJSON = [
-  "org.apache.cordova.facebook.Connect1302440179",
-  "org.apache.cordova.facebook.Connect",
-  "login",
-  [
-    "email"
-  ]
-]
-2014-03-03 17:31:11.905 WeAppToMoved[16268:80b] ERROR: Plugin 'org.apache.cordova.facebook.Connect' not found, or is not a CDVPlugin. Check your plugin mapping in config.xml.
-2014-03-03 17:31:11.905 WeAppToMoved[16268:80b] -[CDVCommandQueue executePending] [Line 158] FAILED pluginJSON = [
-  "org.apache.cordova.facebook.Connect1302440180",
-  "org.apache.cordova.facebook.Connect",
-  "login",
-  [
-    "email"
   ]
 ]

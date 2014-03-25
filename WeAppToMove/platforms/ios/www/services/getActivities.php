@@ -38,6 +38,7 @@
 
 		$originalDate =  $row["date"];
 		$newDate = date("d-m-Y", strtotime($originalDate));
+		$newDateFormat = date("Y-m-d", strtotime($originalDate));;
 		$today = false;
 		$tomorrow = false;
 
@@ -51,7 +52,7 @@
 		   $tomorrow = true;
 		}
 
-		$project = array("sql_index"=> $index, "description"=>$row["activity_description"],"activity_id" => $row["activity_id"], "participants"=>$row["participants"], "sport_title" => $row["sport_title"], "date" => $newDate, "title" => $row["title"], "sport_id" =>$row['sport_id'], "location_id"=>$row['location_id'], "location"=>$row['location'], "coordinates"=>$row['coordinates'], "user_id"=>$row['user_id'], "media" => $mediaCollection, "users" => $usersCollection, "buurt"=>$row['buurt'], "buurt_id"=>$row["buurt_id"], "today"=>$today, "tomorrow"=>$tomorrow, "stopTime" => $row["stopTime"]);
+		$project = array("sql_index"=> $index, "savedDate" => $newDateFormat, "description"=>$row["activity_description"],"activity_id" => $row["activity_id"], "participants"=>$row["participants"], "sport_title" => $row["sport_title"], "date" => $newDate, "title" => $row["title"], "sport_id" =>$row['sport_id'], "location_id"=>$row['location_id'], "location"=>$row['location'], "coordinates"=>$row['coordinates'], "user_id"=>$row['user_id'], "media" => $mediaCollection, "users" => $usersCollection, "buurt"=>$row['buurt'], "buurt_id"=>$row["buurt_id"], "today"=>$today, "tomorrow"=>$tomorrow, "stopTime" => $row["stopTime"]);
 		$projects[] = $project;
 	    $index++;
 

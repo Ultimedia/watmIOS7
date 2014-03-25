@@ -5,19 +5,19 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>41A20FB9-A553-4F3C-AE9A-385FB73F1640</string>
+	<string>C8034973-42EE-49BC-A6A1-3EFAAA824E03</string>
 	<key>IDESourceControlProjectName</key>
 	<string>WeAppToMoved</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>9E9464DE-8124-45FC-BFEA-FF663B4EAF40</key>
+		<key>6087A352-9E48-4C56-8F70-DB8FB169A3AC</key>
 		<string>ssh://github.com/Ultimedia/watmIOS7.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>WeAppToMove/platforms/ios/WeAppToMoved.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>9E9464DE-8124-45FC-BFEA-FF663B4EAF40</key>
+		<key>6087A352-9E48-4C56-8F70-DB8FB169A3AC</key>
 		<string>../../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
@@ -25,14 +25,14 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>9E9464DE-8124-45FC-BFEA-FF663B4EAF40</string>
+	<string>6087A352-9E48-4C56-8F70-DB8FB169A3AC</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>9E9464DE-8124-45FC-BFEA-FF663B4EAF40</string>
+			<string>6087A352-9E48-4C56-8F70-DB8FB169A3AC</string>
 			<key>IDESourceControlWCCName</key>
 			<string>watmLaunch</string>
 		</dict>

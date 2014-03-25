@@ -16,6 +16,8 @@ appData.views.HomeView = Backbone.View.extend({
         
         Backbone.on('networkFoundEvent', this.networkFoundHandler);
         Backbone.on('networkLostEvent', this.networkLostHandler);
+
+        appData.views.HomeView.locationErrorHandler = this.locationErrorHandler;
     }, 
 
     // phonegap device offline
@@ -66,22 +68,25 @@ appData.views.HomeView = Backbone.View.extend({
     },
 
     facebookGetIDHandler: function(newUser){
-
         if(!newUser.facebook_user){
+            
+            appData.settings.newUser = true;
 
             if(navigator.geolocation){
                 // First lets get the location
-                appData.settings.newUser = true;
+                Backbone.on('locationError', appData.views.HomeView.locationErrorHandler);
                 appData.services.utilService.getLocationService("login");
             }else{
                 appData.services.facebookService.facebookUserToSQL();
             }
 
         }else{
+            appData.settings.newUser = false;
             appData.models.userModel.set('user_id', newUser.user_id);
 
             if(navigator.geolocation){
-                appData.settings.newUser = false;
+                Backbone.on('locationError', appData.views.HomeView.locationErrorHandler);
+
                 appData.services.utilService.getLocationService("login");
             }else{
                 appData.router.navigate('loading', true);
@@ -101,7 +106,12 @@ appData.views.HomeView = Backbone.View.extend({
     },
 
     locationErrorHandler: function(){
-        appData.services.facebookService.facebookUserToSQL();
+        Backbone.off('locationError');
+        if(appData.settings.newUser){
+            appData.services.facebookService.facebookUserToSQL();
+        }else{
+            appData.router.navigate('loading', true);
+        }
     },
 
     facebookProfileDataHandler: function(){

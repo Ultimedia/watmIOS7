@@ -53,8 +53,7 @@ console.log("friendId's: "+friendIDs);
 
 function logout() {
     FB.logout(function(response) {
-              alert('logged out');
-              });
+   });
 }
 
 function login() {

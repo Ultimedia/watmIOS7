@@ -59,8 +59,6 @@ appData.views.ActivityMediaView = Backbone.View.extend({
     },
 
     mediaFormSubmitHandler: function(event){
-
-      console.log('submit');
       event.stopPropagation(); // Stop stuff happening
       event.preventDefault(); // Totally stop stuff happening
 
@@ -121,7 +119,7 @@ appData.views.ActivityMediaView = Backbone.View.extend({
       options.chunkedMode = false;
 
       var ft = new FileTransfer();  
-      ft.upload(imageURI, appData.settings.servicePath + appData.settings.imageUploadService, appData.views.ActivityMediaView.win(), null, options);    
+      ft.upload(imageURI, appData.settings.servicePath + appData.settings.imageUploadService, appData.views.ActivityMediaView.win, null, options);    
     },
 
     win: function(r) {
@@ -130,6 +128,7 @@ appData.views.ActivityMediaView = Backbone.View.extend({
     },
 
     addPhotoToDatabaseHandler: function(){
+
       // get images from database
       Backbone.off('addPhotoToDatabaseHandler');
       appData.services.phpService.getMedia(appData.views.ActivityMediaView.model); 

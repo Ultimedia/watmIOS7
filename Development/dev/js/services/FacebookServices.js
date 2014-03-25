@@ -22,7 +22,7 @@ appData.services.FacebookServices = Backbone.Model.extend({
     		try {
 
 	            FB.init({
-	                appId: '293375630813769', // App ID
+	                appId: '595730207182331', // App ID
 	                status: false // check login status
 	            });
 
@@ -34,7 +34,7 @@ appData.services.FacebookServices = Backbone.Model.extend({
 	},
 
 	facebookUserToSQL: function(){
-		console.log(appData.models.userModel.attributes);
+
 		$.ajax({
 			url:appData.settings.servicePath + appData.settings.facebookUserToSQL,
 			type:'POST',
@@ -64,6 +64,7 @@ appData.services.FacebookServices = Backbone.Model.extend({
 			data: "facebook_id="+appData.models.userModel.attributes.facebook_id,
 			timeout:60000,
 			success:function(data){		
+
 				appData.models.userModel.attributes.strength_score = data.strength_score;
 				appData.models.userModel.attributes.stamina_score = data.stamina_score;
 				appData.models.userModel.attributes.equipment_score = data.equipment_score;
@@ -81,24 +82,33 @@ appData.services.FacebookServices = Backbone.Model.extend({
 
 	facebookLogin: function(){
 		FB.login(function(response) {
-			appData.settings.userLoggedIn = true;
+		   if (response.authResponse) {
+		    appData.settings.userLoggedIn = true;
 			appData.events.facebookLoginEvent.trigger("facebookLoginHandler");
+		   } else {
+			alert("Je kan nu niet inloggen met Facebook, probeer het later opnieuw");
+		   }
 	    },{ scope: "email" });
 	},
 
 	getProfileData:function(){
 		
-		FB.api('/me', {fields:['name','email','username','age_range','gender','hometown','link','favorite_athletes','favorite_teams']}, function(response) {
+		FB.api('/me', {fields:['id','name','email','username','age_range','gender','hometown','link','favorite_athletes','favorite_teams']}, function(response) {
 
 			// store the date in the user profile
 			appData.models.userModel.attributes.facebookUser = true;
 			appData.models.userModel.attributes.name = response.name;
 			appData.models.userModel.attributes.email = response.email;
-			appData.models.userModel.attributes.age = response.age_range.min;
-			appData.models.userModel.attributes.facebook_data.age_range = response.age_range.min;
-			appData.models.userModel.attributes.facebook_data.favorite_athletes = response.favorite_athletes;
-			appData.models.userModel.attributes.facebook_data.favorite_teams = response.favorite_teams;
 			
+			if(response.age_range.min){
+			appData.models.userModel.attributes.age = response.age_range.min;
+			}
+			
+			// out of scope
+			//appData.models.userModel.attributes.facebook_data.favorite_athletes = response.favorite_athletes;
+			//appData.models.userModel.attributes.facebook_data.favorite_teams = response.favorite_teams;
+			//appData.models.userModel.attributes.facebook_data.hometown = response.hometown.name;
+			//appData.models.userModel.attributes.facebook_data.username = response.name;
 	
 			var gender;
 			if(response.gender == "male"){
@@ -106,10 +116,7 @@ appData.services.FacebookServices = Backbone.Model.extend({
 			}else{
 				gender = 0;
 			}
-
 			appData.models.userModel.attributes.gender = gender;
-			appData.models.userModel.attributes.facebook_data.hometown = response.hometown.name;
-			appData.models.userModel.attributes.facebook_data.username = response.name;
 			appData.models.userModel.attributes.facebook_id = response.id;
 
 			FB.api("/me/picture", function(response) {
