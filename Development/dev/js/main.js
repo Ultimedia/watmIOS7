@@ -93,17 +93,21 @@ $(document).on("ready", function () {
 
   // phonegap when the user returns to the app after minimizing it
   function onResumeHandler(){
-    window.location.hash = "#";
+
   }
 
   // phonegap device offline
   function deviceOnlineHandler(){
+    $('#container').addClass('online').removeClass('offline');
+
     appData.settings.network = true;
     Backbone.trigger('networkFoundEvent');
   }
 
   // phonegap device back online
   function deviceOfflineHandler(){
+    $('#container').removeClass('online').addClass('offline');
+
     appData.settings.network = false;
     Backbone.trigger('networkLostEvent');
   }
@@ -178,27 +182,29 @@ $(document).on("ready", function () {
         appData.settings.destinationType = navigator.camera.DestinationType;
 
         // check to see if there is a working connection
-        appData.services.utilService.checkConnection();
+        if(appData.services.utilService.getNetworkConnection()){
+          appData.services.facebookService.facebookConnect();
+        }
+
+
+        // see if we have a user in our localstorage
+        if(window.localStorage.getItem("userModel")){
+
+          var localUser = JSON.parse(window.localStorage.getItem("userModel"));
+
+          appData.models.userModel = new User(localUser);
+          appData.settings.userLoggedIn = true;
+
+          // save the old data (so wen can retrieve if in case we don't have a working connection)
+          appData.settings.storageFound = true;
+          appData.storage = JSON.parse(window.localStorage.getItem("collections"));
+        }
 
       } else {
         appData.settings.native = false;
+        appData.services.facebookService.facebookConnect();
       }
 
-      appData.services.facebookService.facebookConnect();
-
-
-      // see if we have a user in our localstorage
-      if(window.localStorage.getItem("userModel")){
-
-        var localUser = JSON.parse(window.localStorage.getItem("userModel"));
-
-        appData.models.userModel = new User(localUser);
-        appData.settings.userLoggedIn = true;
-
-        // save the old data (so wen can retrieve if in case we don't have a working connection)
-        appData.settings.storageFound = true;
-        appData.storage = JSON.parse(window.localStorage.getItem("collections"));
-      }
 
       // init backbone
       Backbone.history.start();

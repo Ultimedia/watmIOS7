@@ -21,23 +21,23 @@ appData.views.DashboardView = Backbone.View.extend({
         if(appData.settings.native){
             if(appData.services.utilService.getNetworkConnection()){
                 appData.services.phpService.getActivities(false, null);
-            }else{
-                $('#createActivityButton').hide();
             }
+        }else{
+            appData.services.phpService.getActivities(false, null);
         }
 
         Backbone.on('networkFoundEvent', this.networkFoundHandler);
         Backbone.on('networkLostEvent', this.networkLostHandler);
     }, 
 
-    // phonegap device offline
+    // phonegap device online
     networkFoundHandler: function(){
-        $('#createActivityButton').show();
+        appData.services.phpService.getActivities(false, null);
     },
 
     // phonegap device back online
     networkLostHandler: function(){
-        $('#createActivityButton').hide();
+
     },
     
     events: {
@@ -248,7 +248,7 @@ appData.views.DashboardView = Backbone.View.extend({
             });
         appData.views.DashboardView.markers.push(userMarker);
 
-        if(appData.settings.native){
+        if(appData.settings.native  &&  appData.settings.network){
             Backbone.on('getMyLocationHandler', this.getMyLocationHandler);
             appData.services.utilService.getLocationService("dashboard");
         }
@@ -256,7 +256,9 @@ appData.views.DashboardView = Backbone.View.extend({
 
     getMyLocationHandler: function(position){
         Backbone.off('getMyLocationHandler');
-        appData.views.DashboardView.map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude), 13);
+        if(position){
+            appData.views.DashboardView.map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude), 13);
+        }
     },
 
     setMarkers: function(models){

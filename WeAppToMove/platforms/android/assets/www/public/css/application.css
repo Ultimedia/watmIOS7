@@ -1475,3 +1475,11 @@ input.error {
 #navigationView .cl-content {
   height: calc(100% - 54px);
 }
+
+/** 
+* Offline
+*/
+/* line 1479, ../../../../Development/dev/sass/application.scss */
+#container.offline #createActivityButton, #container.offline #goingList, #container.offline #addMediaButton, #container.offline #messageBox, #container.offline #sportSelectorButton, #container.offline #changeAvatar, #container.offline #mediaButton, #container.offline #friendsButton, #container.offline #favouriteSportSection {
+  display: none;
+}

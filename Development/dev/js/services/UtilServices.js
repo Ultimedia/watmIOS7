@@ -94,15 +94,39 @@ appData.services.UtilServices = Backbone.Model.extend({
 		appData.collections.locations = new LocationsCollection(dataObject.locations);
 		appData.collections.myActivities = new ActivitiesCollection(dataObject.myActivities);
 		appData.collections.myPlannedActivities = new ActivitiesCollection(dataObject.myPlannedActivities);
+		appData.collections.myInvitations = new ActivitiesCollection(dataObject.myInvitations);
+		appData.collections.myJoinedActivitiesView = new ActivitiesCollection(dataObject.myJoinedActivitiesView);
+
 		appData.collections.sortOptions = new SortOptionsCollection(dataObject.sortOptions);
 		appData.collections.sports = new SportsCollection(dataObject.sports);
 		appData.collections.users = new UsersCollection(dataObject.users);
+
 
 		appData.settings.dataLoaded = true;
 
 	},
 
-	  // check if there is a working internet / 3G / 4G / WIFI connection to enable the dynamic mode
+	updateLocalStorage: function(){
+		// detect localstorage
+		var hasStorage = (function() {
+	      try {
+	        localStorage.setItem(mod, mod);
+	        localStorage.removeItem(mod);
+	        return true;
+	      } catch(e) {
+	        return false;
+	      }
+	    }());
+
+		if(hasStorage){
+			alert('update');
+
+        	window.localStorage.setItem("collections", JSON.stringify(appData.collections));
+        	window.localStorage.setItem("userModel", JSON.stringify(appData.models.userModel));
+		}
+	},
+
+  // check if there is a working internet / 3G / 4G / WIFI connection to enable the dynamic mode
   checkConnection: function() {
     var networkState = navigator.connection.type;
 

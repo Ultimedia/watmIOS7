@@ -95,17 +95,21 @@ $(document).on("ready", function () {
 
   // phonegap when the user returns to the app after minimizing it
   function onResumeHandler(){
-    window.location.hash = "#";
+
   }
 
   // phonegap device offline
   function deviceOnlineHandler(){
+    $('#container').addClass('online').removeClass('offline');
+
     appData.settings.network = true;
     Backbone.trigger('networkFoundEvent');
   }
 
   // phonegap device back online
   function deviceOfflineHandler(){
+    $('#container').removeClass('online').addClass('offline');
+
     appData.settings.network = false;
     Backbone.trigger('networkLostEvent');
   }
@@ -180,27 +184,29 @@ $(document).on("ready", function () {
         appData.settings.destinationType = navigator.camera.DestinationType;
 
         // check to see if there is a working connection
-        appData.services.utilService.checkConnection();
+        if(appData.services.utilService.getNetworkConnection()){
+          appData.services.facebookService.facebookConnect();
+        }
+
+
+        // see if we have a user in our localstorage
+        if(window.localStorage.getItem("userModel")){
+
+          var localUser = JSON.parse(window.localStorage.getItem("userModel"));
+
+          appData.models.userModel = new User(localUser);
+          appData.settings.userLoggedIn = true;
+
+          // save the old data (so wen can retrieve if in case we don't have a working connection)
+          appData.settings.storageFound = true;
+          appData.storage = JSON.parse(window.localStorage.getItem("collections"));
+        }
 
       } else {
         appData.settings.native = false;
+        appData.services.facebookService.facebookConnect();
       }
 
-      appData.services.facebookService.facebookConnect();
-
-
-      // see if we have a user in our localstorage
-      if(window.localStorage.getItem("userModel")){
-
-        var localUser = JSON.parse(window.localStorage.getItem("userModel"));
-
-        appData.models.userModel = new User(localUser);
-        appData.settings.userLoggedIn = true;
-
-        // save the old data (so wen can retrieve if in case we don't have a working connection)
-        appData.settings.storageFound = true;
-        appData.storage = JSON.parse(window.localStorage.getItem("collections"));
-      }
 
       // init backbone
       Backbone.history.start();
@@ -470,15 +476,19 @@ appData.views.ActivityDetailView = Backbone.View.extend({
       console.log('----- In the initialize of ActivityDetailView -----');
       appData.views.ActivityDetailView.model = this.model;
       
-      Backbone.on('networkFoundEvent', this.networkFoundHandler);
+
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
     }, 
 
-    // phonegap device offline
+    // phonegap device online
     networkFoundHandler: function(){
-
 
     },
 
+    // phonegap device back online
+    networkLostHandler: function(){
+    },
 
     render: function() { 
       this.$el.html(this.template(this.model.attributes));
@@ -598,10 +608,34 @@ appData.views.ActivityInfoView = Backbone.View.extend({
         
         Backbone.on('activityUsersSuccesEvent', this.getActivityUsersSuccesHandler);
         Backbone.on('goinToActivitySuccesEvent', this.setGoingToActivityCompleteHandler);
-        appData.services.phpService.getActivityUsers(this.model); 
 
         appData.views.ActivityInfoView.model = this.model;
+
+        // update the activities if we have a network connection
+        if(appData.settings.native){
+            if(appData.services.utilService.getNetworkConnection()){
+                appData.services.phpService.getActivityUsers(this.model); 
+            }else{
+                $('#createActivityButton').hide();
+            }
+        }else{
+            appData.services.phpService.getActivityUsers(this.model); 
+        }
+
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device online
+    networkFoundHandler: function(){
+        appData.services.phpService.getActivityUsers(this.model); 
     },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
+    },
+    
 
     render: function() { 
     	this.$el.html(this.template(this.model.attributes));
@@ -730,6 +764,7 @@ appData.views.ActivityMessagesView = Backbone.View.extend({
 
       // update messages
       appData.services.phpService.getMessages(appData.views.ActivityDetailView.model);  
+      appData.services.utilService.updateLocalStorage();
     },
 
     chatMessagesLoadSuccesHandler: function(messages){
@@ -924,6 +959,7 @@ appData.views.ActivityMediaView = Backbone.View.extend({
       // get images from database
       Backbone.off('addPhotoToDatabaseHandler');
       appData.services.phpService.getMedia(appData.views.ActivityMediaView.model); 
+      appData.services.utilService.updateLocalStorage();
     }
 });
 
@@ -1295,7 +1331,7 @@ appData.views.CreateActivityLocationView = Backbone.View.extend({
       
       // set this boolean so we return to disable back functionality
       appData.settings.created = true;
-
+      appData.services.utilService.updateLocalStorage();
     }
 });
 
@@ -1458,9 +1494,6 @@ appData.views.CreateActivityWieView = Backbone.View.extend({
 
     },
 
-
-
-
     activityCreatedHandler: function(activity_id){
 
       // now add friends
@@ -1481,7 +1514,7 @@ appData.views.CreateActivityWieView = Backbone.View.extend({
 
       // set this boolean so we return to disable back functionality
       appData.settings.created = true;
-
+      appData.services.utilService.updateLocalStorage();
     },
 
     friendsInvitedHandler: function(){
@@ -1665,23 +1698,23 @@ appData.views.DashboardView = Backbone.View.extend({
         if(appData.settings.native){
             if(appData.services.utilService.getNetworkConnection()){
                 appData.services.phpService.getActivities(false, null);
-            }else{
-                $('#createActivityButton').hide();
             }
+        }else{
+            appData.services.phpService.getActivities(false, null);
         }
 
         Backbone.on('networkFoundEvent', this.networkFoundHandler);
         Backbone.on('networkLostEvent', this.networkLostHandler);
     }, 
 
-    // phonegap device offline
+    // phonegap device online
     networkFoundHandler: function(){
-        $('#createActivityButton').show();
+        appData.services.phpService.getActivities(false, null);
     },
 
     // phonegap device back online
     networkLostHandler: function(){
-        $('#createActivityButton').hide();
+
     },
     
     events: {
@@ -1892,7 +1925,7 @@ appData.views.DashboardView = Backbone.View.extend({
             });
         appData.views.DashboardView.markers.push(userMarker);
 
-        if(appData.settings.native){
+        if(appData.settings.native  &&  appData.settings.network){
             Backbone.on('getMyLocationHandler', this.getMyLocationHandler);
             appData.services.utilService.getLocationService("dashboard");
         }
@@ -1900,7 +1933,9 @@ appData.views.DashboardView = Backbone.View.extend({
 
     getMyLocationHandler: function(position){
         Backbone.off('getMyLocationHandler');
-        appData.views.DashboardView.map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude), 13);
+        if(position){
+            appData.views.DashboardView.map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude), 13);
+        }
     },
 
     setMarkers: function(models){
@@ -2172,7 +2207,7 @@ appData.views.HomeView = Backbone.View.extend({
 
     // phonegap device back online
     networkLostHandler: function(){
-
+        appData.router.navigate('noconnection', true);
     },
 
     render: function() { 
@@ -2277,7 +2312,12 @@ appData.views.HomeView = Backbone.View.extend({
     },
 
     facebookClickHandler: function(){
-        appData.services.facebookService.facebookLogin();
+        if(appData.settings.facebookConnect){
+            appData.services.facebookService.facebookLogin();
+        }else{
+            appData.services.facebookService.facebookConnect();
+            appData.services.facebookService.facebookLogin();
+        }
     },
 
     facebookLoginErrorHandler: function(){
@@ -2707,32 +2747,31 @@ appData.views.PlannerView = Backbone.View.extend({
     appData.views.PlannerView.updatePlannerComplete = this.updatePlannerComplete;
     appData.views.PlannerView.getInvitationsHandler = this.getInvitationsHandler;
     appData.views.PlannerView.acceptedInvite = this.acceptInviteHandler;
-
-    Backbone.on('myPlannedActivitiesLoadedHandler', this.updatePlanner);
-    Backbone.on('myActivitiesLoadedHandler', this.updatePlannerComplete);
-    Backbone.on('getInvitationsHandler', this.getInvitationsHandler)
-    Backbone.on('acceptInviteHandler', this.acceptInviteHandler)
+    Backbone.on('acceptInviteHandler', this.acceptInviteHandler);
 
     // Update when a user accepts / declines an invitation
     appData.views.PlannerView.acceptedInvite = this.acceptedInvite;
-
-    // in case we have no internet
+  
+    // update the activities if we have a network connection
     if(appData.settings.native){
-      if(appData.services.utilService.getNetworkConnection()){
+        if(appData.services.utilService.getNetworkConnection()){
+          Backbone.on('myPlannedActivitiesLoadedHandler', this.updatePlanner);
+          appData.services.phpService.getMyPlannedActivities();
+        }else{
+          this.getInvitationsHandler();
+        }
+    }else{
+        Backbone.on('myPlannedActivitiesLoadedHandler', this.updatePlanner);
         appData.services.phpService.getMyPlannedActivities();
-      }else{
-        // get data from localstorage
-        this.getInvitationsHandler();
-      }
     }
 
     Backbone.on('networkFoundEvent', this.networkFoundHandler);
     Backbone.on('networkLostEvent', this.networkLostHandler);
-
   }, 
 
   // phonegap device offline
   networkFoundHandler: function(){
+    Backbone.on('myPlannedActivitiesLoadedHandler', this.updatePlanner);
     appData.services.phpService.getMyPlannedActivities();
   },
 
@@ -2746,6 +2785,7 @@ appData.views.PlannerView = Backbone.View.extend({
   },
 
   handleInviteHandler: function(evt){
+
     var selectedStatus = $(evt.target).attr('data');
     var invitationID =  $(evt.target).parent().attr('data-invitation');
     var activityID = $(evt.target).parent().attr('data-activity-id');
@@ -2765,14 +2805,12 @@ appData.views.PlannerView = Backbone.View.extend({
 
   acceptInviteHandler: function(){
     console.log("invite updated");
-
     Backbone.on('myPlannedActivitiesLoadedHandler', appData.views.PlannerView.updatePlanner);
     appData.services.phpService.getMyPlannedActivities();
   },
 
   updatePlanner: function(){
     console.log('myPlannedActivitiesLoadedHandler');
-
     Backbone.on('myActivitiesLoadedHandler', appData.views.PlannerView.updatePlannerComplete);
     appData.services.phpService.getMyActivities();
   },
@@ -2785,6 +2823,7 @@ appData.views.PlannerView = Backbone.View.extend({
   },
 
   getInvitationsHandler: function(){
+    alert('render');
 
     Backbone.off('myPlannedActivitiesLoadedHandler');
     Backbone.off('myActivitiesLoadedHandler');
@@ -2800,19 +2839,26 @@ appData.views.PlannerView = Backbone.View.extend({
     $('#myPlanner', appData.settings.currentPageHTML).addClass('hide');
 
     // get my activities
-    appData.collections.myActivities.each(function(activity) {
-      appData.views.PlannerView.myActivitiesView.push(new appData.views.PlannerMyActivitiesView({model : activity}));
-    });
+    
+    if (appData.collections.myActivities instanceof Backbone.Collection) {
+      appData.collections.myActivities.each(function(activity) {
+        appData.views.PlannerView.myActivitiesView.push(new appData.views.PlannerMyActivitiesView({model : activity}));
+      });
+    }
 
     // get the activities I'm going to
-    appData.collections.myPlannedActivities.each(function(myActivity) {
-      appData.views.PlannerView.myJoinedActivitiesView.push(new appData.views.PlannerMyActivitiesView({model : myActivity}));
-    });
+    if (appData.collections.myPlannedActivities instanceof Backbone.Collection) {
+      appData.collections.myPlannedActivities.each(function(myActivity) {
+        appData.views.PlannerView.myJoinedActivitiesView.push(new appData.views.PlannerMyActivitiesView({model : myActivity}));
+      });
+    }
 
     // get the activtities I'm inviited to
-    appData.collections.myInvitations.each(function(invitedActivity) {
-      appData.views.PlannerView.myInvitedActivitiesView.push(new appData.views.PlannerInvitedActivitiesView({model : invitedActivity}));
-    });
+    if (appData.collections.myPlannedActivities instanceof Backbone.Collection) {
+      appData.collections.myInvitations.each(function(invitedActivity) {
+        appData.views.PlannerView.myInvitedActivitiesView.push(new appData.views.PlannerInvitedActivitiesView({model : invitedActivity}));
+      });
+    }
  
     if(appData.views.PlannerView.myActivitiesView.length > 0){
       $('#myActivitiesPlanner', appData.settings.currentPageHTML).removeClass('hide');
@@ -2840,6 +2886,9 @@ appData.views.PlannerView = Backbone.View.extend({
         $('#myInvitationsTable', appData.settings.currentPageHTML).append(dv.render().$el);
       });
     }
+
+    // update localstorage
+    appData.services.utilService.updateLocalStorage();
   },
 
   render: function () {
@@ -2887,7 +2936,29 @@ appData.views.ProfileChallengeView = Backbone.View.extend({
         
         Backbone.on('joinedChallengeHandler', this.joinedChallengeSuccesHandler);
         Backbone.on('getChallengesHandler', appData.views.ProfileChallengeView.getChallengesCompleteHandler);
+        
+        if(appData.settings.native){
+            if(appData.services.utilService.getNetworkConnection()){
+                appData.services.phpService.getChallenges();
+            }else{
+                this.updateChallenges();
+            }
+        }else{
+            appData.services.phpService.getChallenges();
+        }
+
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device online
+    networkFoundHandler: function(){
         appData.services.phpService.getChallenges();
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
     },
 
     render: function() { 
@@ -2967,6 +3038,8 @@ appData.views.ProfileChallengeView = Backbone.View.extend({
                 $('#badgesOverview', appData.settings.currentModuleHTML).append(listView.render().$el);
             });
         }
+
+        appData.services.utilService.updateLocalStorage();
     }
 });
 
@@ -3334,7 +3407,9 @@ appData.views.SportSelectorView = Backbone.View.extend({
     },
 
     addFavouriteSportsHandler: function(){
+        appData.services.utilService.updateLocalStorage();
         appData.router.navigate('dashboard', true);
+
     }
 });
 
@@ -3655,6 +3730,8 @@ appData.services.FacebookServices = Backbone.Model.extend({
 	        		appId: "595730207182331", 
 	        		nativeInterface: CDV.FB 
 	        	});
+
+	        	appData.settings.facebookConnect = true;
 	        } catch (e) {
 	        	alert(e);
 	        }
@@ -4529,15 +4606,39 @@ appData.services.UtilServices = Backbone.Model.extend({
 		appData.collections.locations = new LocationsCollection(dataObject.locations);
 		appData.collections.myActivities = new ActivitiesCollection(dataObject.myActivities);
 		appData.collections.myPlannedActivities = new ActivitiesCollection(dataObject.myPlannedActivities);
+		appData.collections.myInvitations = new ActivitiesCollection(dataObject.myInvitations);
+		appData.collections.myJoinedActivitiesView = new ActivitiesCollection(dataObject.myJoinedActivitiesView);
+
 		appData.collections.sortOptions = new SortOptionsCollection(dataObject.sortOptions);
 		appData.collections.sports = new SportsCollection(dataObject.sports);
 		appData.collections.users = new UsersCollection(dataObject.users);
+
 
 		appData.settings.dataLoaded = true;
 
 	},
 
-	  // check if there is a working internet / 3G / 4G / WIFI connection to enable the dynamic mode
+	updateLocalStorage: function(){
+		// detect localstorage
+		var hasStorage = (function() {
+	      try {
+	        localStorage.setItem(mod, mod);
+	        localStorage.removeItem(mod);
+	        return true;
+	      } catch(e) {
+	        return false;
+	      }
+	    }());
+
+		if(hasStorage){
+			alert('update');
+
+        	window.localStorage.setItem("collections", JSON.stringify(appData.collections));
+        	window.localStorage.setItem("userModel", JSON.stringify(appData.models.userModel));
+		}
+	},
+
+  // check if there is a working internet / 3G / 4G / WIFI connection to enable the dynamic mode
   checkConnection: function() {
     var networkState = navigator.connection.type;
 

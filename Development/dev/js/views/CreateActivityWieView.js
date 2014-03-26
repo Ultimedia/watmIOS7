@@ -28,9 +28,6 @@ appData.views.CreateActivityWieView = Backbone.View.extend({
 
     },
 
-
-
-
     activityCreatedHandler: function(activity_id){
 
       // now add friends
@@ -51,7 +48,7 @@ appData.views.CreateActivityWieView = Backbone.View.extend({
 
       // set this boolean so we return to disable back functionality
       appData.settings.created = true;
-
+      appData.services.utilService.updateLocalStorage();
     },
 
     friendsInvitedHandler: function(){

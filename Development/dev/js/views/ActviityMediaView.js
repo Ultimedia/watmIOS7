@@ -132,6 +132,7 @@ appData.views.ActivityMediaView = Backbone.View.extend({
       // get images from database
       Backbone.off('addPhotoToDatabaseHandler');
       appData.services.phpService.getMedia(appData.views.ActivityMediaView.model); 
+      appData.services.utilService.updateLocalStorage();
     }
 });
 

@@ -6,10 +6,34 @@ appData.views.ActivityInfoView = Backbone.View.extend({
         
         Backbone.on('activityUsersSuccesEvent', this.getActivityUsersSuccesHandler);
         Backbone.on('goinToActivitySuccesEvent', this.setGoingToActivityCompleteHandler);
-        appData.services.phpService.getActivityUsers(this.model); 
 
         appData.views.ActivityInfoView.model = this.model;
+
+        // update the activities if we have a network connection
+        if(appData.settings.native){
+            if(appData.services.utilService.getNetworkConnection()){
+                appData.services.phpService.getActivityUsers(this.model); 
+            }else{
+                $('#createActivityButton').hide();
+            }
+        }else{
+            appData.services.phpService.getActivityUsers(this.model); 
+        }
+
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device online
+    networkFoundHandler: function(){
+        appData.services.phpService.getActivityUsers(this.model); 
     },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
+    },
+    
 
     render: function() { 
     	this.$el.html(this.template(this.model.attributes));

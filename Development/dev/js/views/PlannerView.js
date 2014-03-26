@@ -6,23 +6,32 @@ appData.views.PlannerView = Backbone.View.extend({
     appData.views.PlannerView.updatePlannerComplete = this.updatePlannerComplete;
     appData.views.PlannerView.getInvitationsHandler = this.getInvitationsHandler;
     appData.views.PlannerView.acceptedInvite = this.acceptInviteHandler;
-
-    Backbone.on('myPlannedActivitiesLoadedHandler', this.updatePlanner);
-    Backbone.on('myActivitiesLoadedHandler', this.updatePlannerComplete);
-    Backbone.on('getInvitationsHandler', this.getInvitationsHandler)
-    Backbone.on('acceptInviteHandler', this.acceptInviteHandler)
+    Backbone.on('acceptInviteHandler', this.acceptInviteHandler);
 
     // Update when a user accepts / declines an invitation
     appData.views.PlannerView.acceptedInvite = this.acceptedInvite;
-    appData.services.phpService.getMyPlannedActivities();
   
+    // update the activities if we have a network connection
+    if(appData.settings.native){
+        if(appData.services.utilService.getNetworkConnection()){
+          Backbone.on('myPlannedActivitiesLoadedHandler', this.updatePlanner);
+          appData.services.phpService.getMyPlannedActivities();
+        }else{
+          this.getInvitationsHandler();
+        }
+    }else{
+        Backbone.on('myPlannedActivitiesLoadedHandler', this.updatePlanner);
+        appData.services.phpService.getMyPlannedActivities();
+    }
+
     Backbone.on('networkFoundEvent', this.networkFoundHandler);
     Backbone.on('networkLostEvent', this.networkLostHandler);
   }, 
 
   // phonegap device offline
   networkFoundHandler: function(){
-
+    Backbone.on('myPlannedActivitiesLoadedHandler', this.updatePlanner);
+    appData.services.phpService.getMyPlannedActivities();
   },
 
   // phonegap device back online
@@ -35,6 +44,7 @@ appData.views.PlannerView = Backbone.View.extend({
   },
 
   handleInviteHandler: function(evt){
+
     var selectedStatus = $(evt.target).attr('data');
     var invitationID =  $(evt.target).parent().attr('data-invitation');
     var activityID = $(evt.target).parent().attr('data-activity-id');
@@ -54,14 +64,12 @@ appData.views.PlannerView = Backbone.View.extend({
 
   acceptInviteHandler: function(){
     console.log("invite updated");
-
     Backbone.on('myPlannedActivitiesLoadedHandler', appData.views.PlannerView.updatePlanner);
     appData.services.phpService.getMyPlannedActivities();
   },
 
   updatePlanner: function(){
     console.log('myPlannedActivitiesLoadedHandler');
-
     Backbone.on('myActivitiesLoadedHandler', appData.views.PlannerView.updatePlannerComplete);
     appData.services.phpService.getMyActivities();
   },
@@ -74,6 +82,7 @@ appData.views.PlannerView = Backbone.View.extend({
   },
 
   getInvitationsHandler: function(){
+    alert('render');
 
     Backbone.off('myPlannedActivitiesLoadedHandler');
     Backbone.off('myActivitiesLoadedHandler');
@@ -89,19 +98,26 @@ appData.views.PlannerView = Backbone.View.extend({
     $('#myPlanner', appData.settings.currentPageHTML).addClass('hide');
 
     // get my activities
-    appData.collections.myActivities.each(function(activity) {
-      appData.views.PlannerView.myActivitiesView.push(new appData.views.PlannerMyActivitiesView({model : activity}));
-    });
+    
+    if (appData.collections.myActivities instanceof Backbone.Collection) {
+      appData.collections.myActivities.each(function(activity) {
+        appData.views.PlannerView.myActivitiesView.push(new appData.views.PlannerMyActivitiesView({model : activity}));
+      });
+    }
 
     // get the activities I'm going to
-    appData.collections.myPlannedActivities.each(function(myActivity) {
-      appData.views.PlannerView.myJoinedActivitiesView.push(new appData.views.PlannerMyActivitiesView({model : myActivity}));
-    });
+    if (appData.collections.myPlannedActivities instanceof Backbone.Collection) {
+      appData.collections.myPlannedActivities.each(function(myActivity) {
+        appData.views.PlannerView.myJoinedActivitiesView.push(new appData.views.PlannerMyActivitiesView({model : myActivity}));
+      });
+    }
 
     // get the activtities I'm inviited to
-    appData.collections.myInvitations.each(function(invitedActivity) {
-      appData.views.PlannerView.myInvitedActivitiesView.push(new appData.views.PlannerInvitedActivitiesView({model : invitedActivity}));
-    });
+    if (appData.collections.myPlannedActivities instanceof Backbone.Collection) {
+      appData.collections.myInvitations.each(function(invitedActivity) {
+        appData.views.PlannerView.myInvitedActivitiesView.push(new appData.views.PlannerInvitedActivitiesView({model : invitedActivity}));
+      });
+    }
  
     if(appData.views.PlannerView.myActivitiesView.length > 0){
       $('#myActivitiesPlanner', appData.settings.currentPageHTML).removeClass('hide');
@@ -129,6 +145,9 @@ appData.views.PlannerView = Backbone.View.extend({
         $('#myInvitationsTable', appData.settings.currentPageHTML).append(dv.render().$el);
       });
     }
+
+    // update localstorage
+    appData.services.utilService.updateLocalStorage();
   },
 
   render: function () {

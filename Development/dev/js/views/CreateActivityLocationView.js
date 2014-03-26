@@ -215,6 +215,6 @@ appData.views.CreateActivityLocationView = Backbone.View.extend({
       
       // set this boolean so we return to disable back functionality
       appData.settings.created = true;
-
+      appData.services.utilService.updateLocalStorage();
     }
 });

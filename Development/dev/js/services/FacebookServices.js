@@ -15,6 +15,8 @@ appData.services.FacebookServices = Backbone.Model.extend({
 	        		appId: "595730207182331", 
 	        		nativeInterface: CDV.FB 
 	        	});
+
+	        	appData.settings.facebookConnect = true;
 	        } catch (e) {
 	        	alert(e);
 	        }

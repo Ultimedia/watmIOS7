@@ -1465,3 +1465,17 @@ input.error{
     }
 
 }
+
+
+
+
+/** 
+* Offline
+*/
+
+#container.offline{
+  
+  #createActivityButton, #goingList, #addMediaButton, #messageBox, #sportSelectorButton, #changeAvatar, #mediaButton, #friendsButton, #favouriteSportSection 
+  { display: none; }
+
+}

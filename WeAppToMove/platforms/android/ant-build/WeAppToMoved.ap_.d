@@ -186,6 +186,8 @@
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/1395760149178.jpg \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/1395760242525.jpg \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/1395760356976.jpg \
+/Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/1395823761174.jpg \
+/Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/1395823782742.jpg \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/3YaJm.jpg \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/53294dfe8c119Schermafbeelding 2014-03-17 om 10.44.41.png \
 /Users/maartenbressinck/watmLaunch/WeAppToMove/platforms/android/assets/www/common/uploads/53294eed71179image.jpg \

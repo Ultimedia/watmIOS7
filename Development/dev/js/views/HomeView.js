@@ -27,7 +27,7 @@ appData.views.HomeView = Backbone.View.extend({
 
     // phonegap device back online
     networkLostHandler: function(){
-
+        appData.router.navigate('noconnection', true);
     },
 
     render: function() { 
@@ -132,7 +132,12 @@ appData.views.HomeView = Backbone.View.extend({
     },
 
     facebookClickHandler: function(){
-        appData.services.facebookService.facebookLogin();
+        if(appData.settings.facebookConnect){
+            appData.services.facebookService.facebookLogin();
+        }else{
+            appData.services.facebookService.facebookConnect();
+            appData.services.facebookService.facebookLogin();
+        }
     },
 
     facebookLoginErrorHandler: function(){

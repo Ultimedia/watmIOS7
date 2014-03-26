@@ -25,6 +25,7 @@ appData.views.ActivityMessagesView = Backbone.View.extend({
 
       // update messages
       appData.services.phpService.getMessages(appData.views.ActivityDetailView.model);  
+      appData.services.utilService.updateLocalStorage();
     },
 
     chatMessagesLoadSuccesHandler: function(messages){

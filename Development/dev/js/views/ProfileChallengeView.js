@@ -8,7 +8,29 @@ appData.views.ProfileChallengeView = Backbone.View.extend({
         
         Backbone.on('joinedChallengeHandler', this.joinedChallengeSuccesHandler);
         Backbone.on('getChallengesHandler', appData.views.ProfileChallengeView.getChallengesCompleteHandler);
+        
+        if(appData.settings.native){
+            if(appData.services.utilService.getNetworkConnection()){
+                appData.services.phpService.getChallenges();
+            }else{
+                this.updateChallenges();
+            }
+        }else{
+            appData.services.phpService.getChallenges();
+        }
+
+        Backbone.on('networkFoundEvent', this.networkFoundHandler);
+        Backbone.on('networkLostEvent', this.networkLostHandler);
+    }, 
+
+    // phonegap device online
+    networkFoundHandler: function(){
         appData.services.phpService.getChallenges();
+    },
+
+    // phonegap device back online
+    networkLostHandler: function(){
+
     },
 
     render: function() { 
@@ -88,5 +110,7 @@ appData.views.ProfileChallengeView = Backbone.View.extend({
                 $('#badgesOverview', appData.settings.currentModuleHTML).append(listView.render().$el);
             });
         }
+
+        appData.services.utilService.updateLocalStorage();
     }
 });
